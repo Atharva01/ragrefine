@@ -1,0 +1,36 @@
+# Python bytecode and packaging artifacts
+__pycache__/
+*.py[oc]
+*.pyd
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments and local tool state
+.venv
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Local credentials and configuration
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Editor and operating-system files
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# Logs and local profiling output
+*.log
+*.prof
