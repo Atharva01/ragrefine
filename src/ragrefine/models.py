@@ -26,3 +26,27 @@ class CandidateSet:
 
     name: str
     candidates: tuple[Candidate, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class RankingSignal:
+    """One optional, traceable ranking observation for a candidate."""
+
+    rank: int | None = None
+    score: float | None = None
+    details: Mapping[str, object] = field(default_factory=dict)
+
+
+@dataclass(frozen=True, slots=True)
+class RefinedCandidate:
+    """A candidate and its position in a refinement result.
+
+    The wrapped candidate is always supplied by the caller; refinement never
+    creates or rewrites evidence.
+    """
+
+    candidate: Candidate
+    original_rank: int | None
+    final_rank: int
+    final_score: float
+    signals: Mapping[str, RankingSignal] = field(default_factory=dict)
