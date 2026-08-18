@@ -18,3 +18,11 @@ class Candidate:
     metadata: Mapping[str, Any] = field(default_factory=dict)
     retrieval_score: float | None = None
     retrieval_rank: int | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class CandidateSet:
+    """An immutable, ordered candidate collection from one named retriever."""
+
+    name: str
+    candidates: tuple[Candidate, ...]
