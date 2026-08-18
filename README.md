@@ -6,7 +6,9 @@
 
 Instead of replacing your retriever, vector database, or RAG framework, `ragrefine` takes an existing candidate set and applies additional relevance signals, reranking, fusion, and context-selection logic.
 
-> **Status:** Early development. The package API and benchmark results are not yet stable. No retrieval-quality improvement is claimed until the planned evaluations are complete.
+> **Status:** Early development. Candidate contracts, the no-op refinement API,
+> and a frozen SciFact B0 baseline are implemented. No retrieval-quality
+> improvement is claimed until refinement experiments are evaluated.
 
 ---
 
@@ -146,7 +148,11 @@ Primary retrieval metrics:
 
 Operational measurements include refinement latency and candidate throughput.
 
-The initial evaluation harness is planned around BEIR datasets plus a small hard-negative set targeting cases such as wrong entities, versions, dates, and technical identifiers.
+The frozen BEIR evaluation harness is implemented for SciFact, NFCorpus, and
+FiQA. A local SciFact B0 run produced a reproducible Top-50 candidate snapshot
+and baseline metrics; it establishes a measurement baseline only, not an
+improvement claim. See the [benchmark baseline guide](docs/benchmark-baseline.md)
+for setup, artifact layout, and reproducibility commands.
 
 ---
 
@@ -232,9 +238,9 @@ docs/                product, hypothesis, and technical design
 ## Roadmap
 
 - [x] Package scaffold and engineering quality gates
-- [ ] Core candidate domain contracts
-- [ ] No-op refinement contract and tracing
-- [ ] Frozen B0 retrieval baseline
+- [x] Core candidate domain contracts
+- [x] No-op refinement contract and tracing
+- [x] Frozen B0 retrieval baseline
 - [ ] CrossEncoder reranking
 - [ ] Lexical, regex/pattern, and entity signals
 - [ ] Reciprocal Rank Fusion
