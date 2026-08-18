@@ -65,6 +65,35 @@ Refined Candidates + Refinement Trace
 
 ---
 
+## Current no-op API
+
+The first executable baseline preserves the input candidate order and selects
+the requested Top-K; it does not rerank, filter, or otherwise claim a
+retrieval-quality improvement.
+
+```python
+from ragrefine import Candidate, CandidateSet, Refiner
+
+candidate_sets = (
+    CandidateSet(
+        name="dense",
+        candidates=(
+            Candidate(id="chunk-42", text="Retrieved evidence", retrieval_rank=1),
+        ),
+    ),
+)
+
+result = Refiner().refine("What is the evidence?", candidate_sets, top_k=5)
+
+assert result.candidates[0].candidate.id == "chunk-42"
+assert result.trace.stages[0].name == "no_op_selection"
+```
+
+`Refiner`, `RefinementResult`, and trace models are available from the package
+root. Internal modules remain implementation details.
+
+---
+
 ## Planned refinement pipeline
 
 | Stage | Purpose |

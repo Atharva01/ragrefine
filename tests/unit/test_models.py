@@ -6,6 +6,7 @@ import pytest
 
 from ragrefine import Candidate as PublicCandidate
 from ragrefine import CandidateSet as PublicCandidateSet
+from ragrefine import RefinedCandidate, RefinementResult, RefinementTrace, Refiner
 from ragrefine.models import Candidate, CandidateSet
 
 
@@ -66,3 +67,11 @@ def test_candidate_models_are_exposed_from_the_public_api() -> None:
     """Consumers can import the approved candidate contracts from ragrefine."""
     assert PublicCandidate is Candidate
     assert PublicCandidateSet is CandidateSet
+
+
+def test_no_op_contracts_are_exposed_from_the_public_api() -> None:
+    """Consumers can import the approved no-op refinement contracts."""
+    assert Refiner.__name__ == "Refiner"
+    assert RefinedCandidate.__name__ == "RefinedCandidate"
+    assert RefinementResult.__name__ == "RefinementResult"
+    assert RefinementTrace.__name__ == "RefinementTrace"
