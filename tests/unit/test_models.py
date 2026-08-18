@@ -4,6 +4,8 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
+from ragrefine import Candidate as PublicCandidate
+from ragrefine import CandidateSet as PublicCandidateSet
 from ragrefine.models import Candidate, CandidateSet
 
 
@@ -58,3 +60,9 @@ def test_candidate_set_is_immutable() -> None:
 
     with pytest.raises(FrozenInstanceError):
         candidate_set.name = "bm25"  # type: ignore[misc]
+
+
+def test_candidate_models_are_exposed_from_the_public_api() -> None:
+    """Consumers can import the approved candidate contracts from ragrefine."""
+    assert PublicCandidate is Candidate
+    assert PublicCandidateSet is CandidateSet
