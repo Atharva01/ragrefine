@@ -1,0 +1,1 @@
+"""Optional SentenceTransformers adapter placeholder."""

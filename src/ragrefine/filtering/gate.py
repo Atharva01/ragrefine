@@ -1,0 +1,1 @@
+"""Optional relevance-gate placeholder."""

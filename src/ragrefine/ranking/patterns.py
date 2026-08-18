@@ -1,0 +1,1 @@
+"""Pattern-agreement ranking placeholder."""

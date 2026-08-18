@@ -1,0 +1,1 @@
+"""Ranking data-model placeholder."""
