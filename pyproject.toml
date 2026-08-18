@@ -8,6 +8,7 @@ dependencies = []
 
 [project.optional-dependencies]
 beir = ["beir==2.2.0"]
+rerank = ["sentence-transformers>=6.0.0,<7"]
 
 [build-system]
 requires = ["uv_build>=0.12.0,<0.13.0"]
