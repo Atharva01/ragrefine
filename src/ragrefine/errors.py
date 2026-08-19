@@ -7,3 +7,7 @@ class RagRefineError(Exception):
 
 class RerankerError(RagRefineError):
     """Raised when neural reranking cannot complete safely."""
+
+
+class PatternError(RagRefineError):
+    """Raised when configured pattern processing is invalid or unsafe."""
