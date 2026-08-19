@@ -1,5 +1,12 @@
 """Retriever-agnostic post-retrieval refinement for RAG candidate sets."""
 
+from ragrefine.context import (
+    ContextSelectionResult,
+    ContextSelector,
+    RankPreservingContextSelector,
+    SelectionRecord,
+    TokenCounter,
+)
 from ragrefine.filtering import (
     CandidateDeduplicator,
     DeduplicationConfig,
@@ -17,6 +24,8 @@ __all__ = [
     "CandidateDeduplicator",
     "CandidateSet",
     "ChannelConfig",
+    "ContextSelectionResult",
+    "ContextSelector",
     "DeduplicationConfig",
     "DeduplicationResult",
     "RefinedCandidate",
@@ -25,6 +34,9 @@ __all__ = [
     "RefinementTrace",
     "Refiner",
     "RankingSignal",
+    "RankPreservingContextSelector",
     "StageTrace",
     "SuppressedCandidate",
+    "SelectionRecord",
+    "TokenCounter",
 ]
