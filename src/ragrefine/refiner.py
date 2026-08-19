@@ -56,16 +56,16 @@ class Refiner:
             for index, scored in enumerate(selected_candidates, start=1)
         )
         duration_ms = (perf_counter() - started_at) * 1_000
+        configuration: dict[str, object] = {"top_k": top_k}
+        if self._reranker:
+            configuration["reranker"] = self._reranker.name
+            configuration.update(self._neural_configuration(scored_candidates))
         trace = RefinementTrace(
             stages=(
                 StageTrace(
                     name="neural_reranking" if self._reranker else "no_op_selection",
                     duration_ms=duration_ms,
-                    configuration=(
-                        {"top_k": top_k, "reranker": self._reranker.name}
-                        if self._reranker
-                        else {"top_k": top_k}
-                    ),
+                    configuration=configuration,
                 ),
             ),
             duration_ms=duration_ms,
@@ -110,6 +110,20 @@ class Refiner:
             )
             for item in scored
         )
+
+    @staticmethod
+    def _neural_configuration(
+        scored_candidates: Sequence["_RankedCandidate"],
+    ) -> dict[str, object]:
+        """Extract stable backend provenance from the first neural result."""
+        if not scored_candidates:
+            return {}
+        details = scored_candidates[0].signals["neural"].details
+        return {
+            "model": details["model"],
+            "revision": details["revision"],
+            "backend": details["backend"],
+        }
 
 
 class _RankedCandidate:
