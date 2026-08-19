@@ -166,6 +166,11 @@ from batch timings, not independently timed queries.
 | B1-light — TinyBERT-L2 | CPU / SentenceTransformers | 512 | 79.1 s | 236.8 ms | 315.8 ms | 189.6 |
 | B1-light — TinyBERT-L2 | CUDA / SentenceTransformers | 512 | 18.0 s | 31.9 ms | 41.1 ms | 833.5 |
 
+For the recorded TinyBERT-L2 runs, CUDA completed the same 15,000
+query-document pairs about **4.4× faster** than CPU (18.0 s versus 79.1 s).
+This is an execution comparison only; both runs produced the same aggregate
+retrieval metrics.
+
 Artifacts referenced above:
 
 - `benchmarks/results/scifact-b0/` — snapshot, checksum, configuration, environment, and B0 metrics.
