@@ -7,12 +7,18 @@ from ragrefine.ranking.patterns import (
     PatternRanker,
     PatternRanking,
 )
+from ragrefine.ranking.rrf import RankFusion, ReciprocalRankFusion
+from ragrefine.ranking.types import FusedCandidate, RankingChannel
 
 __all__ = [
     "LexicalRanker",
     "LexicalRanking",
+    "FusedCandidate",
     "PatternAgreement",
     "PatternConstraintEvidence",
     "PatternRanker",
     "PatternRanking",
+    "RankFusion",
+    "RankingChannel",
+    "ReciprocalRankFusion",
 ]
