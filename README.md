@@ -124,9 +124,54 @@ The goal is not to prove this assumption by implementation. Each refinement stag
 
 ---
 
-## Evaluation
+## Evaluation Results
 
-Experiments are designed around a **frozen candidate pool** so that refinement methods are compared against exactly the same first-stage retrieval results.
+Experiments reuse a **frozen first-stage candidate snapshot**: retrieval is not
+regenerated for B0/B1 comparisons. Later refinement metrics must therefore be
+interpreted relative to the fixed candidate-pool recall ceiling, rather than as
+evidence that first-stage retrieval changed. Machine-readable artifacts are the
+source of truth; this README is a concise reference. Improvement is never
+assumed—a run is described as improved only when its recorded metrics support it.
+
+```text
+B0 frozen Top-50
+├── B1-reference: MiniLM-L6 / CUDA
+└── B1-light: TinyBERT-L2 / CPU
+```
+
+### SciFact B0 baseline
+
+The validated B0 run used **SciFact**, **300 queries**, and **Top-50 candidates
+per query**. Its frozen snapshot SHA-256 is
+`fc08cf7b496c8cd7c9020a81560d08edc10f389b27682f2b6e722ccfef0793dc`.
+
+| Experiment | nDCG@5 | MRR | Precision@5 | Recall@5 | Candidate-pool Recall@50 | Status |
+|---|---:|---:|---:|---:|---:|---|
+| B0 | 0.4592 | 0.4381 | 0.1240 | 0.5567 | 0.7919 | Validated baseline |
+| B1-reference — `cross-encoder/ms-marco-MiniLM-L6-v2` / CUDA | 0.6262 | 0.6190 | 0.1507 | 0.6839 | 0.7919 | Measured on the B0 snapshot |
+| B1-light — `cross-encoder/ms-marco-TinyBERT-L2-v2` / CPU | 0.6112 | 0.6043 | 0.1473 | 0.6644 | 0.7919 | Measured on the B0 snapshot |
+| B2 / B3 / B4 | — | — | — | — | — | Not evaluated |
+
+### Neural runtime / deployment observations
+
+Runtime results are kept separate from retrieval quality. The B1-reference and
+B1-light rows are different **model and device** profiles, so they are not a
+pure backend or hardware comparison. The TinyBERT CPU and CUDA rows use the
+same model and configuration. p50/p95 values are per-query estimates derived
+from batch timings, not independently timed queries.
+
+| Profile | Device / backend | Batch size | Total reranking runtime | p50 query estimate | p95 query estimate | Query-document pairs/s |
+|---|---|---:|---:|---|---|---:|
+| B1-reference — MiniLM-L6 | CUDA / SentenceTransformers | 512 | 481.7 s | 1,549.0 ms | 1,735.5 ms | 31.1 |
+| B1-light — TinyBERT-L2 | CPU / SentenceTransformers | 512 | 79.1 s | 236.8 ms | 315.8 ms | 189.6 |
+| B1-light — TinyBERT-L2 | CUDA / SentenceTransformers | 512 | 18.0 s | 31.9 ms | 41.1 ms | 833.5 |
+
+Artifacts referenced above:
+
+- `benchmarks/results/scifact-b0/` — snapshot, checksum, configuration, environment, and B0 metrics.
+- `benchmarks/results/scifact-b1-batched/` — MiniLM-L6/CUDA ranking, metrics, environment, and batch timings.
+- `benchmarks/results/scifact-b1-tinybert/` — TinyBERT-L2/CPU ranking, metrics, environment, and batch timings.
+- `benchmarks/results/scifact-b1-tinybert-cuda/` — TinyBERT-L2/CUDA ranking, metrics, environment, and batch timings.
 
 Planned ablations:
 
@@ -149,10 +194,8 @@ Primary retrieval metrics:
 Operational measurements include refinement latency and candidate throughput.
 
 The frozen BEIR evaluation harness is implemented for SciFact, NFCorpus, and
-FiQA. A local SciFact B0 run produced a reproducible Top-50 candidate snapshot
-and baseline metrics; it establishes a measurement baseline only, not an
-improvement claim. See the [benchmark baseline guide](docs/benchmark-baseline.md)
-for setup, artifact layout, and reproducibility commands.
+FiQA. See the [benchmark baseline guide](docs/benchmark-baseline.md) for setup,
+artifact layout, and reproducibility commands.
 
 ---
 
