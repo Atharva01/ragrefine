@@ -171,6 +171,12 @@ query-document pairs about **4.4× faster** than CPU (18.0 s versus 79.1 s).
 This is an execution comparison only; both runs produced the same aggregate
 retrieval metrics.
 
+Both runs evaluated **300 queries × 50 frozen candidates = 15,000
+query-document pairs**. `queries_per_batch=24` controls how many query pools
+the runner groups together (up to 1,200 pairs); `batch_size=512` controls the
+CrossEncoder inference minibatch size. CUDA therefore processed the same work
+with higher parallel throughput—it did not evaluate more queries.
+
 Artifacts referenced above:
 
 - `benchmarks/results/scifact-b0/` — snapshot, checksum, configuration, environment, and B0 metrics.
