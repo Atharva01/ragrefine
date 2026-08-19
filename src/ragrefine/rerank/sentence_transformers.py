@@ -37,14 +37,27 @@ class SentenceTransformersReranker:
         if self._cross_encoder is not None:
             return self._cross_encoder
         try:
+            from huggingface_hub import snapshot_download
             from sentence_transformers import CrossEncoder
         except ImportError as error:
             raise RerankerError(
                 "install the optional extra: ragrefine[rerank]"
             ) from error
         try:
+            model_path = snapshot_download(
+                repo_id=self.model,
+                revision=self.revision,
+                allow_patterns=[
+                    "config.json",
+                    "model.safetensors",
+                    "special_tokens_map.json",
+                    "tokenizer.json",
+                    "tokenizer_config.json",
+                    "vocab.txt",
+                ],
+            )
             self._cross_encoder = CrossEncoder(
-                self.model, revision=self.revision, device=self.device
+                model_path, device=self.device, local_files_only=True
             )
         except Exception as error:
             raise RerankerError(
@@ -56,21 +69,48 @@ class SentenceTransformersReranker:
         self, query: str, candidates: Sequence[Candidate]
     ) -> tuple[ScoredCandidate, ...]:
         """Score every supplied candidate in one batched inference call."""
-        if not candidates:
-            return ()
+        return self.rank_many(((query, candidates),))[0]
+
+    def rank_many(
+        self,
+        queries: Sequence[tuple[str, Sequence[Candidate]]],
+    ) -> tuple[tuple[ScoredCandidate, ...], ...]:
+        """Score several query candidate pools in one backend inference batch.
+
+        Each returned ranking corresponds to the input query at the same position.
+        This is useful for GPU inference: a CrossEncoder sees enough pairs to fill
+        its inference batches, while each query's candidates remain independently
+        and deterministically ranked.
+        """
+        pairs: list[tuple[str, str]] = []
+        offsets: list[tuple[int, int]] = []
+        for query, candidates in queries:
+            start = len(pairs)
+            pairs.extend((query, candidate.text) for candidate in candidates)
+            offsets.append((start, len(pairs)))
+        if not pairs:
+            return tuple(() for _ in queries)
         try:
             scores = self._backend().predict(
-                [(query, candidate.text) for candidate in candidates],
+                pairs,
                 batch_size=self.batch_size,
             )
         except RerankerError:
             raise
         except Exception as error:
             raise RerankerError("CrossEncoder inference failed") from error
-        if len(scores) != len(candidates):
+        if len(scores) != len(pairs):
             raise RerankerError(
                 "CrossEncoder returned a score count different from inputs"
             )
+        return tuple(
+            self._rank_candidates(candidates, scores[start:end])
+            for (_, candidates), (start, end) in zip(queries, offsets, strict=True)
+        )
+
+    def _rank_candidates(
+        self, candidates: Sequence[Candidate], scores: Sequence[float]
+    ) -> tuple[ScoredCandidate, ...]:
         ordered = sorted(
             zip(candidates, scores, strict=True),
             key=lambda item: (
