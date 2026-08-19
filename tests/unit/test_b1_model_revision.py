@@ -1,10 +1,11 @@
 """Fast validation for B1 model-revision resolution."""
 
+from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 
 import pytest
 
-from benchmarks.beir.b1 import resolve_model_revision
+from benchmarks.beir.b1 import resolve_model_revision, wall_clock_measurement
 
 
 class FakeModelInfoClient:
@@ -52,4 +53,35 @@ def test_resolve_model_revision_rejects_an_unavailable_revision() -> None:
     with pytest.raises(ValueError, match="model revision is unavailable"):
         resolve_model_revision(
             "organisation/model", "wrong-sha", client=FailingClient()
+        )
+
+
+@pytest.mark.parametrize("device", ["cpu", "cuda"])
+def test_wall_clock_measurement_is_valid_for_cpu_and_gpu_runs(device: str) -> None:
+    """Both device modes persist comparable, timezone-aware elapsed-time metadata."""
+    started_at = datetime(2026, 8, 19, 12, 0, tzinfo=UTC)
+    completed_at = started_at + timedelta(seconds=2.5)
+
+    timing = wall_clock_measurement(
+        device=device,
+        started_at=started_at,
+        completed_at=completed_at,
+        elapsed_ms=2_500.0,
+    )
+
+    assert timing == {
+        "device": device,
+        "started_at_utc": "2026-08-19T12:00:00+00:00",
+        "completed_at_utc": "2026-08-19T12:00:02.500000+00:00",
+        "elapsed_ms": 2_500.0,
+    }
+
+
+def test_wall_clock_measurement_rejects_invalid_duration() -> None:
+    """Invalid timing data cannot be persisted as a benchmark result."""
+    now = datetime(2026, 8, 19, tzinfo=UTC)
+
+    with pytest.raises(ValueError, match="elapsed_ms"):
+        wall_clock_measurement(
+            device="cpu", started_at=now, completed_at=now, elapsed_ms=-0.1
         )

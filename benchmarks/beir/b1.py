@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+from datetime import UTC, datetime
 from pathlib import Path
 from time import perf_counter
 from typing import Any, Protocol
@@ -57,6 +58,26 @@ def resolve_model_revision(
     return info.sha
 
 
+def wall_clock_measurement(
+    *,
+    device: str,
+    started_at: datetime,
+    completed_at: datetime,
+    elapsed_ms: float,
+) -> dict[str, object]:
+    """Build validated, serializable elapsed-time metadata for a B1 run phase."""
+    if elapsed_ms < 0:
+        raise ValueError("elapsed_ms must be non-negative")
+    if completed_at < started_at:
+        raise ValueError("completed_at must not precede started_at")
+    return {
+        "device": device,
+        "started_at_utc": started_at.astimezone(UTC).isoformat(),
+        "completed_at_utc": completed_at.astimezone(UTC).isoformat(),
+        "elapsed_ms": elapsed_ms,
+    }
+
+
 def run(
     snapshot_path: Path,
     output_dir: Path,
@@ -68,6 +89,8 @@ def run(
     device: str = "cpu",
 ) -> dict[str, float]:
     """Persist B1 ranking and metrics without regenerating first-stage retrieval."""
+    run_started_at = datetime.now(UTC)
+    run_started = perf_counter()
     print(f"Loading frozen B0 snapshot: {snapshot_path}", flush=True)
     snapshot = load_snapshot(snapshot_path)
     checksum = snapshot_checksum(snapshot)
@@ -107,6 +130,8 @@ def run(
         )
         for query in snapshot["queries"]
     ]
+    reranking_started_at = datetime.now(UTC)
+    reranking_started = perf_counter()
     for batch_start in range(0, query_count, queries_per_batch):
         batch = prepared[batch_start : batch_start + queries_per_batch]
         started = perf_counter()
@@ -139,6 +164,8 @@ def run(
             )
         completed = min(batch_start + len(batch), query_count)
         print(f"Reranked {completed}/{query_count} queries", flush=True)
+    reranking_completed_at = datetime.now(UTC)
+    reranking_elapsed_ms = (perf_counter() - reranking_started) * 1_000
     reranked["queries"] = queries
     output_dir.mkdir(parents=True, exist_ok=True)
     ranking_path = output_dir / "b1-ranking.json"
@@ -160,6 +187,18 @@ def run(
                 "batch_size": batch_size,
                 "queries_per_batch": queries_per_batch,
                 "ranking_checksum": snapshot_checksum(reranked),
+                "reranking_wall_clock": wall_clock_measurement(
+                    device=device,
+                    started_at=reranking_started_at,
+                    completed_at=reranking_completed_at,
+                    elapsed_ms=reranking_elapsed_ms,
+                ),
+                "run_wall_clock": wall_clock_measurement(
+                    device=device,
+                    started_at=run_started_at,
+                    completed_at=datetime.now(UTC),
+                    elapsed_ms=(perf_counter() - run_started) * 1_000,
+                ),
             },
             indent=2,
             sort_keys=True,
