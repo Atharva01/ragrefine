@@ -38,3 +38,14 @@ and fails if the metrics differ.
 
 These scripts establish a B0 retrieval baseline only. They do not apply, or
 claim benefit from, any ragrefine algorithm.
+
+## Analyze a persisted B1 ranking
+
+The B1 comparison command reads an existing frozen B0 snapshot and B1 ranking;
+it does not rerun retrieval or CrossEncoder inference. It verifies the shared
+candidate pool, evaluates B1 twice for reproducibility, and writes aggregate and
+per-query deltas, representative cases, latency, and the measured decision.
+
+```powershell
+uv run python -m benchmarks.beir.analyze_b1 --baseline benchmarks/results/scifact-b0/snapshot.json --ranking benchmarks/results/scifact-b1/b1-ranking.json --environment benchmarks/results/scifact-b1/b1-environment.json --latency benchmarks/results/scifact-b1/b1-latency.json --output benchmarks/results/scifact-b1/b1-analysis.json
+```
