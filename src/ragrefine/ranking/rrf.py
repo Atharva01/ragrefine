@@ -26,6 +26,11 @@ class ReciprocalRankFusion:
             raise ValueError("k must be positive")
         self._k = k
 
+    @property
+    def k(self) -> int:
+        """Return the configured RRF rank constant for trace provenance."""
+        return self._k
+
     def fuse(self, channels: Sequence[RankingChannel]) -> tuple[FusedCandidate, ...]:
         """Return an explainable fused ranking from active named channels."""
         names: set[str] = set()

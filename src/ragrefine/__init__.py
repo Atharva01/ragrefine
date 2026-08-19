@@ -1,6 +1,7 @@
 """Retriever-agnostic post-retrieval refinement for RAG candidate sets."""
 
 from ragrefine.models import Candidate, CandidateSet, RankingSignal, RefinedCandidate
+from ragrefine.orchestration import ChannelConfig, RefinerConfig
 from ragrefine.refiner import Refiner
 from ragrefine.results import RefinementResult
 from ragrefine.tracing.models import RefinementTrace, StageTrace
@@ -8,7 +9,9 @@ from ragrefine.tracing.models import RefinementTrace, StageTrace
 __all__ = [
     "Candidate",
     "CandidateSet",
+    "ChannelConfig",
     "RefinedCandidate",
+    "RefinerConfig",
     "RefinementResult",
     "RefinementTrace",
     "Refiner",

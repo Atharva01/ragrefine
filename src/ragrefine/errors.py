@@ -11,3 +11,11 @@ class RerankerError(RagRefineError):
 
 class PatternError(RagRefineError):
     """Raised when configured pattern processing is invalid or unsafe."""
+
+
+class ChannelExecutionError(RagRefineError):
+    """Raised when a required ranking channel cannot complete."""
+
+
+class MultipleActiveChannelsError(RagRefineError):
+    """Raised when independent rankings need fusion but it is disabled."""
