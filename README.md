@@ -142,6 +142,40 @@ B2-L improved the measured SciFact ranking metrics relative to B0. B2-P was
 perfect on the curated constraint diagnostic (Top-1 and MRR both 1.0) but did
 not improve SciFact, so it is not retained for later fusion without revision.
 
+### B3 frozen-fusion evaluation
+
+All B3 profiles used the same frozen SciFact B0 Top-50 candidate population,
+equal RRF weights, and `k=60`. The machine-readable consolidated comparison in
+`benchmarks/results/b3-comparison-v5/comparison.json` is the source of truth.
+
+| Experiment | nDCG@5 | MRR | Precision@5 | Recall@5 | Decision |
+|---|---:|---:|---:|---:|---|
+| B3 original + lexical | 0.5383 | 0.5177 | 0.1360 | 0.6223 | Reject — lower nDCG, MRR, and recall than B2 lexical |
+| B3 original + pattern | 0.4672 | 0.4470 | 0.1247 | 0.5553 | Reject — no hard-set separation and below B2 lexical |
+| B3-light | 0.5272 | 0.5069 | 0.1367 | 0.6153 | Reject — lower nDCG, MRR, and recall than B2 lexical |
+| B3-reference | 0.5715 | 0.5541 | 0.1440 | 0.6477 | Reject — below B1-reference with additional stages |
+
+B3-reference remains better than B0 on SciFact, but it is not an improvement
+over the retained B1-reference profile. B3-light is likewise not an improvement
+over B2 lexical. Per-query win/loss/unchanged counts and representative cases
+are persisted in the consolidated comparison rather than inferred from the
+aggregate table.
+
+The hard-negative set is saturated: original, individual channels, and all B3
+profiles have Top-1 accuracy and MRR of 1.0 for wrong-date, wrong-identifier,
+wrong-numeric-value, and wrong-version cases. It therefore provides no measured
+evidence that B3 adds robustness; it must not be used to claim a fusion gain.
+
+| B3 profile | Deployment composition | Total runtime | p50 / p95 query estimate | Pairs/s |
+|---|---|---:|---:|---:|
+| B3-light | CPU lexical + pattern + RRF | 7.10 s | 16.3 / 25.9 ms | 2,112.1 |
+| B3-reference | CUDA neural + CPU signals + RRF | 488.79 s | 1,565.4 / 1,761.9 ms | 30.7 |
+
+These are additive component estimates, kept separate from effectiveness. The
+recommended quality profile is B1-reference where CUDA latency is acceptable;
+B2 lexical is the recommended CPU-only low-cost profile. No B3 profile is
+retained as the default refinement strategy.
+
 Experiments reuse a **frozen first-stage candidate snapshot**: retrieval is not
 regenerated for B0/B1 comparisons. Later refinement metrics must therefore be
 interpreted relative to the fixed candidate-pool recall ceiling, rather than as
