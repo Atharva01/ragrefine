@@ -126,6 +126,22 @@ The goal is not to prove this assumption by implementation. Each refinement stag
 
 ## Evaluation Results
 
+### B2 independent signal ablations
+
+Both B2 signals reused the frozen SciFact B0 Top-50 snapshot; retrieval was not
+rerun. The curated hard-negative set is a diagnostic, not a general retrieval
+benchmark. Machine-readable artifacts under `benchmarks/results/scifact-b2-*`
+remain the source of truth.
+
+| Experiment | nDCG@5 | MRR | Precision@5 | Recall@5 | Candidate-pool Recall@50 | Decision |
+|---|---:|---:|---:|---:|---:|---|
+| B2-L — lexical / CPU | 0.5432 | 0.5238 | 0.1353 | 0.6289 | 0.7919 | Retain |
+| B2-P — patterns / CPU | 0.4559 | 0.4370 | 0.1207 | 0.5447 | 0.7919 | Modify |
+
+B2-L improved the measured SciFact ranking metrics relative to B0. B2-P was
+perfect on the curated constraint diagnostic (Top-1 and MRR both 1.0) but did
+not improve SciFact, so it is not retained for later fusion without revision.
+
 Experiments reuse a **frozen first-stage candidate snapshot**: retrieval is not
 regenerated for B0/B1 comparisons. Later refinement metrics must therefore be
 interpreted relative to the fixed candidate-pool recall ceiling, rather than as
