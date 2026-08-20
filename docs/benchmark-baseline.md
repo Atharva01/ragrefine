@@ -44,6 +44,20 @@ and fails if the metrics differ.
 These scripts establish a B0 retrieval baseline only. They do not apply, or
 claim benefit from, any ragrefine algorithm.
 
+## Characterize frozen-pool redundancy
+
+```powershell
+uv run python -m benchmarks.beir.analyze_redundancy `
+  --snapshot benchmarks/results/scifact-b0/snapshot.json `
+  --snapshot benchmarks/results/nfcorpus-b0-v1/snapshot.json `
+  --snapshot benchmarks/results/fiqa-b0-v2/snapshot.json `
+  --output benchmarks/results/redundancy-audit-v1.json
+```
+
+The audit does not retrieve, rerank, or read qrels. It measures exact and
+predeclared near-duplicate frequency plus a deterministic word-token proxy;
+see `docs/redundancy-audit.md` for the current interpretation.
+
 ## Analyze a persisted B1 ranking
 
 The B1 comparison command reads an existing frozen B0 snapshot and B1 ranking;
