@@ -4,11 +4,18 @@ import argparse
 import json
 import platform
 import subprocess
+from dataclasses import replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from benchmarks.beir.config import DATASETS, RETRIEVER, DatasetConfig, baseline_config
+from benchmarks.beir.config import (
+    DATASETS,
+    RETRIEVER,
+    DatasetConfig,
+    RetrieverConfig,
+    baseline_config,
+)
 from benchmarks.beir.metrics import evaluate_snapshot
 from benchmarks.beir.snapshot import (
     SNAPSHOT_SCHEMA_VERSION,
@@ -35,7 +42,9 @@ def _dataset_config(name: str) -> DatasetConfig:
     return next(dataset for dataset in DATASETS if dataset.name == name)
 
 
-def generate(dataset: DatasetConfig, output_dir: Path) -> Path:
+def generate(
+    dataset: DatasetConfig, output_dir: Path, retriever: RetrieverConfig = RETRIEVER
+) -> Path:
     """Download one dataset and persist the configured original Top-N ranking."""
     try:
         from beir import util
@@ -57,8 +66,8 @@ def generate(dataset: DatasetConfig, output_dir: Path) -> Path:
         split="test"
     )
     model_path = snapshot_download(
-        repo_id=RETRIEVER.model,
-        revision=RETRIEVER.revision,
+        repo_id=retriever.model,
+        revision=retriever.revision,
         allow_patterns=[
             "1_Pooling/config.json",
             "config.json",
@@ -75,7 +84,7 @@ def generate(dataset: DatasetConfig, output_dir: Path) -> Path:
     search = DRES(
         models.SentenceBERT(
             model_path,
-            device=RETRIEVER.device,
+            device=retriever.device,
             local_files_only=True,
         ),
         batch_size=128,
@@ -90,7 +99,7 @@ def generate(dataset: DatasetConfig, output_dir: Path) -> Path:
         )
         candidates: list[dict[str, object]] = []
         for rank, (document_id, score) in enumerate(
-            ranking[: RETRIEVER.top_n], start=1
+            ranking[: retriever.top_n], start=1
         ):
             document = corpus[document_id]
             text = "\n".join(
@@ -104,7 +113,7 @@ def generate(dataset: DatasetConfig, output_dir: Path) -> Path:
         )
     snapshot = {
         "schema_version": SNAPSHOT_SCHEMA_VERSION,
-        **baseline_config(dataset, RETRIEVER),
+        **baseline_config(dataset, retriever),
         "queries": frozen_queries,
         "qrels": qrels,
     }
@@ -143,11 +152,23 @@ def main() -> None:
     )
     parser.add_argument("--snapshot", type=Path)
     parser.add_argument(
+        "--device",
+        choices=("cpu", "cuda"),
+        default=RETRIEVER.device,
+        help=(
+            "Device for candidate generation; persisted in the snapshot configuration."
+        ),
+    )
+    parser.add_argument(
         "--output-dir", type=Path, default=Path("benchmarks/results/b0")
     )
     args = parser.parse_args()
     snapshot = (
-        generate(_dataset_config(args.dataset), args.output_dir)
+        generate(
+            _dataset_config(args.dataset),
+            args.output_dir,
+            replace(RETRIEVER, device=args.device),
+        )
         if args.command == "generate"
         else args.snapshot
     )

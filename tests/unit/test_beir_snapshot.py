@@ -1,7 +1,9 @@
 """Tests for frozen benchmark artifacts without BEIR/model dependencies."""
 
+from dataclasses import replace
 from pathlib import Path
 
+from benchmarks.beir.config import RETRIEVER, DatasetConfig, baseline_config
 from benchmarks.beir.metrics import evaluate_snapshot
 from benchmarks.beir.snapshot import (
     SNAPSHOT_SCHEMA_VERSION,
@@ -39,3 +41,19 @@ def test_snapshot_round_trip_and_metrics_are_reproducible(tmp_path: Path) -> Non
     assert first == second
     assert first["ndcg@5"] > 0
     assert first["candidate_pool_recall@3"] == 0.5
+
+
+def test_baseline_config_records_the_generation_device() -> None:
+    """A frozen snapshot identifies the device used to generate its candidates."""
+    config = baseline_config(
+        DatasetConfig("fiqa"),
+        replace(RETRIEVER, device="cuda"),
+    )
+
+    assert config["retriever"] == {
+        "backend": "torch",
+        "device": "cuda",
+        "model": "sentence-transformers/msmarco-MiniLM-L6-cos-v5",
+        "revision": "14ca9be4bbcf1402eac0f43a2e2ccb6e0f994ba3",
+        "top_n": 50,
+    }

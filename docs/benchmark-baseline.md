@@ -24,6 +24,11 @@ its SHA-256 sidecar. The snapshot stores query ID/text and each candidate's
 document ID/text, original rank, and retrieval score. Later evaluation reads
 this frozen artifact; it never regenerates retrieval.
 
+Candidate generation defaults to the configured CPU device. When a CUDA-enabled
+run is required, pass `--device cuda`; the selected device is persisted with the
+model, revision, backend, and Top-N configuration in the snapshot and run
+metadata.
+
 ## Evaluate and reproduce
 
 ```powershell
