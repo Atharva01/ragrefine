@@ -45,11 +45,13 @@ def shingle_jaccard(left: str, right: str, *, size: int = 5) -> float:
 class DeduplicationConfig:
     """Explicit, deterministic settings for post-ranking duplicate suppression."""
 
-    near_duplicate_threshold: float = 0.9
+    near_duplicate_threshold: float | None = 0.9
     shingle_size: int = 5
 
     def __post_init__(self) -> None:
-        if not 0.0 <= self.near_duplicate_threshold <= 1.0:
+        if self.near_duplicate_threshold is not None and not (
+            0.0 <= self.near_duplicate_threshold <= 1.0
+        ):
             raise ValueError("near duplicate threshold must be between zero and one")
         if self.shingle_size < 1:
             raise ValueError("shingle size must be at least one")
@@ -127,6 +129,8 @@ class CandidateDeduplicator:
         candidate: RefinedCandidate,
         retained: Sequence[RefinedCandidate],
     ) -> tuple[RefinedCandidate, float] | None:
+        if self._config.near_duplicate_threshold is None:
+            return None
         for retained_candidate in retained:
             similarity = shingle_jaccard(
                 candidate.candidate.text,

@@ -68,3 +68,26 @@ per-query deltas, representative cases, latency, and the measured decision.
 ```powershell
 uv run python -m benchmarks.beir.analyze_b1 --baseline benchmarks/results/scifact-b0/snapshot.json --ranking benchmarks/results/scifact-b1/b1-ranking.json --environment benchmarks/results/scifact-b1/b1-environment.json --latency benchmarks/results/scifact-b1/b1-latency.json --output benchmarks/results/scifact-b1/b1-analysis.json
 ```
+
+## Run and reproduce B4 selection ablations
+
+The B4 command consumes the persisted SciFact B1-reference and B2-L rankings.
+It validates their checksums and shared frozen B0 provenance, then evaluates the
+predeclared S0-S4 policies without retrieval or reranking.
+
+```powershell
+uv run python -m benchmarks.beir.b4 run `
+  --b1-ranking benchmarks/results/scifact-b1-batched/b1-ranking.json `
+  --b1-environment benchmarks/results/scifact-b1-batched/b1-environment.json `
+  --b2-ranking benchmarks/results/scifact-b2-lexical/b2-lexical-ranking.json `
+  --b2-environment benchmarks/results/scifact-b2-lexical/b2-lexical-environment.json `
+  --output-dir benchmarks/results/scifact-b4-selection-v1
+
+uv run python -m benchmarks.beir.b4 reproduce `
+  --output-dir benchmarks/results/scifact-b4-selection-v1
+```
+
+The output directory contains the frozen configuration, input manifest and
+checksums, aggregate summary, per-query selected IDs and exclusions, runtime,
+environment metadata, and reproduction result. See
+`docs/b4-context-selection.md` for the validated RRF-61 interpretation.

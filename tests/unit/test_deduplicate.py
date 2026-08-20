@@ -65,6 +65,19 @@ def test_threshold_boundary_is_not_suppressed() -> None:
     assert result.suppressed == ()
 
 
+def test_near_duplicate_matching_can_be_disabled_for_exact_only_policy() -> None:
+    """Exact-only mode retains non-identical candidates regardless of similarity."""
+    first = _ranked("first", "alpha beta gamma delta", 1)
+    near = _ranked("near", "alpha beta gamma epsilon", 2)
+
+    result = CandidateDeduplicator(
+        DeduplicationConfig(near_duplicate_threshold=None, shingle_size=2)
+    ).deduplicate((first, near))
+
+    assert result.candidates == (first, near)
+    assert result.suppressed == ()
+
+
 def test_unrelated_candidates_and_original_evidence_are_preserved() -> None:
     """Suppression never rewrites candidates, metadata, ranks, scores, or signals."""
     first = _ranked("first", "alpha beta gamma", 1)
