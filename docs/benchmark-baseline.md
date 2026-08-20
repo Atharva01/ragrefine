@@ -91,3 +91,39 @@ The output directory contains the frozen configuration, input manifest and
 checksums, aggregate summary, per-query selected IDs and exclusions, runtime,
 environment metadata, and reproduction result. See
 `docs/b4-context-selection.md` for the validated RRF-61 interpretation.
+
+## Evaluate qualified secondary datasets
+
+RRF-62 uses the frozen NFCorpus and FiQA snapshots created by RRF-59. For each
+dataset, run only the retained B1-reference and B2-L profiles, then compare the
+persisted rankings with B0. B1 uses the pinned MiniLM-L6 revision on CUDA; B2-L
+uses the deterministic standard-library lexical ranker on CPU.
+
+```powershell
+uv run --extra rerank python -m benchmarks.beir.b1 `
+  --snapshot <b0-directory>/snapshot.json `
+  --output-dir <b1-reference-directory> `
+  --model cross-encoder/ms-marco-MiniLM-L6-v2 `
+  --revision 233902d25c440f23af6f7d6e94d2946bac0bee0a `
+  --device cuda --batch-size 512 --queries-per-batch 24
+
+uv run python -m benchmarks.beir.b2 `
+  --snapshot <b0-directory>/snapshot.json `
+  --output-dir <b2-lexical-directory> `
+  --signal lexical
+
+uv run python -m benchmarks.beir.secondary run `
+  --baseline <b0-directory>/snapshot.json `
+  --b1-ranking <b1-reference-directory>/b1-ranking.json `
+  --b1-environment <b1-reference-directory>/b1-environment.json `
+  --b2-ranking <b2-lexical-directory>/b2-lexical-ranking.json `
+  --b2-environment <b2-lexical-directory>/b2-lexical-environment.json `
+  --output-dir <secondary-evaluation-directory>
+
+uv run python -m benchmarks.beir.secondary reproduce `
+  --output-dir <secondary-evaluation-directory>
+```
+
+The analyzer accepts only the qualified snapshot checksums and validates that
+both retained profiles preserve the full candidate population. See
+`docs/secondary-evaluation.md` for the measured RRF-62 results.

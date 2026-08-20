@@ -3,11 +3,14 @@
 from dataclasses import replace
 from pathlib import Path
 
+import pytest
+
 from benchmarks.beir.config import RETRIEVER, DatasetConfig, baseline_config
 from benchmarks.beir.metrics import evaluate_snapshot
 from benchmarks.beir.snapshot import (
     SNAPSHOT_SCHEMA_VERSION,
     load_snapshot,
+    load_verified_snapshot,
     write_snapshot,
 )
 
@@ -57,3 +60,12 @@ def test_baseline_config_records_the_generation_device() -> None:
         "revision": "14ca9be4bbcf1402eac0f43a2e2ccb6e0f994ba3",
         "top_n": 50,
     }
+
+
+def test_verified_snapshot_requires_checksum_sidecar(tmp_path: Path) -> None:
+    """Published ranking runs cannot consume an unchecked frozen input."""
+    path = tmp_path / "snapshot.json"
+    path.write_text('{"schema_version":"1.0"}', encoding="utf-8")
+
+    with pytest.raises(ValueError, match="missing required checksum sidecar"):
+        load_verified_snapshot(path)

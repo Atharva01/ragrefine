@@ -11,7 +11,12 @@ from time import perf_counter
 from typing import Any
 
 from benchmarks.beir.metrics import evaluate_snapshot
-from benchmarks.beir.snapshot import load_snapshot, snapshot_checksum, write_snapshot
+from benchmarks.beir.snapshot import (
+    load_snapshot,
+    load_verified_snapshot,
+    snapshot_checksum,
+    write_snapshot,
+)
 from benchmarks.hard_set.validate import load_and_validate
 from ragrefine.models import Candidate
 from ragrefine.query.patterns import PatternRegistry, PatternRule
@@ -149,10 +154,8 @@ def run(
     snapshot_path: Path, hard_set_path: Path, output_dir: Path, signal: str
 ) -> dict[str, float]:
     """Run exactly one B2 signal against frozen inputs and persist artifacts."""
-    snapshot = load_snapshot(snapshot_path)
+    snapshot = load_verified_snapshot(snapshot_path)
     checksum = snapshot_checksum(snapshot)
-    if checksum != EXPECTED_B0_CHECKSUM:
-        raise ValueError("B2 requires the documented SciFact B0 snapshot checksum")
     started = perf_counter()
     ranked, timings = _rank_snapshot(snapshot, signal)
     metrics = evaluate_snapshot(ranked)

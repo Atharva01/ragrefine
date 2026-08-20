@@ -9,7 +9,11 @@ from time import perf_counter
 from typing import Any, Protocol
 
 from benchmarks.beir.metrics import evaluate_snapshot
-from benchmarks.beir.snapshot import load_snapshot, snapshot_checksum, write_snapshot
+from benchmarks.beir.snapshot import (
+    load_verified_snapshot,
+    snapshot_checksum,
+    write_snapshot,
+)
 from ragrefine.models import Candidate
 from ragrefine.rerank import SentenceTransformersReranker
 
@@ -92,10 +96,8 @@ def run(
     run_started_at = datetime.now(UTC)
     run_started = perf_counter()
     print(f"Loading frozen B0 snapshot: {snapshot_path}", flush=True)
-    snapshot = load_snapshot(snapshot_path)
+    snapshot = load_verified_snapshot(snapshot_path)
     checksum = snapshot_checksum(snapshot)
-    if checksum != EXPECTED_B0_CHECKSUM:
-        raise ValueError("B1 requires the documented SciFact B0 snapshot checksum")
     resolved_revision = resolve_model_revision(model, revision)
     query_count = len(snapshot["queries"])
     LOGGER.info("Verified B0 snapshot checksum: %s", checksum)

@@ -48,3 +48,11 @@ def load_snapshot(path: Path) -> dict[str, Any]:
         msg = f"unsupported snapshot schema: {snapshot.get('schema_version')}"
         raise ValueError(msg)
     return snapshot
+
+
+def load_verified_snapshot(path: Path) -> dict[str, Any]:
+    """Load a snapshot only when its SHA-256 sidecar is present and valid."""
+    sidecar = path.with_suffix(path.suffix + ".sha256")
+    if not sidecar.exists():
+        raise ValueError(f"missing required checksum sidecar: {sidecar}")
+    return load_snapshot(path)
