@@ -1,5 +1,6 @@
 """Ragas evaluation harness tests using injected generator/evaluator seams."""
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -97,6 +98,12 @@ def test_ragas_eval_records_shared_pools_and_metrics(tmp_path: Path) -> None:
 
     persisted = json.loads((tmp_path / "eval" / "ragas-results.json").read_text())
     assert persisted == result
+    artifact_path = tmp_path / "eval" / "ragas-results.json"
+    sidecar = artifact_path.with_suffix(".json.sha256")
+    assert (
+        sidecar.read_text(encoding="utf-8").strip()
+        == hashlib.sha256(artifact_path.read_bytes()).hexdigest()
+    )
 
 
 def test_ragas_eval_persists_exact_prompts_for_both_arms(tmp_path: Path) -> None:

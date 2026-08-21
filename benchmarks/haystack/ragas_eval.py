@@ -338,8 +338,12 @@ def run(
     }
 
     output_dir.mkdir(parents=True)
-    (output_dir / "ragas-results.json").write_text(
+    output_path = output_dir / "ragas-results.json"
+    output_path.write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    (output_dir / "ragas-results.json.sha256").write_text(
+        hashlib.sha256(output_path.read_bytes()).hexdigest() + "\n", encoding="utf-8"
     )
     return result
 

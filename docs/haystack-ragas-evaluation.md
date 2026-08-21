@@ -84,8 +84,9 @@ uv run python -m benchmarks.haystack.ragas_eval `
   --top-n 5 --top-k 3
 ```
 
-The command writes `ragas-results.json` into a **new** directory and fails
-rather than overwrite existing results.
+The command writes `ragas-results.json` (plus a matching
+`ragas-results.json.sha256` sidecar used by the scoring/verify stage) into a
+**new** directory and fails rather than overwrite existing results.
 
 ## Artifact and reproducibility
 
@@ -108,6 +109,71 @@ Answers and metrics are non-deterministic by nature (LLM calls); ranking,
 context selection, and the frozen test set are deterministic and reproducible.
 A failed arm is persisted with its typed failure and the prompt it attempted;
 it never aborts the run and never exposes credentials.
+
+## Scoring persisted outputs
+
+`benchmarks.haystack.ragas_score` is the **offline scoring stage**: it consumes
+a persisted `ragas-results.json` and the frozen test set and scores both arms
+with Ragas without regenerating retrieval, context, or answers. Context text is
+reconstructed from the checksum-verified test-set corpus by document ID, never
+re-retrieved.
+
+Metrics (per sample and aggregate, persisted for both arms):
+
+| Metric | Ragas metric | Notes |
+| --- | --- | --- |
+| `context_precision` | Context Precision with Reference | LLM |
+| `id_based_context_recall` | ID-based Context Recall | non-LLM, uses persisted IDs |
+| `faithfulness` | Faithfulness | LLM |
+| `factual_correctness` | Factual Correctness | LLM |
+| `answer_relevancy` | Answer Relevancy | added **only** when an explicit pinned embedding provider is configured |
+
+`answer_relevancy` requires an embedding endpoint, so it is added only when all
+three of `RAGAS_EMBEDDING_MODEL`, `RAGAS_EMBEDDING_BASE_URL`, and
+`RAGAS_EMBEDDING_API_KEY` are set; otherwise the metric is recorded as omitted.
+DeepSeek judging is configured only through `DEEPSEEK_API_KEY` and
+`DEEPSEEK_MODEL`.
+
+```text
+uv sync --extra ragas
+```
+
+```powershell
+$env:DEEPSEEK_API_KEY = "..."
+$env:DEEPSEEK_MODEL = "deepseek-chat"
+uv run python -m benchmarks.haystack.ragas_score score `
+  --input benchmarks/results/haystack-ragas-v1/ragas-results.json `
+  --output-dir benchmarks/results/haystack-ragas-scores-v1
+```
+
+The command writes `ragas-scores.json` (plus a `ragas-scores.json.sha256`
+sidecar) into a **new** directory, records the input artifact's SHA-256 and the
+test-set checksum, and rejects an artifact that references unknown corpus IDs,
+an incomplete paired row, or a different test set. **Metric errors are
+preserved as failures and are never converted into scores**: a metric that
+raises, or a sample that yields a non-finite value, is recorded under
+`failures` and excluded from the aggregate. Judge prompt outputs (verdict
+reasons) are persisted per sample under `judge_reasons`.
+
+## Verification
+
+The `verify` subcommand validates checksums and artifact consistency without
+re-scoring and exits non-zero on any failure:
+
+```powershell
+uv run python -m benchmarks.haystack.ragas_score verify `
+  --input benchmarks/results/haystack-ragas-v1/ragas-results.json `
+  --scores benchmarks/results/haystack-ragas-scores-v1/ragas-scores.json
+```
+
+Checks performed:
+
+- the frozen test-set SHA-256 sidecar;
+- the input artifact structure and its link to the test set;
+- the input artifact bytes against `ragas-results.json.sha256`;
+- the scores artifact bytes against `ragas-scores.json.sha256`;
+- the input→scores SHA-256 link (scores were produced from this exact input);
+- per-metric coverage of exactly the paired queries for both arms.
 
 ## Out of scope
 
