@@ -58,7 +58,10 @@ def run(
         "query": query,
         "results": results,
         "refinement_trace": refined["trace"],
-        "interpretation": "Smoke integration only; this does not establish generation-quality improvement.",
+        "interpretation": (
+            "Smoke integration only; this does not establish generation-quality "
+            "improvement."
+        ),
     }
     output_dir.mkdir(parents=True)
     (output_dir / "generator-smoke.json").write_text(
