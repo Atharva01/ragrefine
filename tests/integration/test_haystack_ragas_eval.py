@@ -46,9 +46,12 @@ def test_ragas_eval_records_shared_pools_and_metrics(tmp_path: Path) -> None:
     assert result["configuration"]["top_k"] == 3
     assert result["metrics"]["names"] == _FakeEvaluator.METRICS
     assert set(result["metrics"]["baseline"]) == set(_FakeEvaluator.METRICS)
-    assert result["testset"]["qa_pair_count"] == 10
+    assert result["testset"]["qa_pair_count"] == 13
+    assert result["configuration"]["max_tokens"] is None
+    assert result["configuration"]["prompt_template"] == "ragrefine-haystack-prompt-v1"
+    assert result["review"]["status"] == "human-reviewed"
 
-    assert len(result["per_query"]) == 10
+    assert len(result["per_query"]) == 13
     for row in result["per_query"]:
         pool_ids = row["pool_ids"]
         assert row["baseline_context_ids"] == pool_ids[:3]
@@ -92,4 +95,24 @@ def test_ragas_eval_rejects_invalid_top_k(tmp_path: Path) -> None:
             generator=_FakeGenerator(),
             evaluator=_FakeEvaluator(),
             top_k=6,
+        )
+
+
+def test_ragas_eval_rejects_changed_frozen_settings(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="frozen evaluation contract"):
+        run(
+            tmp_path / "changed-model",
+            api_key="x",
+            model="different-model",
+            generator=_FakeGenerator(),
+            evaluator=_FakeEvaluator(),
+        )
+    with pytest.raises(ValueError, match="Top-N/Top-K"):
+        run(
+            tmp_path / "changed-top-n",
+            api_key="x",
+            model="deepseek-chat",
+            generator=_FakeGenerator(),
+            evaluator=_FakeEvaluator(),
+            top_n=4,
         )

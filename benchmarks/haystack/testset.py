@@ -13,8 +13,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-RAGAS_TEST_SET_SCHEMA_VERSION = "1.0"
-DEFAULT_TESTSET_PATH = Path(__file__).parent / "testset" / "ragas-testset-v1.json"
+RAGAS_TEST_SET_SCHEMA_VERSION = "2.0"
+DEFAULT_TESTSET_PATH = Path(__file__).parent / "testset" / "ragas-testset-v2.json"
+ALLOWED_CATEGORIES = frozenset(
+    {"factual", "version", "identifier", "date", "numeric_value"}
+)
+REQUIRED_METRICS = ("faithfulness", "context_recall", "factual_correctness")
 
 
 @dataclass(frozen=True, slots=True)
@@ -34,6 +38,32 @@ class QAPair:
     question: str
     reference_answer: str
     reference_context_ids: tuple[str, ...]
+    category: str
+
+
+@dataclass(frozen=True, slots=True)
+class EvaluationContract:
+    """Immutable settings for the paired B0 versus refined evaluation."""
+
+    top_n: int
+    top_k: int
+    max_tokens: int | None
+    prompt_template: str
+    model: str
+    api_base_url: str
+    temperature: float
+    generation_max_tokens: int
+    metrics: tuple[str, ...]
+    refinement_profile: str
+
+
+@dataclass(frozen=True, slots=True)
+class ReviewProvenance:
+    """Human review declaration for reference answers and annotations."""
+
+    status: str
+    reviewer_role: str
+    reviewed_on: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -42,6 +72,8 @@ class RagasTestSet:
 
     corpus: tuple[CorpusDocument, ...]
     qa_pairs: tuple[QAPair, ...]
+    contract: EvaluationContract
+    review: ReviewProvenance
     sha256: str
 
 
@@ -81,16 +113,44 @@ def load_testset(path: Path = DEFAULT_TESTSET_PATH) -> RagasTestSet:
             question=pair["question"],
             reference_answer=pair["reference_answer"],
             reference_context_ids=tuple(pair["reference_context_ids"]),
+            category=pair["category"],
         )
         for pair in data["qa_pairs"]
     )
-    return RagasTestSet(corpus=corpus, qa_pairs=qa_pairs, sha256=actual)
+    contract_data = data["evaluation_contract"]
+    generator = contract_data["generator"]
+    review = data["review"]
+    return RagasTestSet(
+        corpus=corpus,
+        qa_pairs=qa_pairs,
+        contract=EvaluationContract(
+            top_n=contract_data["top_n"],
+            top_k=contract_data["top_k"],
+            max_tokens=contract_data["max_tokens"],
+            prompt_template=contract_data["prompt_template"],
+            model=generator["model"],
+            api_base_url=generator["api_base_url"],
+            temperature=generator["temperature"],
+            generation_max_tokens=generator["max_tokens"],
+            metrics=tuple(contract_data["metrics"]),
+            refinement_profile=contract_data["refinement_profile"],
+        ),
+        review=ReviewProvenance(
+            status=review["status"],
+            reviewer_role=review["reviewer_role"],
+            reviewed_on=review["reviewed_on"],
+        ),
+        sha256=actual,
+    )
 
 
 def validate(data: dict[str, Any]) -> None:
     """Reject malformed or internally inconsistent test-set artifacts."""
     if data.get("schema_version") != RAGAS_TEST_SET_SCHEMA_VERSION:
         raise ValueError("unsupported ragas test-set schema version")
+
+    _validate_review(data.get("review"))
+    _validate_contract(data.get("evaluation_contract"))
 
     corpus = data.get("corpus")
     if not isinstance(corpus, list) or not corpus:
@@ -121,11 +181,17 @@ def validate(data: dict[str, Any]) -> None:
     for pair in qa_pairs:
         if not isinstance(pair, dict):
             raise ValueError("each QA pair must be an object")
-        required = {"id", "question", "reference_answer", "reference_context_ids"}
+        required = {
+            "id",
+            "question",
+            "reference_answer",
+            "reference_context_ids",
+            "category",
+        }
         if set(pair) != required:
             raise ValueError(
                 "QA pairs require id, question, reference_answer, "
-                "and reference_context_ids only"
+                "reference_context_ids, and category only"
             )
         if not isinstance(pair["id"], str) or not pair["id"]:
             raise ValueError("QA pair IDs must be non-empty strings")
@@ -135,6 +201,8 @@ def validate(data: dict[str, Any]) -> None:
         for field in ("question", "reference_answer"):
             if not isinstance(pair[field], str) or not pair[field]:
                 raise ValueError(f"QA pair {field} must be a non-empty string")
+        if pair["category"] not in ALLOWED_CATEGORIES:
+            raise ValueError(f"unsupported QA pair category: {pair['category']!r}")
         reference_ids = pair["reference_context_ids"]
         if (
             not isinstance(reference_ids, list)
@@ -150,3 +218,67 @@ def validate(data: dict[str, Any]) -> None:
                     f"QA pair {pair['id']!r} references unknown corpus ID "
                     f"{reference_id!r}"
                 )
+
+
+def _validate_review(value: object) -> None:
+    if not isinstance(value, dict) or set(value) != {
+        "status",
+        "reviewer_role",
+        "reviewed_on",
+    }:
+        raise ValueError("ragas test-set must contain complete review provenance")
+    if value["status"] != "human-reviewed":
+        raise ValueError("ragas test-set review status must be human-reviewed")
+    if not all(isinstance(value[field], str) and value[field] for field in value):
+        raise ValueError("ragas test-set review provenance must contain strings")
+
+
+def _validate_contract(value: object) -> None:
+    if not isinstance(value, dict) or set(value) != {
+        "top_n",
+        "top_k",
+        "max_tokens",
+        "prompt_template",
+        "generator",
+        "metrics",
+        "refinement_profile",
+    }:
+        raise ValueError("ragas test-set must contain a complete evaluation contract")
+    if (
+        not isinstance(value["top_n"], int)
+        or not isinstance(value["top_k"], int)
+        or value["top_n"] < 1
+        or value["top_k"] < 1
+        or value["top_k"] > value["top_n"]
+    ):
+        raise ValueError("evaluation contract must satisfy 1 <= top_k <= top_n")
+    if value["max_tokens"] is not None and (
+        not isinstance(value["max_tokens"], int) or value["max_tokens"] < 1
+    ):
+        raise ValueError("evaluation contract max_tokens must be null or positive")
+    if value["prompt_template"] != "ragrefine-haystack-prompt-v1":
+        raise ValueError("unsupported evaluation prompt template")
+    generator = value["generator"]
+    if not isinstance(generator, dict) or set(generator) != {
+        "model",
+        "api_base_url",
+        "temperature",
+        "max_tokens",
+    }:
+        raise ValueError("evaluation contract must contain complete generator settings")
+    if (
+        not isinstance(generator["model"], str)
+        or not generator["model"]
+        or not isinstance(generator["api_base_url"], str)
+        or not generator["api_base_url"]
+        or generator["temperature"] != 0
+        or not isinstance(generator["max_tokens"], int)
+        or generator["max_tokens"] < 1
+    ):
+        raise ValueError("evaluation contract generator settings are invalid")
+    if tuple(value["metrics"]) != REQUIRED_METRICS:
+        raise ValueError(
+            "evaluation contract metrics do not match the fixed metric set"
+        )
+    if value["refinement_profile"] != "B2-L lexical":
+        raise ValueError("unsupported evaluation refinement profile")

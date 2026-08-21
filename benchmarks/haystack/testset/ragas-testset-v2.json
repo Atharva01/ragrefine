@@ -1,0 +1,60 @@
+{
+  "schema_version": "2.0",
+  "review": {
+    "status": "human-reviewed",
+    "reviewer_role": "project-maintainer",
+    "reviewed_on": "2026-08-21"
+  },
+  "evaluation_contract": {
+    "top_n": 5,
+    "top_k": 3,
+    "max_tokens": null,
+    "prompt_template": "ragrefine-haystack-prompt-v1",
+    "generator": {
+      "model": "deepseek-chat",
+      "api_base_url": "https://api.deepseek.com/v1",
+      "temperature": 0,
+      "max_tokens": 512
+    },
+    "metrics": ["faithfulness", "context_recall", "factual_correctness"],
+    "refinement_profile": "B2-L lexical"
+  },
+  "corpus": [
+    {"id": "python-311", "content": "Python 3.11 adds exception groups and task groups.", "meta": {"topic": "python"}},
+    {"id": "python-312", "content": "Python 3.12 improves the f-string parser and adds type parameter syntax.", "meta": {"topic": "python"}},
+    {"id": "python-313", "content": "Python 3.13 introduces a free-threaded build and an improved interactive interpreter.", "meta": {"topic": "python"}},
+    {"id": "haystack-pipeline", "content": "Haystack pipelines connect document retrieval, ranking, and generation components.", "meta": {"topic": "haystack"}},
+    {"id": "haystack-retriever", "content": "Haystack in-memory BM25 retriever ranks documents by lexical overlap using BM25L.", "meta": {"topic": "haystack"}},
+    {"id": "haystack-ragrefine", "content": "ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context.", "meta": {"topic": "ragrefine"}},
+    {"id": "ragas", "content": "Ragas computes faithfulness, context recall, and factual correctness for RAG answers.", "meta": {"topic": "evaluation"}},
+    {"id": "ragas-faithfulness", "content": "Faithfulness measures how factually consistent a generated answer is with the retrieved context.", "meta": {"topic": "evaluation"}},
+    {"id": "beir", "content": "BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation.", "meta": {"topic": "benchmark"}},
+    {"id": "scifact", "content": "SciFact is a scientific claim verification dataset used for retrieval benchmarking.", "meta": {"topic": "benchmark"}},
+    {"id": "crossencoder", "content": "A cross-encoder scores query-document pairs jointly through a transformer model.", "meta": {"topic": "reranking"}},
+    {"id": "bm25", "content": "BM25 is a sparse lexical retrieval model that scores documents by term frequency and inverse document frequency.", "meta": {"topic": "retrieval"}},
+    {"id": "embedding", "content": "Dense retrieval encodes queries and documents into fixed-size vector embeddings.", "meta": {"topic": "retrieval"}},
+    {"id": "dedup", "content": "Near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity.", "meta": {"topic": "refinement"}},
+    {"id": "rrf", "content": "Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks.", "meta": {"topic": "fusion"}},
+    {"id": "rrf-94", "content": "RRF-94 defines the frozen Haystack Ragas evaluation set and contract.", "meta": {"topic": "evaluation"}},
+    {"id": "rrf-95", "content": "RRF-95 implements the paired Haystack B0 versus ragrefine Ragas harness.", "meta": {"topic": "evaluation"}},
+    {"id": "evaluation-date", "content": "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.", "meta": {"topic": "evaluation"}},
+    {"id": "evaluation-date-distractor", "content": "The earlier Haystack smoke fixture was created on 2026-08-20.", "meta": {"topic": "evaluation"}},
+    {"id": "final-context-count", "content": "The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.", "meta": {"topic": "evaluation"}},
+    {"id": "retrieval-pool-count", "content": "The frozen Haystack Ragas evaluation retrieves five candidate documents before refinement.", "meta": {"topic": "evaluation"}}
+  ],
+  "qa_pairs": [
+    {"id": "q-01", "question": "Which Python version improves f-string parsing?", "reference_answer": "Python 3.12 improves the f-string parser and adds type parameter syntax.", "reference_context_ids": ["python-312"], "category": "version"},
+    {"id": "q-02", "question": "What does Python 3.13 introduce?", "reference_answer": "Python 3.13 introduces a free-threaded build and an improved interactive interpreter.", "reference_context_ids": ["python-313"], "category": "version"},
+    {"id": "q-03", "question": "What is ragrefine?", "reference_answer": "ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context.", "reference_context_ids": ["haystack-ragrefine"], "category": "factual"},
+    {"id": "q-04", "question": "How does Haystack's in-memory BM25 retriever rank documents?", "reference_answer": "It ranks documents by lexical overlap using BM25L.", "reference_context_ids": ["haystack-retriever"], "category": "factual"},
+    {"id": "q-05", "question": "What does the Ragas faithfulness metric measure?", "reference_answer": "Faithfulness measures how factually consistent a generated answer is with the retrieved context.", "reference_context_ids": ["ragas-faithfulness"], "category": "factual"},
+    {"id": "q-06", "question": "What is BEIR?", "reference_answer": "BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation.", "reference_context_ids": ["beir"], "category": "factual"},
+    {"id": "q-07", "question": "What is SciFact?", "reference_answer": "SciFact is a scientific claim verification dataset used for retrieval benchmarking.", "reference_context_ids": ["scifact"], "category": "factual"},
+    {"id": "q-08", "question": "How does a cross-encoder score documents?", "reference_answer": "A cross-encoder scores query-document pairs jointly through a transformer model.", "reference_context_ids": ["crossencoder"], "category": "factual"},
+    {"id": "q-09", "question": "What is reciprocal rank fusion?", "reference_answer": "Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks.", "reference_context_ids": ["rrf"], "category": "factual"},
+    {"id": "q-10", "question": "How are near-duplicate passages removed?", "reference_answer": "Near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity.", "reference_context_ids": ["dedup"], "category": "factual"},
+    {"id": "q-11", "question": "Which ticket defines the frozen Haystack Ragas evaluation set and contract?", "reference_answer": "RRF-94 defines the frozen Haystack Ragas evaluation set and contract.", "reference_context_ids": ["rrf-94"], "category": "identifier"},
+    {"id": "q-12", "question": "On what date was the frozen Haystack Ragas evaluation contract reviewed?", "reference_answer": "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.", "reference_context_ids": ["evaluation-date"], "category": "date"},
+    {"id": "q-13", "question": "How many final contexts does the frozen Haystack Ragas evaluation select?", "reference_answer": "The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.", "reference_context_ids": ["final-context-count"], "category": "numeric_value"}
+  ]
+}

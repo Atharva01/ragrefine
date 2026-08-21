@@ -38,7 +38,6 @@ from ragrefine.config import ChannelConfig
 from ragrefine.ranking.lexical import LexicalRanker
 
 DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1"
-DEFAULT_PROFILE = "B2-L lexical"
 SCHEMA_VERSION = "1.0"
 
 
@@ -137,11 +136,16 @@ def run(
         raise ValueError("top_k must satisfy 1 <= top_k <= top_n")
 
     testset = load_testset(testset_path)
+    contract = testset.contract
+    _validate_run_contract(contract, model=model, top_n=top_n, top_k=top_k)
     active_generator = generator or OpenAIChatGenerator(
         api_key=Secret.from_token(api_key),
         model=model,
-        api_base_url=DEEPSEEK_BASE_URL,
-        generation_kwargs={"temperature": 0},
+        api_base_url=contract.api_base_url,
+        generation_kwargs={
+            "temperature": contract.temperature,
+            "max_tokens": contract.generation_max_tokens,
+        },
         max_retries=0,
     )
     active_evaluator = evaluator or _RagasEvaluator(api_key=api_key, model=model)
@@ -155,7 +159,11 @@ def run(
         ]
     )
     retriever = InMemoryBM25Retriever(document_store=store)
-    component = RagRefineComponent(refiner=active_refiner, top_k=top_k)
+    component = RagRefineComponent(
+        refiner=active_refiner,
+        top_k=top_k,
+        max_tokens=contract.max_tokens,
+    )
 
     baseline_records: list[EvaluationRecord] = []
     refined_records: list[EvaluationRecord] = []
@@ -214,6 +222,10 @@ def run(
 
     baseline_scores = active_evaluator.evaluate(baseline_records)
     refined_scores = active_evaluator.evaluate(refined_records)
+    if tuple(baseline_scores["metrics"]) != contract.metrics:
+        raise RuntimeError("evaluator did not return the fixed evaluation metrics")
+    if tuple(refined_scores["metrics"]) != contract.metrics:
+        raise RuntimeError("evaluator did not return the fixed evaluation metrics")
 
     for index, row in enumerate(rows):
         row["baseline_scores"] = baseline_scores["per_record"][index]
@@ -228,9 +240,20 @@ def run(
             "qa_pair_count": len(testset.qa_pairs),
         },
         "model": model,
-        "api_base_url": DEEPSEEK_BASE_URL,
-        "profile": DEFAULT_PROFILE,
-        "configuration": {"top_n": top_n, "top_k": top_k, "pool_reused": True},
+        "api_base_url": contract.api_base_url,
+        "profile": contract.refinement_profile,
+        "configuration": {
+            "top_n": top_n,
+            "top_k": top_k,
+            "max_tokens": contract.max_tokens,
+            "prompt_template": contract.prompt_template,
+            "pool_reused": True,
+        },
+        "review": {
+            "status": testset.review.status,
+            "reviewer_role": testset.review.reviewer_role,
+            "reviewed_on": testset.review.reviewed_on,
+        },
         "per_query": rows,
         "metrics": {
             "names": baseline_scores["metrics"],
@@ -271,6 +294,20 @@ def _generate(
     return reply.text, perf_counter() - started
 
 
+def _validate_run_contract(
+    contract: object, *, model: str, top_n: int, top_k: int
+) -> None:
+    """Reject changed retrieval or generation settings for a frozen test set."""
+    from benchmarks.haystack.testset import EvaluationContract
+
+    if not isinstance(contract, EvaluationContract):
+        raise TypeError("test-set contract must be an EvaluationContract")
+    if model != contract.model:
+        raise ValueError("model does not match the frozen evaluation contract")
+    if top_n != contract.top_n or top_k != contract.top_k:
+        raise ValueError("Top-N/Top-K do not match the frozen evaluation contract")
+
+
 def _environment(model: str) -> dict[str, object]:
     """Record reproducible provenance for the persisted artifact."""
     return {
@@ -300,9 +337,7 @@ def _git_commit() -> str | None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", required=True, type=Path)
-    parser.add_argument(
-        "--model", default=os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
-    )
+    parser.add_argument("--model", default="deepseek-chat")
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--top-k", type=int, default=3)
     args = parser.parse_args()
