@@ -6,9 +6,10 @@
 
 Instead of replacing your retriever, vector database, or RAG framework, `ragrefine` takes an existing candidate set and applies additional relevance signals, reranking, fusion, and context-selection logic.
 
-> **Status:** Early development. Candidate contracts, the no-op refinement API,
-> and a frozen SciFact B0 baseline are implemented. No retrieval-quality
-> improvement is claimed until refinement experiments are evaluated.
+> **Status:** v0.1 implements independent refinement channels, optional RRF,
+> deduplication, greedy budget selection, and structured tracing. Only the
+> recorded B1-reference and B2-L configurations have measured evidence; no
+> unmeasured technique is described as an improvement.
 
 ---
 
@@ -67,28 +68,25 @@ Refined Candidates + Refinement Trace
 
 ---
 
-## Current no-op API
+## Current API
 
-The first executable baseline preserves the input candidate order and selects
-the requested Top-K; it does not rerank, filter, or otherwise claim a
-retrieval-quality improvement.
+`Refiner()` is the B0-compatible original-order configuration. Explicit
+`RefinerConfig` enables independent neural, lexical, pattern, and fused
+channels over the same input pool; selection is applied only after final
+ranking.
 
 ```python
 from ragrefine import Candidate, CandidateSet, Refiner
 
-candidate_sets = (
-    CandidateSet(
-        name="dense",
-        candidates=(
-            Candidate(id="chunk-42", text="Retrieved evidence", retrieval_rank=1),
-        ),
-    ),
+candidate_set = CandidateSet(
+    name="dense",
+    candidates=(Candidate(id="chunk-42", text="Retrieved evidence", retrieval_rank=1),),
 )
 
-result = Refiner().refine("What is the evidence?", candidate_sets, top_k=5)
+result = Refiner().refine("What is the evidence?", candidate_set, top_k=5)
 
 assert result.candidates[0].candidate.id == "chunk-42"
-assert result.trace.stages[0].name == "no_op_selection"
+assert result.candidates[0].rank == 1
 ```
 
 `Refiner`, `RefinementResult`, and trace models are available from the package
@@ -96,7 +94,7 @@ root. Internal modules remain implementation details.
 
 ---
 
-## Planned refinement pipeline
+## Implemented refinement pipeline
 
 | Stage | Purpose |
 |---|---|
