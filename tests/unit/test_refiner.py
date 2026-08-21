@@ -39,32 +39,31 @@ class ReversingReranker:
         )
 
 
-def test_refiner_preserves_input_order_and_evidence() -> None:
+def test_refiner_preserves_input_order_and_candidate_provenance() -> None:
     """The no-op pipeline returns caller-owned candidates in input order."""
     first = Candidate(id="first", text="First evidence", retrieval_rank=4)
     second = Candidate(id="second", text="Second evidence", retrieval_rank=9)
     result = Refiner().refine(
         "query",
-        (
-            CandidateSet(name="dense", candidates=(first,)),
-            CandidateSet(name="bm25", candidates=(second,)),
-        ),
+        CandidateSet(name="externally-merged", candidates=(first, second)),
         top_k=2,
     )
 
     assert tuple(item.candidate for item in result.candidates) == (first, second)
-    assert tuple(item.final_rank for item in result.candidates) == (1, 2)
-    assert tuple(item.original_rank for item in result.candidates) == (4, 9)
+    assert tuple(item.rank for item in result.candidates) == (1, 2)
+    assert tuple(item.candidate.retrieval_rank for item in result.candidates) == (4, 9)
 
 
 def test_refiner_handles_empty_and_oversized_selection() -> None:
     """Empty input and a large requested limit both complete successfully."""
     refiner = Refiner()
-    empty_result = refiner.refine("query", (), top_k=5)
+    empty_result = refiner.refine(
+        "query", CandidateSet(name="empty", candidates=()), top_k=5
+    )
     candidate = Candidate(id="only", text="Evidence")
     oversized_result = refiner.refine(
         "query",
-        (CandidateSet(name="dense", candidates=(candidate,)),),
+        CandidateSet(name="dense", candidates=(candidate,)),
         top_k=10,
     )
 
@@ -78,14 +77,24 @@ def test_refiner_honors_zero_and_rejects_negative_top_k() -> None:
         name="dense", candidates=(Candidate(id="one", text="Evidence"),)
     )
 
-    assert Refiner().refine("query", (candidate_set,), top_k=0).candidates == ()
+    assert Refiner().refine("query", candidate_set, top_k=0).candidates == ()
     with pytest.raises(ValueError, match="top_k must be non-negative"):
-        Refiner().refine("query", (candidate_set,), top_k=-1)
+        Refiner().refine("query", candidate_set, top_k=-1)
+
+
+def test_refiner_requires_one_externally_merged_candidate_set() -> None:
+    """Candidate discovery and multi-source merging remain outside ragrefine."""
+    candidate_set = CandidateSet(name="dense", candidates=())
+
+    with pytest.raises(TypeError, match="merge multiple sources upstream"):
+        Refiner().refine("query", (candidate_set, candidate_set))  # type: ignore[arg-type]
 
 
 def test_refiner_records_minimal_no_op_trace() -> None:
     """The trace captures stage timing and configuration without integrations."""
-    result = Refiner().refine("query", (), top_k=3)
+    result = Refiner().refine(
+        "query", CandidateSet(name="empty", candidates=()), top_k=3
+    )
 
     assert result.trace.config_fingerprint == "no-op-v1"
     assert result.trace.stages[0].name == "no_op_selection"
@@ -104,17 +113,17 @@ def test_refiner_applies_neural_order_before_top_k_and_records_trace() -> None:
     )
     second = Candidate(id="second", text="Second evidence", retrieval_rank=2)
     result = Refiner(reranker=ReversingReranker()).refine(
-        "query", (CandidateSet(name="dense", candidates=(first, second)),), top_k=1
+        "query", CandidateSet(name="dense", candidates=(first, second)), top_k=1
     )
     repeated = Refiner(reranker=ReversingReranker()).refine(
-        "query", (CandidateSet(name="dense", candidates=(first, second)),), top_k=1
+        "query", CandidateSet(name="dense", candidates=(first, second)), top_k=1
     )
 
     selected = result.candidates[0]
     stage = result.trace.stages[0]
     assert selected.candidate is second
     assert tuple(item.candidate for item in repeated.candidates) == (second,)
-    assert selected.original_rank == 2
+    assert selected.candidate.retrieval_rank == 2
     assert selected.signals["neural"].rank == 1
     assert selected.signals["neural"].score == 1.0
     assert selected.signals["neural"].details == {
@@ -148,7 +157,7 @@ def test_refiner_surfaces_neural_reranker_failure() -> None:
     with pytest.raises(RerankerError, match="backend unavailable"):
         Refiner(reranker=FailingReranker()).refine(
             "query",
-            (CandidateSet(name="dense", candidates=(Candidate(id="one", text="e"),)),),
+            CandidateSet(name="dense", candidates=(Candidate(id="one", text="e"),)),
         )
 
 
@@ -158,7 +167,7 @@ def test_refiner_applies_opt_in_fusion_after_active_channels() -> None:
     second = Candidate(id="second", text="second", retrieval_rank=2)
     result = Refiner(
         reranker=ReversingReranker(), fusion=ReciprocalRankFusion()
-    ).refine("query", (CandidateSet(name="dense", candidates=(first, second)),))
+    ).refine("query", CandidateSet(name="dense", candidates=(first, second)))
 
     assert result.trace.stages[0].name == "rank_fusion"
     assert result.trace.stages[0].configuration["channels"] == ["original", "neural"]
@@ -219,7 +228,7 @@ def test_refiner_supports_independent_single_channel_modes(
         lexical_ranker=LexicalRanker(),
         pattern_ranker=_pattern_ranker(),
         config=config,
-    ).refine("model-v17 HTTP 503", (_candidate_set(),))
+    ).refine("model-v17 HTTP 503", _candidate_set())
 
     assert set(result.candidates[0].signals) == {expected_signal}
     assert result.trace.stages[0].configuration["participating_channels"] == [
@@ -277,7 +286,7 @@ def test_refiner_fuses_each_valid_multi_channel_configuration(
         pattern_ranker=_pattern_ranker(),
         fusion=ReciprocalRankFusion(k=23),
         config=config,
-    ).refine("model-v17 HTTP 503", (candidates,), top_k=2)
+    ).refine("model-v17 HTTP 503", candidates, top_k=2)
 
     stage = result.trace.stages[0]
     channels = stage.configuration["participating_channels"]
@@ -287,7 +296,7 @@ def test_refiner_fuses_each_valid_multi_channel_configuration(
     assert set(item.candidate.id for item in result.candidates).issubset(
         {candidate.id for candidate in candidates.candidates}
     )
-    assert tuple(item.final_rank for item in result.candidates) == (1, 2)
+    assert tuple(item.rank for item in result.candidates) == (1, 2)
 
 
 def test_refiner_rejects_multiple_active_channels_without_fusion() -> None:
@@ -296,7 +305,7 @@ def test_refiner_rejects_multiple_active_channels_without_fusion() -> None:
         Refiner(
             lexical_ranker=LexicalRanker(),
             config=RefinerConfig(lexical=ChannelConfig(enabled=True)),
-        ).refine("model-v17", (_candidate_set(),))
+        ).refine("model-v17", _candidate_set())
 
 
 def test_refiner_rejects_enabled_fusion_without_implementation() -> None:
@@ -311,7 +320,7 @@ def test_refiner_required_and_optional_channel_failures_are_explicit() -> None:
         original=ChannelConfig(enabled=False), neural=ChannelConfig(enabled=True)
     )
     with pytest.raises(ChannelExecutionError, match="required 'neural'"):
-        Refiner(config=required_config).refine("query", (_candidate_set(),))
+        Refiner(config=required_config).refine("query", _candidate_set())
 
     optional_config = RefinerConfig(
         original=ChannelConfig(enabled=True),
@@ -319,7 +328,7 @@ def test_refiner_required_and_optional_channel_failures_are_explicit() -> None:
         fusion_enabled=True,
     )
     result = Refiner(fusion=ReciprocalRankFusion(), config=optional_config).refine(
-        "query", (_candidate_set(),)
+        "query", _candidate_set()
     )
 
     stage = result.trace.stages[0]
@@ -343,7 +352,7 @@ def test_refiner_rejects_when_all_enabled_channels_are_optional_failures() -> No
                 original=ChannelConfig(enabled=False),
                 neural=ChannelConfig(enabled=True, required=False),
             )
-        ).refine("query", (_candidate_set(),))
+        ).refine("query", _candidate_set())
 
 
 def test_refiner_applies_top_k_after_fusion_and_is_deterministic() -> None:
@@ -360,8 +369,8 @@ def test_refiner_applies_top_k_after_fusion_and_is_deterministic() -> None:
         fusion=ReciprocalRankFusion(),
         config=config,
     )
-    first = refiner.refine("model-v17 HTTP 503", (_candidate_set(),), top_k=1)
-    second = refiner.refine("model-v17 HTTP 503", (_candidate_set(),), top_k=1)
+    first = refiner.refine("model-v17 HTTP 503", _candidate_set(), top_k=1)
+    second = refiner.refine("model-v17 HTTP 503", _candidate_set(), top_k=1)
 
     assert len(first.candidates) == 1
     assert first.candidates == second.candidates

@@ -1,6 +1,7 @@
 """Deterministic post-ranking duplicate-suppression tests."""
 
-from ragrefine import Candidate, RankingSignal, RefinedCandidate
+from ragrefine import Candidate
+from ragrefine.models import RankingSignal, RefinedCandidate
 from ragrefine.selection import CandidateDeduplicator, DeduplicationConfig
 from ragrefine.selection.deduplicate import content_hash, shingle_jaccard
 
@@ -15,9 +16,7 @@ def _ranked(candidate_id: str, text: str, rank: int) -> RefinedCandidate:
     )
     return RefinedCandidate(
         candidate=candidate,
-        original_rank=rank,
-        final_rank=rank,
-        final_score=10.0 / rank,
+        rank=rank,
         signals={"original": RankingSignal(rank=rank, score=10.0 / rank)},
     )
 

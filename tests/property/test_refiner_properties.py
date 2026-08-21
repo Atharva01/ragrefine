@@ -25,8 +25,8 @@ def test_no_op_output_is_deterministic_subset_with_contiguous_ranks(
     )
     candidate_set = CandidateSet(name="dense", candidates=candidates)
 
-    first = Refiner().refine("same query", (candidate_set,), top_k=top_k)
-    second = Refiner().refine("same query", (candidate_set,), top_k=top_k)
+    first = Refiner().refine("same query", candidate_set, top_k=top_k)
+    second = Refiner().refine("same query", candidate_set, top_k=top_k)
     first_candidates = tuple(item.candidate for item in first.candidates)
     second_candidates = tuple(item.candidate for item in second.candidates)
 
@@ -35,6 +35,6 @@ def test_no_op_output_is_deterministic_subset_with_contiguous_ranks(
     assert {candidate.id for candidate in first_candidates}.issubset(
         {candidate.id for candidate in candidates}
     )
-    assert tuple(item.final_rank for item in first.candidates) == tuple(
+    assert tuple(item.rank for item in first.candidates) == tuple(
         range(1, len(first.candidates) + 1)
     )

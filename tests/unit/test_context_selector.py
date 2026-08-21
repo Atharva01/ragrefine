@@ -1,6 +1,7 @@
 """Deterministic post-ranking context-selection tests."""
 
-from ragrefine import Candidate, RankingSignal, RefinedCandidate
+from ragrefine import Candidate
+from ragrefine.models import RankingSignal, RefinedCandidate
 from ragrefine.selection import CandidateDeduplicator, RankPreservingContextSelector
 
 
@@ -18,9 +19,7 @@ def _ranked(candidate_id: str, text: str, rank: int) -> RefinedCandidate:
             retrieval_rank=rank,
             retrieval_score=1.0 / rank,
         ),
-        original_rank=rank,
-        final_rank=rank,
-        final_score=10.0 / rank,
+        rank=rank,
         signals={"original": RankingSignal(rank=rank, score=10.0 / rank)},
     )
 
@@ -35,6 +34,7 @@ def test_exact_fit_budget_selects_unchanged_candidate() -> None:
 
     assert result.candidates == (candidate,)
     assert result.records[0].status == "selected"
+    assert result.records[0].selected_position == 1
     assert result.records[0].token_count == 2
     assert result.candidates[0].candidate.text == "two token"
 
@@ -54,6 +54,7 @@ def test_oversized_candidate_is_excluded_without_blocking_later_ranked_context()
     assert result.records[0].status == "budget_excluded"
     assert result.records[0].candidate_id == "oversized"
     assert result.records[1].status == "selected"
+    assert result.records[1].selected_position == 1
 
 
 def test_empty_budget_excludes_every_nonempty_candidate() -> None:
@@ -97,6 +98,7 @@ def test_combined_constraints_preserve_order_and_trace_all_outcomes() -> None:
     ]
     assert result.records[0].retained_candidate_id == "first"
     assert result.records[-1].reason == "top_k_limit"
+    assert [record.selected_position for record in result.records] == [None, 1, 2, None]
 
 
 def test_selection_is_deterministic_and_validates_token_counter_requirement() -> None:

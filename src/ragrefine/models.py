@@ -39,14 +39,14 @@ class RankingSignal:
 
 @dataclass(frozen=True, slots=True)
 class RefinedCandidate:
-    """A candidate and its position in a refinement result.
+    """A candidate with its final ranking position and named evidence.
 
     The wrapped candidate is always supplied by the caller; refinement never
-    creates or rewrites evidence.
+    creates or rewrites evidence. Retrieval provenance remains on ``candidate``.
+    ``rank`` is the position after ranking; a later context-selection position
+    is recorded separately in :class:`ragrefine.selection.SelectionRecord`.
     """
 
     candidate: Candidate
-    original_rank: int | None
-    final_rank: int
-    final_score: float
+    rank: int
     signals: Mapping[str, RankingSignal] = field(default_factory=dict)

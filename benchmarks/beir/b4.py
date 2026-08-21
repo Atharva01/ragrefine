@@ -14,7 +14,8 @@ from typing import Any
 
 from benchmarks.beir.redundancy import WORD_TOKENIZATION, word_token_count
 from benchmarks.beir.snapshot import load_snapshot, snapshot_checksum
-from ragrefine import Candidate, RankingSignal, RefinedCandidate
+from ragrefine import Candidate
+from ragrefine.models import RankingSignal, RefinedCandidate
 from ragrefine.selection import (
     CandidateDeduplicator,
     DeduplicationConfig,
@@ -145,9 +146,7 @@ def _ranked_candidates(query: Mapping[str, object]) -> tuple[RefinedCandidate, .
                 retrieval_rank=int(item["rank"]),
                 retrieval_score=float(item["score"]),
             ),
-            original_rank=int(item["rank"]),
-            final_rank=int(item["rank"]),
-            final_score=float(item["score"]),
+            rank=int(item["rank"]),
             signals={
                 "retained_profile": RankingSignal(
                     rank=int(item["rank"]), score=float(item["score"])

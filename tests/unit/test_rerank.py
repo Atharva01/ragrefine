@@ -102,8 +102,8 @@ def test_refiner_uses_opt_in_reranker_and_keeps_b0_unchanged() -> None:
         "test-model", batch_size=2, cross_encoder=FakeCrossEncoder()
     )
 
-    result = Refiner(reranker=reranker).refine("query", (candidate_set,), top_k=1)
-    baseline = Refiner().refine("query", (candidate_set,), top_k=1)
+    result = Refiner(reranker=reranker).refine("query", candidate_set, top_k=1)
+    baseline = Refiner().refine("query", candidate_set, top_k=1)
 
     assert result.candidates[0].candidate is candidates[1]
     assert result.candidates[0].signals["neural"].score == 0.9

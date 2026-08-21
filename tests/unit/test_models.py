@@ -6,8 +6,9 @@ import pytest
 
 from ragrefine import Candidate as PublicCandidate
 from ragrefine import CandidateSet as PublicCandidateSet
-from ragrefine import RefinedCandidate, RefinementResult, RefinementTrace, Refiner
-from ragrefine.models import Candidate, CandidateSet
+from ragrefine import RefinementResult, Refiner
+from ragrefine.models import Candidate, CandidateSet, RefinedCandidate
+from ragrefine.tracing.models import RefinementTrace
 
 
 def test_candidate_preserves_retrieval_evidence() -> None:
@@ -69,9 +70,18 @@ def test_candidate_models_are_exposed_from_the_public_api() -> None:
     assert PublicCandidateSet is CandidateSet
 
 
-def test_no_op_contracts_are_exposed_from_the_public_api() -> None:
-    """Consumers can import the approved no-op refinement contracts."""
+def test_root_exports_only_stable_v0_1_api() -> None:
+    """Advanced models and helpers remain in their dedicated namespaces."""
+    import ragrefine
+
     assert Refiner.__name__ == "Refiner"
-    assert RefinedCandidate.__name__ == "RefinedCandidate"
     assert RefinementResult.__name__ == "RefinementResult"
+    assert ragrefine.__all__ == [
+        "Candidate",
+        "CandidateSet",
+        "RefinerConfig",
+        "RefinementResult",
+        "Refiner",
+    ]
+    assert RefinedCandidate.__name__ == "RefinedCandidate"
     assert RefinementTrace.__name__ == "RefinementTrace"

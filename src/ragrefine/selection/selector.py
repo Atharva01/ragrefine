@@ -16,6 +16,7 @@ class SelectionRecord:
     candidate_id: str
     status: str
     reason: str
+    selected_position: int | None = None
     token_count: int | None = None
     retained_candidate_id: str | None = None
 
@@ -110,6 +111,7 @@ class RankPreservingContextSelector:
                     candidate_id=candidate.candidate.id,
                     status="selected",
                     reason="within_constraints",
+                    selected_position=len(selected),
                     token_count=token_count,
                 )
             )

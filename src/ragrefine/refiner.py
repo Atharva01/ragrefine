@@ -1,6 +1,6 @@
 """Explicit orchestration of independent candidate-ranking channels."""
 
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from time import perf_counter
 
@@ -69,28 +69,27 @@ class Refiner:
     def refine(
         self,
         query: str,
-        candidate_sets: Sequence[CandidateSet],
+        candidate_set: CandidateSet,
         *,
         top_k: int = 5,
     ) -> RefinementResult:
-        """Run enabled channels and select only after final ranking is resolved."""
+        """Rank one externally merged candidate set through enabled channels."""
         if top_k < 0:
             raise ValueError("top_k must be non-negative")
+        if not isinstance(candidate_set, CandidateSet):
+            raise TypeError(
+                "candidate_set must be one CandidateSet; "
+                "merge multiple sources upstream"
+            )
 
         started_at = perf_counter()
-        candidates = tuple(
-            candidate
-            for candidate_set in candidate_sets
-            for candidate in candidate_set.candidates
-        )
+        candidates = candidate_set.candidates
         channel_results, failures = self._run_channels(query, candidates)
         ranked_candidates = self._resolve_final_ranking(channel_results)
         refined_candidates = tuple(
             RefinedCandidate(
                 candidate=ranked.candidate,
-                original_rank=ranked.candidate.retrieval_rank,
-                final_rank=rank,
-                final_score=ranked.score,
+                rank=rank,
                 signals=ranked.signals,
             )
             for rank, ranked in enumerate(ranked_candidates[:top_k], start=1)
@@ -283,7 +282,6 @@ class Refiner:
             return tuple(
                 _RankedCandidate(
                     candidate=candidate,
-                    score=self._direct_score(result.evidence[candidate.id]),
                     signals={result.name: self._signal(result.evidence[candidate.id])},
                 )
                 for candidate in result.ranking
@@ -305,7 +303,6 @@ class Refiner:
         return tuple(
             _RankedCandidate(
                 candidate=item.candidate,
-                score=item.score,
                 signals={
                     **{
                         result.name: self._signal(result.evidence[item.candidate.id])
@@ -334,11 +331,6 @@ class Refiner:
         if name == "pattern":
             return self._config.pattern
         raise ValueError(f"unknown ranking channel: {name}")
-
-    @staticmethod
-    def _direct_score(evidence: Mapping[str, object]) -> float:
-        score = evidence.get("raw_score", evidence.get("coverage", 0.0))
-        return float(score) if isinstance(score, int | float) else 0.0
 
     @staticmethod
     def _signal(evidence: Mapping[str, object]) -> RankingSignal:
@@ -421,5 +413,4 @@ class Refiner:
 @dataclass(frozen=True, slots=True)
 class _RankedCandidate:
     candidate: Candidate
-    score: float
     signals: Mapping[str, RankingSignal]
