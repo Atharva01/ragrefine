@@ -11,4 +11,7 @@ Context:
 
 def prompt_builder() -> PromptBuilder:
     """Create the fixed prompt builder shared by bypass and refinement paths."""
-    return PromptBuilder(template=PROMPT_TEMPLATE)
+    return PromptBuilder(
+        template=PROMPT_TEMPLATE,
+        required_variables=["query", "documents"],
+    )
