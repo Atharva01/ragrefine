@@ -127,3 +127,21 @@ uv run python -m benchmarks.beir.secondary reproduce `
 The analyzer accepts only the qualified snapshot checksums and validates that
 both retained profiles preserve the full candidate population. See
 `docs/secondary-evaluation.md` for the measured RRF-62 results.
+
+## Analyze retained-profile stability across datasets
+
+RRF-63 compares only the persisted B0, B1-reference, and B2-L rankings for
+SciFact, NFCorpus, and FiQA. It verifies all sidecars and provenance first;
+it does not run retrieval or a model.
+
+```powershell
+uv run python -m benchmarks.beir.cross_dataset run `
+  --output-dir benchmarks/results/cross-dataset-stability-v2
+
+uv run python -m benchmarks.beir.cross_dataset reproduce `
+  --output-dir benchmarks/results/cross-dataset-stability-v2
+```
+
+See `docs/cross-dataset-stability.md` for the measured interpretation. The
+result directory contains the source-of-truth summary, input checksums, and
+representative per-query improvement/regression cases.
