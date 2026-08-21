@@ -1,7 +1,9 @@
 """Explicit orchestration of independent candidate-ranking channels."""
 
+import hashlib
+import json
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from time import perf_counter
 
 from ragrefine._channels import _ChannelResult
@@ -93,8 +95,12 @@ class Refiner:
 
         started_at = perf_counter()
         candidates = candidate_set.candidates
-        channel_results, failures = self._run_channels(query, candidates)
+        channel_results, failures, channel_stages = self._run_channels(
+            query, candidates
+        )
+        fusion_started_at = perf_counter()
         ranked_candidates = self._resolve_final_ranking(channel_results)
+        fusion_duration_ms = (perf_counter() - fusion_started_at) * 1_000
         ranked_output = tuple(
             RefinedCandidate(
                 candidate=ranked.candidate,
@@ -103,28 +109,50 @@ class Refiner:
             )
             for rank, ranked in enumerate(ranked_candidates, start=1)
         )
+        deduplication_started_at = perf_counter()
         deduplicated = (
             self._deduplicator.deduplicate(ranked_output)
-            if self._deduplicator is not None
+            if self._deduplicator
             else None
         )
+        deduplication_duration_ms = (perf_counter() - deduplication_started_at) * 1_000
+        selection_started_at = perf_counter()
         selection = self._selector.select(
             deduplicated.candidates if deduplicated is not None else ranked_output,
             top_k=top_k,
             max_tokens=max_tokens,
             suppressed=deduplicated.suppressed if deduplicated is not None else (),
         )
+        selection_duration_ms = (perf_counter() - selection_started_at) * 1_000
         duration_ms = (perf_counter() - started_at) * 1_000
-        trace = RefinementTrace(
-            stages=(
-                StageTrace(
-                    name=self._stage_name(channel_results),
-                    duration_ms=duration_ms,
-                    configuration=self._trace_configuration(
+        stages = [*channel_stages]
+        if len(channel_results) > 1:
+            stages.append(
+                StageTrace("rank_fusion", fusion_duration_ms, {"enabled": True})
+            )
+        stages.append(
+            StageTrace(
+                "deduplication",
+                deduplication_duration_ms,
+                {"enabled": self._deduplicator is not None},
+            )
+        )
+        stages.append(
+            StageTrace(
+                "context_selection",
+                selection_duration_ms,
+                {
+                    **self._trace_configuration(
                         top_k, channel_results, failures, max_tokens
                     ),
-                ),
-            ),
+                    "top_k": top_k,
+                    "max_tokens": max_tokens,
+                    "records": [asdict(record) for record in selection.records],
+                },
+            )
+        )
+        trace = RefinementTrace(
+            stages=tuple(stages),
             duration_ms=duration_ms,
             config_fingerprint=self._config_fingerprint(),
         )
@@ -136,10 +164,15 @@ class Refiner:
 
     def _run_channels(
         self, query: str, candidates: tuple[Candidate, ...]
-    ) -> tuple[tuple[_ChannelResult, ...], tuple[Mapping[str, object], ...]]:
+    ) -> tuple[
+        tuple[_ChannelResult, ...],
+        tuple[Mapping[str, object], ...],
+        tuple[StageTrace, ...],
+    ]:
         """Run enabled channels independently against the unchanged pool."""
         successful: list[_ChannelResult] = []
         failures: list[Mapping[str, object]] = []
+        stages: list[StageTrace] = []
         configured_channels: tuple[
             tuple[str, ChannelConfig, Callable[[], _ChannelResult]], ...
         ] = (
@@ -163,10 +196,12 @@ class Refiner:
         for name, channel_config, execute in configured_channels:
             if not channel_config.enabled:
                 continue
+            started_at = perf_counter()
             try:
                 result = execute()
                 self._validate_channel_result(name, result, candidates)
             except Exception as error:
+                duration_ms = (perf_counter() - started_at) * 1_000
                 if channel_config.required:
                     if (
                         self._legacy_configuration
@@ -177,6 +212,8 @@ class Refiner:
                     raise ChannelExecutionError(
                         f"required {name!r} ranking channel failed: {error}"
                     ) from error
+                if not self._is_operational_failure(name, error):
+                    raise
                 failures.append(
                     {
                         "channel": name,
@@ -185,9 +222,28 @@ class Refiner:
                         "reason": str(error),
                     }
                 )
+                stages.append(
+                    StageTrace(
+                        f"{name}_ranking",
+                        duration_ms,
+                        {"status": "failed", "failure_type": type(error).__name__},
+                    )
+                )
             else:
                 successful.append(result)
-        return tuple(successful), tuple(failures)
+                stages.append(
+                    StageTrace(
+                        f"{name}_ranking",
+                        (perf_counter() - started_at) * 1_000,
+                        {"status": "completed"},
+                    )
+                )
+        return tuple(successful), tuple(failures), tuple(stages)
+
+    @staticmethod
+    def _is_operational_failure(name: str, error: Exception) -> bool:
+        """Only an explicitly typed neural backend failure may be optional."""
+        return name == "neural" and isinstance(error, RerankerError)
 
     @staticmethod
     def _run_original(candidates: tuple[Candidate, ...]) -> _ChannelResult:
@@ -433,11 +489,25 @@ class Refiner:
         return f"{results[0].name}_ranking"
 
     def _config_fingerprint(self) -> str:
-        if not self._legacy_configuration:
-            return "channel-orchestration-v1"
-        if self._fusion is not None:
-            return "rank-fusion-v1"
-        return "neural-rerank-v1" if self._reranker is not None else "no-op-v1"
+        payload = {
+            "channels": {
+                name: {
+                    "enabled": item.enabled,
+                    "required": item.required,
+                    "weight": item.weight,
+                }
+                for name, item in (
+                    ("original", self._config.original),
+                    ("neural", self._config.neural),
+                    ("lexical", self._config.lexical),
+                    ("pattern", self._config.pattern),
+                )
+            },
+            "fusion": getattr(self._fusion, "k", None),
+            "deduplication": repr(self._deduplicator),
+            "selector": type(self._selector).__qualname__,
+        }
+        return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
 
 
 @dataclass(frozen=True, slots=True)

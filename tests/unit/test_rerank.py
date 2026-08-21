@@ -107,7 +107,7 @@ def test_refiner_uses_opt_in_reranker_and_keeps_b0_unchanged() -> None:
 
     assert result.candidates[0].candidate is candidates[1]
     assert result.candidates[0].signals["neural"].score == 0.9
-    assert result.trace.stages[0].name == "neural_reranking"
+    assert result.trace.stages[0].name == "neural_ranking"
     assert baseline.candidates[0].candidate is candidates[0]
 
 

@@ -18,6 +18,11 @@ from ragrefine.rerank.base import ScoredCandidate
 from ragrefine.selection import CandidateDeduplicator
 
 
+def _stage(result: object, name: str) -> object:
+    trace = getattr(result, "trace")
+    return next(stage for stage in trace.stages if stage.name == name)
+
+
 class ReversingReranker:
     """Fast fake that makes neural-stage behaviour observable without a model."""
 
@@ -97,9 +102,9 @@ def test_refiner_records_minimal_no_op_trace() -> None:
         "query", CandidateSet(name="empty", candidates=()), top_k=3
     )
 
-    assert result.trace.config_fingerprint == "no-op-v1"
-    assert result.trace.stages[0].name == "no_op_selection"
-    assert result.trace.stages[0].configuration == {"top_k": 3}
+    assert len(result.trace.config_fingerprint) == 64
+    assert _stage(result, "original_ranking").configuration["status"] == "completed"
+    assert _stage(result, "context_selection").configuration["top_k"] == 3
     assert result.trace.duration_ms >= 0
 
 
@@ -121,7 +126,7 @@ def test_refiner_applies_neural_order_before_top_k_and_records_trace() -> None:
     )
 
     selected = result.candidates[0]
-    stage = result.trace.stages[0]
+    stage = _stage(result, "neural_ranking")
     assert selected.candidate is second
     assert tuple(item.candidate for item in repeated.candidates) == (second,)
     assert selected.candidate.retrieval_rank == 2
@@ -132,15 +137,11 @@ def test_refiner_applies_neural_order_before_top_k_and_records_trace() -> None:
         "revision": "abc123",
         "backend": "test-backend",
     }
-    assert stage.name == "neural_reranking"
+    assert stage.name == "neural_ranking"
     assert stage.duration_ms >= 0
-    assert stage.configuration == {
-        "top_k": 1,
-        "reranker": "test-reranker",
-        "model": "test-model",
-        "revision": "abc123",
-        "backend": "test-backend",
-    }
+    assert (
+        _stage(result, "context_selection").configuration["reranker"] == "test-reranker"
+    )
 
 
 def test_refiner_surfaces_neural_reranker_failure() -> None:
@@ -170,8 +171,11 @@ def test_refiner_applies_opt_in_fusion_after_active_channels() -> None:
         reranker=ReversingReranker(), fusion=ReciprocalRankFusion()
     ).refine("query", CandidateSet(name="dense", candidates=(first, second)))
 
-    assert result.trace.stages[0].name == "rank_fusion"
-    assert result.trace.stages[0].configuration["channels"] == ["original", "neural"]
+    assert _stage(result, "rank_fusion").configuration["enabled"] is True
+    assert _stage(result, "context_selection").configuration["channels"] == [
+        "original",
+        "neural",
+    ]
     assert result.candidates[0].signals["fusion"].details["channel_ranks"] == {
         "original": 1,
         "neural": 2,
@@ -232,9 +236,9 @@ def test_refiner_supports_independent_single_channel_modes(
     ).refine("model-v17 HTTP 503", _candidate_set())
 
     assert set(result.candidates[0].signals) == {expected_signal}
-    assert result.trace.stages[0].configuration["participating_channels"] == [
-        expected_signal
-    ]
+    assert _stage(result, "context_selection").configuration[
+        "participating_channels"
+    ] == [expected_signal]
 
 
 @pytest.mark.parametrize(
@@ -289,9 +293,9 @@ def test_refiner_fuses_each_valid_multi_channel_configuration(
         config=config,
     ).refine("model-v17 HTTP 503", candidates, top_k=2)
 
-    stage = result.trace.stages[0]
+    stage = _stage(result, "context_selection")
     channels = stage.configuration["participating_channels"]
-    assert stage.name == "rank_fusion"
+    assert _stage(result, "rank_fusion").configuration == {"enabled": True}
     assert stage.configuration["fusion"] == {"enabled": True, "k": 23}
     assert set(result.candidates[0].signals) == {*channels, "fusion"}
     assert set(item.candidate.id for item in result.candidates).issubset(
@@ -332,7 +336,7 @@ def test_refiner_required_and_optional_channel_failures_are_explicit() -> None:
         "query", _candidate_set()
     )
 
-    stage = result.trace.stages[0]
+    stage = _stage(result, "context_selection")
     assert stage.configuration["participating_channels"] == ["original"]
     assert stage.configuration["channel_weights"] == {"original": 1.0, "neural": 1.0}
     assert stage.configuration["omitted_channels"] == [
@@ -352,6 +356,17 @@ def test_refiner_rejects_when_all_enabled_channels_are_optional_failures() -> No
             config=RefinerConfig(
                 original=ChannelConfig(enabled=False),
                 neural=ChannelConfig(enabled=True, required=False),
+            )
+        ).refine("query", _candidate_set())
+
+
+def test_optional_configuration_failure_propagates() -> None:
+    """Only typed backend failures are eligible for optional-channel suppression."""
+    with pytest.raises(ValueError, match="no lexical ranker"):
+        Refiner(
+            config=RefinerConfig(
+                original=ChannelConfig(enabled=False),
+                lexical=ChannelConfig(enabled=True, required=False),
             )
         ).refine("query", _candidate_set())
 
@@ -412,3 +427,56 @@ def test_refiner_applies_deduplication_and_budget_only_after_full_ranking() -> N
         "selected",
     ]
     assert result.selection[-1].selected_position == 1
+    assert _stage(result, "context_selection").configuration["records"] == [
+        {
+            "candidate_id": "duplicate",
+            "status": "duplicate_suppressed",
+            "reason": "exact_normalized_content",
+            "selected_position": None,
+            "token_count": None,
+            "retained_candidate_id": "first",
+        },
+        {
+            "candidate_id": "first",
+            "status": "budget_excluded",
+            "reason": "max_tokens_exceeded",
+            "selected_position": None,
+            "token_count": 2,
+            "retained_candidate_id": None,
+        },
+        {
+            "candidate_id": "later",
+            "status": "selected",
+            "reason": "within_constraints",
+            "selected_position": 1,
+            "token_count": 1,
+            "retained_candidate_id": None,
+        },
+    ]
+
+
+def test_refiner_matches_direct_lexical_composition_and_fingerprints_config() -> None:
+    """Refiner preserves direct lexical ordering/evidence for equivalent inputs."""
+    candidates = _candidate_set()
+    direct = LexicalRanker().rank("model-v17 HTTP 503", candidates.candidates)
+    config = RefinerConfig(
+        original=ChannelConfig(enabled=False), lexical=ChannelConfig(enabled=True)
+    )
+    first = Refiner(lexical_ranker=LexicalRanker(), config=config).refine(
+        "model-v17 HTTP 503", candidates
+    )
+    second = Refiner(lexical_ranker=LexicalRanker(), config=config).refine(
+        "model-v17 HTTP 503", candidates
+    )
+
+    assert [item.candidate for item in first.candidates] == [
+        item.candidate for item in direct
+    ]
+    assert [item.signals["lexical"].rank for item in first.candidates] == [
+        item.rank for item in direct
+    ]
+    assert first.trace.config_fingerprint == second.trace.config_fingerprint
+    assert (
+        first.trace.config_fingerprint
+        != Refiner().refine("query", candidates).trace.config_fingerprint
+    )
