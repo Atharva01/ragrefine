@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from benchmarks.beir import secondary
+from benchmarks.beir.artifacts import verify as verify_artifact_bundle
 from benchmarks.beir.snapshot import load_verified_snapshot, snapshot_checksum
 
 PRIMARY_METRICS = secondary.PRIMARY_METRICS
@@ -53,6 +54,8 @@ DEFAULT_INPUTS = {
         Path("benchmarks/results/fiqa-b2-lexical-v1/b2-lexical-environment.json"),
     ),
 }
+RETAINED_ARTIFACT_MANIFEST = Path("benchmarks/artifacts/retained-v1.json")
+RETAINED_ARTIFACT_ROOT = Path("benchmarks")
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -368,6 +371,8 @@ def run(
         raise FileExistsError(
             f"cross-dataset output directory already exists: {output_dir}"
         )
+    if inputs is DEFAULT_INPUTS:
+        verify_artifact_bundle(RETAINED_ARTIFACT_MANIFEST, RETAINED_ARTIFACT_ROOT)
     summary, representatives, manifest = analyze_all(inputs)
     output_dir.mkdir(parents=True)
     _write_json(

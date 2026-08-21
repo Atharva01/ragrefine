@@ -145,3 +145,26 @@ uv run python -m benchmarks.beir.cross_dataset reproduce `
 See `docs/cross-dataset-stability.md` for the measured interpretation. The
 result directory contains the source-of-truth summary, input checksums, and
 representative per-query improvement/regression cases.
+
+## Reproduce from a clean checkout
+
+The large frozen snapshots and persisted rankings are distributed as the
+immutable external `retained-v1` bundle rather than committed source files.
+Before running any retained-profile analysis, extract that bundle into
+`benchmarks/` and verify every declared file and checksum:
+
+```powershell
+uv run python -m benchmarks.beir.artifacts verify `
+  --manifest benchmarks/artifacts/retained-v1.json `
+  --artifact-root benchmarks
+
+uv run python -m benchmarks.beir.cross_dataset run `
+  --output-dir benchmarks/results/cross-dataset-reproduced-v1
+
+uv run python -m benchmarks.beir.cross_dataset reproduce `
+  --output-dir benchmarks/results/cross-dataset-reproduced-v1
+```
+
+The manifest inventory and exact bundle layout are in
+`benchmarks/artifacts/README.md`. Verification and `reproduce` consume only
+persisted artifacts; they never regenerate retrieval or run a CrossEncoder.

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "bundle": "retained-v1",
+  "artifact_root": "benchmarks",
+  "purpose": "Inputs required to reproduce retained B0/B1-reference/B2-L metrics without retrieval or neural inference.",
+  "artifacts": [
+    {"path": "results/scifact-b0/snapshot.json", "sha256": "fc08cf7b496c8cd7c9020a81560d08edc10f389b27682f2b6e722ccfef0793dc"},
+    {"path": "results/scifact-b1-batched/b1-ranking.json", "sha256": "3017ad5365f70e5eb59bd27af050c0e1fd1c20467ac083acb0b9b28cc086bb79"},
+    {"path": "results/scifact-b1-batched/b1-environment.json", "sha256": "7bf7d07fa9f8a322fcd5a54a4819788b0d78fa0c56720255ea5ed138de87c429"},
+    {"path": "results/scifact-b2-lexical/b2-lexical-ranking.json", "sha256": "ee439d8e69ef09cbd7f4a82f7f3e8c8bc5fead5cbe2b725271cd860ff799853d"},
+    {"path": "results/scifact-b2-lexical/b2-lexical-environment.json", "sha256": "d9efd350d66a0d177ab4cb753f831fe2f738cb5d2e24ebefed2cf48f51387155"},
+    {"path": "results/nfcorpus-b0-v1/snapshot.json", "sha256": "92f56832566e361abd723e5519414a6ba6b821813b3e0bdb9611ee42692b9dbe"},
+    {"path": "results/nfcorpus-b1-reference-v1/b1-ranking.json", "sha256": "8a3cc38da5fdad2d6ac6a90f983a7fd1de4f3b75156d1b9ba8bb9c33bb88e4c2"},
+    {"path": "results/nfcorpus-b1-reference-v1/b1-environment.json", "sha256": "b38b8d96db4726caa9d73ad26e9c5890a57cc88ff07a433935c219330ce1f607"},
+    {"path": "results/nfcorpus-b2-lexical-v1/b2-lexical-ranking.json", "sha256": "17d407e031b6418f757f132d07bd1fe6a7827fd414f720b0811331583bda61eb"},
+    {"path": "results/nfcorpus-b2-lexical-v1/b2-lexical-environment.json", "sha256": "3ed1187137f7e5b899403108b9f15409159eebf21adfdb4f5c87c6c342cbb693"},
+    {"path": "results/fiqa-b0-v2/snapshot.json", "sha256": "a2fe59001a24c97f8213151cc66dbf2c285b98a57fbb4a8cccded1762d814e71"},
+    {"path": "results/fiqa-b1-reference-v1/b1-ranking.json", "sha256": "71dd7f7e387b92a0371927f361f692ae81abd22b845d7ebd1bad3b198acb3334"},
+    {"path": "results/fiqa-b1-reference-v1/b1-environment.json", "sha256": "626fba98d9e3b0097e64f0bb176af5f82cadd9c769da312bb1a5eeed9f104c1e"},
+    {"path": "results/fiqa-b2-lexical-v1/b2-lexical-ranking.json", "sha256": "2f51d4b1e35b0fc97f63c1909850c3c20bde48f3b2a17277f246aae1c5b2673a"},
+    {"path": "results/fiqa-b2-lexical-v1/b2-lexical-environment.json", "sha256": "cf86420cd9e29e55ae08efe9dbaaedeeb545e05a1d133fc83e2b154941bcea85"}
+  ]
+}
