@@ -34,3 +34,19 @@ Thumbs.db
 # Logs and local profiling output
 *.log
 *.prof
+
+# JSON/JSONL
+*.json
+*.jsonl
+!benchmarks/artifacts/*.json
+!benchmarks/haystack/testset/*.json
+
+# SHA 256
+*.sha256
+!benchmarks/haystack/testset/*.sha256
+
+# ZIP
+*.zip
+
+# TSV
+*.tsv

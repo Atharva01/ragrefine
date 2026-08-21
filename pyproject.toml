@@ -10,6 +10,7 @@ dependencies = []
 beir = ["beir==2.2.0"]
 rerank = ["sentence-transformers>=6.0.0,<7"]
 haystack = ["haystack-ai==2.31.0"]
+ragas = ["ragas==0.4.3", "langchain-openai>=0.2.0,<1.0"]
 
 [build-system]
 requires = ["uv_build>=0.12.0,<0.13.0"]
