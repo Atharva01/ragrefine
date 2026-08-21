@@ -4,7 +4,8 @@ from haystack.components.builders import PromptBuilder
 
 PROMPT_TEMPLATE = """Question: {{ query }}
 Context:
-{% for document in documents %}[{{ document.id }}] {{ document.content }} | {{ document.meta }}
+{% for document in documents %}
+[{{ document.id }}] {{ document.content }} | {{ document.meta }}
 {% endfor %}"""
 
 
