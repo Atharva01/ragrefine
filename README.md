@@ -345,11 +345,12 @@ docs/                product, hypothesis, and technical design
 - [x] Core candidate domain contracts
 - [x] No-op refinement contract and tracing
 - [x] Frozen B0 retrieval baseline
-- [ ] CrossEncoder reranking
-- [ ] Lexical, regex/pattern, and entity signals
-- [ ] Reciprocal Rank Fusion
-- [ ] Deduplication and context budgeting
-- [ ] Hard-negative evaluation
+- [x] CrossEncoder reranking
+- [x] Lexical and regex/pattern signals
+- [ ] Entity signals (future hypothesis)
+- [x] Reciprocal Rank Fusion
+- [x] Deduplication and context budgeting
+- [x] Hard-negative diagnostic evaluation
 - [ ] Haystack integration
 - [ ] ONNX inference experiment
 
