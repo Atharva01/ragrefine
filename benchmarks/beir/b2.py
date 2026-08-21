@@ -132,7 +132,7 @@ def _hard_metrics(path: Path, signal: str) -> dict[str, object]:
     by_category = {
         category: {
             "top_1_accuracy": sum(rank == 1 for rank in ranks) / len(ranks),
-            "mrr": sum(1 / rank for rank in ranks) / len(ranks),
+            "unrestricted_mrr": sum(1 / rank for rank in ranks) / len(ranks),
             "relevant_rank": ranks,
         }
         for category, ranks in sorted(category_ranks.items())
@@ -144,7 +144,7 @@ def _hard_metrics(path: Path, signal: str) -> dict[str, object]:
         .strip(),
         "query_count": len(groups),
         "top_1_accuracy": sum(rank == 1 for rank in all_ranks) / len(all_ranks),
-        "mrr": sum(1 / rank for rank in all_ranks) / len(all_ranks),
+        "unrestricted_mrr": sum(1 / rank for rank in all_ranks) / len(all_ranks),
         "by_category": by_category,
         "per_query": per_query,
     }

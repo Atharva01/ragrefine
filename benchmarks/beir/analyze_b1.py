@@ -8,7 +8,7 @@ from pathlib import Path
 from benchmarks.beir.metrics import evaluate_snapshot
 from benchmarks.beir.snapshot import load_snapshot, snapshot_checksum
 
-PRIMARY_METRICS = ("ndcg@5", "mrr", "precision@5", "recall@5")
+PRIMARY_METRICS = ("ndcg@5", "mrr@5", "precision@5", "recall@5")
 OUTCOME_TEMPLATE = {"wins": 0, "losses": 0, "unchanged": 0}
 
 

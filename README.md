@@ -133,13 +133,13 @@ rerun. The curated hard-negative set is a diagnostic, not a general retrieval
 benchmark. Machine-readable artifacts under `benchmarks/results/scifact-b2-*`
 remain the source of truth.
 
-| Experiment | nDCG@5 | MRR | Precision@5 | Recall@5 | Candidate-pool Recall@50 | Decision |
+| Experiment | nDCG@5 | MRR@5 | Precision@5 | Recall@5 | Candidate-pool Recall@50 | Decision |
 |---|---:|---:|---:|---:|---:|---|
 | B2-L — lexical / CPU | 0.5432 | 0.5238 | 0.1353 | 0.6289 | 0.7919 | Retain |
 | B2-P — patterns / CPU | 0.4559 | 0.4370 | 0.1207 | 0.5447 | 0.7919 | Modify |
 
 B2-L improved the measured SciFact ranking metrics relative to B0. B2-P was
-perfect on the curated constraint diagnostic (Top-1 and MRR both 1.0) but did
+perfect on the curated constraint diagnostic (Top-1 and unrestricted MRR both 1.0) but did
 not improve SciFact, so it is not retained for later fusion without revision.
 
 ### B3 frozen-fusion evaluation
@@ -148,11 +148,11 @@ All B3 profiles used the same frozen SciFact B0 Top-50 candidate population,
 equal RRF weights, and `k=60`. The machine-readable consolidated comparison in
 `benchmarks/results/b3-comparison-v5/comparison.json` is the source of truth.
 
-| Experiment | nDCG@5 | MRR | Precision@5 | Recall@5 | Decision |
+| Experiment | nDCG@5 | MRR@5 | Precision@5 | Recall@5 | Decision |
 |---|---:|---:|---:|---:|---|
-| B3 original + lexical | 0.5383 | 0.5177 | 0.1360 | 0.6223 | Reject — lower nDCG, MRR, and recall than B2 lexical |
+| B3 original + lexical | 0.5383 | 0.5177 | 0.1360 | 0.6223 | Reject — lower nDCG, MRR@5, and recall than B2 lexical |
 | B3 original + pattern | 0.4672 | 0.4470 | 0.1247 | 0.5553 | Reject — no hard-set separation and below B2 lexical |
-| B3-light | 0.5272 | 0.5069 | 0.1367 | 0.6153 | Reject — lower nDCG, MRR, and recall than B2 lexical |
+| B3-light | 0.5272 | 0.5069 | 0.1367 | 0.6153 | Reject — lower nDCG, MRR@5, and recall than B2 lexical |
 | B3-reference | 0.5715 | 0.5541 | 0.1440 | 0.6477 | Reject — below B1-reference with additional stages |
 
 B3-reference remains better than B0 on SciFact, but it is not an improvement
@@ -162,9 +162,11 @@ are persisted in the consolidated comparison rather than inferred from the
 aggregate table.
 
 The hard-negative set is saturated: original, individual channels, and all B3
-profiles have Top-1 accuracy and MRR of 1.0 for wrong-date, wrong-identifier,
-wrong-numeric-value, and wrong-version cases. It therefore provides no measured
-evidence that B3 adds robustness; it must not be used to claim a fusion gain.
+profiles have Top-1 accuracy and unrestricted MRR of 1.0 for wrong-date,
+wrong-identifier, wrong-numeric-value, and wrong-version cases, because each
+v1 group places its relevant candidate at retrieval rank 1. It is therefore a
+deterministic schema diagnostic, not a discriminative profile-selection set;
+it must not be used to claim a fusion gain.
 
 | B3 profile | Deployment composition | Total runtime | p50 / p95 query estimate | Pairs/s |
 |---|---|---:|---:|---:|
@@ -195,7 +197,7 @@ The validated B0 run used **SciFact**, **300 queries**, and **Top-50 candidates
 per query**. Its frozen snapshot SHA-256 is
 `fc08cf7b496c8cd7c9020a81560d08edc10f389b27682f2b6e722ccfef0793dc`.
 
-| Experiment | nDCG@5 | MRR | Precision@5 | Recall@5 | Candidate-pool Recall@50 | Status |
+| Experiment | nDCG@5 | MRR@5 | Precision@5 | Recall@5 | Candidate-pool Recall@50 | Status |
 |---|---:|---:|---:|---:|---:|---|
 | B0 | 0.4592 | 0.4381 | 0.1240 | 0.5567 | 0.7919 | Validated baseline |
 | B1-reference — `cross-encoder/ms-marco-MiniLM-L6-v2` / CUDA | 0.6262 | 0.6190 | 0.1507 | 0.6839 | 0.7919 | Measured on the B0 snapshot |
@@ -247,7 +249,7 @@ B4  + Deduplication / context selection
 Primary retrieval metrics:
 
 - nDCG@5
-- MRR
+- MRR@5
 - Precision@5
 - Recall@5
 - candidate-pool Recall@N

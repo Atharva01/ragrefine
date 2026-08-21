@@ -12,7 +12,7 @@ lexical ranker.
 
 ## Aggregate ordering
 
-| Dataset | Candidate-pool Recall@50 | Quality ordering for nDCG@5, MRR, Precision@5, Recall@5 |
+| Dataset | Candidate-pool Recall@50 | Quality ordering for nDCG@5, MRR@5, Precision@5, Recall@5 |
 | --- | ---: | --- |
 | SciFact | 0.7919 | B1-reference > B2-L > B0 |
 | NFCorpus | 0.1851 | B1-reference > B2-L > B0 |

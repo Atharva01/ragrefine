@@ -147,7 +147,7 @@ def test_cross_dataset_analysis_classifies_stable_and_dataset_specific_effects(
         "dataset-specific aggregate effect"
     )
     assert (
-        summary["datasets"]["scifact"]["metric_orderings"]["mrr"][0]["profile"]
+        summary["datasets"]["scifact"]["metric_orderings"]["mrr@5"][0]["profile"]
         == "B1-reference"
     )
     fiqa_regression = next(

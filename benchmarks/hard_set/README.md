@@ -22,3 +22,13 @@ This is deliberately curated/synthetic diagnostic data. It is not BEIR, does
 not measure general retrieval performance, and must not be presented as a
 quality improvement claim. It exists to make per-category B2 failure analysis
 reproducible. No retrieval, neural inference, or fusion is needed to validate it.
+
+### Selection limitation
+
+In `structured-hard-negatives-v1`, the relevant candidate is deliberately at
+the original retrieval rank of 1 for all 12 query groups. It is consequently a
+deterministic pattern/schema regression fixture, not a discriminative profile-
+selection benchmark: original order already has Top-1 accuracy and
+unrestricted MRR of 1.0. Do not use this version to choose between B0/B1/B2/B3
+profiles or to claim an improvement. A future comparative hard set must place
+relevant candidates below rank 1 while preserving its stated constraints.

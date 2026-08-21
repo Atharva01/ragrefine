@@ -19,7 +19,7 @@ CUDA. B2-L uses the retained deterministic lexical ranker on CPU.
 
 ## Retrieval quality
 
-| Dataset | Profile | nDCG@5 | MRR | Precision@5 | Recall@5 | Pool Recall@50 |
+| Dataset | Profile | nDCG@5 | MRR@5 | Precision@5 | Recall@5 | Pool Recall@50 |
 |---|---|---:|---:|---:|---:|---:|
 | NFCorpus | B0 | 0.2904 | 0.4547 | 0.2421 | 0.0933 | 0.1851 |
 | NFCorpus | B1-reference | 0.3559 | 0.5363 | 0.2929 | 0.1177 | 0.1851 |
@@ -35,7 +35,7 @@ datasets. B2-L improves all four on NFCorpus but regresses on all four on FiQA:
 | FiQA B2-L regression vs B0 | Absolute delta |
 |---|---:|
 | nDCG@5 | -0.0152 |
-| MRR | -0.0089 |
+| MRR@5 | -0.0089 |
 | Precision@5 | -0.0046 |
 | Recall@5 | -0.0096 |
 
@@ -47,16 +47,16 @@ decision; that analysis belongs to RRF-63.
 | Dataset | Profile | Metric | Wins | Losses | Unchanged |
 |---|---|---|---:|---:|---:|
 | NFCorpus | B1-reference | nDCG@5 | 119 | 41 | 163 |
-| NFCorpus | B1-reference | MRR | 62 | 25 | 236 |
+| NFCorpus | B1-reference | MRR@5 | 62 | 25 | 236 |
 | NFCorpus | B1-reference | Precision@5 / Recall@5 | 86 | 24 | 213 |
 | NFCorpus | B2-L | nDCG@5 | 94 | 52 | 177 |
-| NFCorpus | B2-L | MRR | 48 | 33 | 242 |
+| NFCorpus | B2-L | MRR@5 | 48 | 33 | 242 |
 | NFCorpus | B2-L | Precision@5 / Recall@5 | 69 | 38 | 216 |
 | FiQA | B1-reference | nDCG@5 | 213 | 43 | 392 |
-| FiQA | B1-reference | MRR | 180 | 39 | 429 |
+| FiQA | B1-reference | MRR@5 | 180 | 39 | 429 |
 | FiQA | B1-reference | Precision@5 / Recall@5 | 149 | 12 | 487 |
 | FiQA | B2-L | nDCG@5 | 122 | 138 | 388 |
-| FiQA | B2-L | MRR | 118 | 120 | 410 |
+| FiQA | B2-L | MRR@5 | 118 | 120 | 410 |
 | FiQA | B2-L | Precision@5 / Recall@5 | 80 | 90 | 478 |
 
 The complete per-query metrics, deltas, and win/loss labels are persisted in

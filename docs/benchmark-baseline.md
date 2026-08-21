@@ -37,7 +37,7 @@ uv run --extra beir python -m benchmarks.beir.run reproduce --snapshot benchmark
 ```
 
 Evaluation writes machine-readable `config.json`, `metrics.json`, and
-`environment.json`. Metrics are nDCG@5, MRR, Precision@5, Recall@5, and the
+`environment.json`. Metrics are nDCG@5, MRR@5, Precision@5, Recall@5, and the
 candidate-pool Recall@N ceiling. `reproduce` evaluates the same snapshot twice
 and fails if the metrics differ.
 

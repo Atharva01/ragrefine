@@ -66,7 +66,7 @@ def evaluate_snapshot(
     top_n = int(snapshot["retriever"]["top_n"])
     return {
         f"ndcg@{k}": _average(ndcg),
-        "mrr": _average(reciprocal_rank),
+        f"mrr@{k}": _average(reciprocal_rank),
         f"precision@{k}": _average(precision),
         f"recall@{k}": _average(recall),
         f"candidate_pool_recall@{top_n}": _average(pool_recall),

@@ -10,7 +10,7 @@ from typing import Any
 from benchmarks.beir.metrics import evaluate_snapshot
 from benchmarks.beir.snapshot import load_snapshot
 
-PRIMARY_METRICS = ("ndcg@5", "mrr", "precision@5", "recall@5")
+PRIMARY_METRICS = ("ndcg@5", "mrr@5", "precision@5", "recall@5")
 
 SCIFACT_EXPERIMENTS = {
     "B0": Path("benchmarks/results/scifact-b0/snapshot.json"),
@@ -119,7 +119,7 @@ def _hard_diagnostics(snapshot: Mapping[str, Any]) -> dict[str, Any]:
                 "query_id": query_id,
                 "relevant_rank": rank,
                 "top_1_correct": rank == 1,
-                "mrr": 1 / rank,
+                "unrestricted_reciprocal_rank": 1 / rank,
             }
         )
     return {
@@ -127,7 +127,10 @@ def _hard_diagnostics(snapshot: Mapping[str, Any]) -> dict[str, Any]:
         "by_category": {
             category: {
                 "top_1_accuracy": sum(row["top_1_correct"] for row in rows) / len(rows),
-                "mrr": sum(row["mrr"] for row in rows) / len(rows),
+                "unrestricted_mrr": sum(
+                    row["unrestricted_reciprocal_rank"] for row in rows
+                )
+                / len(rows),
                 "mean_relevant_rank": sum(row["relevant_rank"] for row in rows)
                 / len(rows),
             }
@@ -143,7 +146,11 @@ def _hard_deltas(
         category: {
             metric: candidate["by_category"][category][metric]
             - baseline["by_category"][category][metric]
-            for metric in ("top_1_accuracy", "mrr", "mean_relevant_rank")
+            for metric in (
+                "top_1_accuracy",
+                "unrestricted_mrr",
+                "mean_relevant_rank",
+            )
         }
         for category in baseline["by_category"]
     }
@@ -173,7 +180,8 @@ def _representatives(
         ),
         "fusion_overrides_correct_neural_ranking": example(
             lambda query_id: (
-                neural[query_id]["mrr"] == 1.0 and fused[query_id]["mrr"] < 1.0
+                neural[query_id]["unrestricted_reciprocal_rank"] == 1.0
+                and fused[query_id]["unrestricted_reciprocal_rank"] < 1.0
             )
         ),
         "fusion_adds_no_measurable_value": example(
@@ -257,7 +265,7 @@ def _decisions(metrics: Mapping[str, Mapping[str, float]]) -> dict[str, dict[str
     for b3_profile, comparator in comparisons.items():
         if not all(
             metrics[b3_profile][metric] < metrics[comparator][metric]
-            for metric in ("ndcg@5", "mrr", "recall@5")
+            for metric in ("ndcg@5", "mrr@5", "recall@5")
         ):
             raise ValueError(
                 f"measured decision no longer supports rejecting {b3_profile} "
@@ -267,7 +275,7 @@ def _decisions(metrics: Mapping[str, Mapping[str, float]]) -> dict[str, dict[str
         "B3-original-lexical": {
             "decision": "reject",
             "reason": (
-                "SciFact nDCG@5, MRR, and Recall@5 are lower than B2-lexical, "
+                "SciFact nDCG@5, MRR@5, and Recall@5 are lower than B2-lexical, "
                 "which uses fewer stages."
             ),
         },
@@ -281,7 +289,7 @@ def _decisions(metrics: Mapping[str, Mapping[str, float]]) -> dict[str, dict[str
         "B3-light": {
             "decision": "reject",
             "reason": (
-                "SciFact nDCG@5, MRR, and Recall@5 are lower than B2-lexical; "
+                "SciFact nDCG@5, MRR@5, and Recall@5 are lower than B2-lexical; "
                 "it also adds pattern plus fusion cost."
             ),
         },
@@ -325,7 +333,7 @@ def _markdown(report: Mapping[str, Any]) -> str:
             "",
             "## SciFact comparison",
             "",
-            "| Experiment | nDCG@5 | MRR | Precision@5 | Recall@5 |",
+            "| Experiment | nDCG@5 | MRR@5 | Precision@5 | Recall@5 |",
             "|---|---:|---:|---:|---:|",
             *rows,
             "",
@@ -341,7 +349,8 @@ def _markdown(report: Mapping[str, Any]) -> str:
             "",
             "## Hard-negative interpretation",
             "",
-            "All frozen hard-negative categories are saturated at Top-1/MRR 1.0 "
+            "All frozen hard-negative categories are saturated at Top-1/unrestricted "
+            "MRR 1.0 "
             "for the original and evaluated B3 rankings; they provide no measured "
             "evidence that fusion adds robustness for this set.",
             "",

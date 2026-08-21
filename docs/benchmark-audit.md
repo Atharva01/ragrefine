@@ -9,8 +9,8 @@ the current suite can support, not a claim that any retained profile generalizes
 
 | Component | What it measures | Current signal | Important limitation |
 |---|---|---|---|
-| SciFact frozen Top-50 | General post-retrieval ranking effectiveness on public scientific claims | 300 queries; nDCG@5, MRR, Precision@5, Recall@5, and candidate-pool Recall@50 | One domain and one fixed first-stage retriever; the `0.7919` candidate-pool recall ceiling limits every post-ranking profile. |
-| Structured hard-negative set | Exact-constraint handling for dates, identifiers, numeric values, and versions | 12 curated queries across four categories; Top-1, MRR, and relevant rank | Every evaluated original, neural, lexical, pattern, and B3 ranking is Top-1/MRR `1.0`; it cannot distinguish the profiles. It is not a general retrieval benchmark. |
+| SciFact frozen Top-50 | General post-retrieval ranking effectiveness on public scientific claims | 300 queries; nDCG@5, MRR@5, Precision@5, Recall@5, and candidate-pool Recall@50 | One domain and one fixed first-stage retriever; the `0.7919` candidate-pool recall ceiling limits every post-ranking profile. |
+| Structured hard-negative set v1 | Exact-constraint handling for dates, identifiers, numeric values, and versions | 12 curated queries across four categories; Top-1, unrestricted MRR, and relevant rank | The relevant candidate starts at retrieval rank 1 in every group, so original and all evaluated profiles are Top-1/unrestricted-MRR `1.0`. It is a deterministic schema fixture, not a profile-selection benchmark. |
 | B1/B2/B3 runtime artifacts | Measured execution cost for the recorded model/device/configuration | Candidate count, total time, p50/p95 estimates, and throughput where recorded | These are not service latency or cross-hardware claims. B3 values are additive component estimates, not an independently measured end-to-end deployment. |
 | Context efficiency | Evidence retention, duplicate suppression, token/candidate reduction, and selection runtime | Not yet measured | RRF-56 and RRF-57 implement the deterministic components, but no B4 ablation artifact exists yet. |
 

@@ -10,7 +10,7 @@ from typing import Any
 from benchmarks.beir.metrics import evaluate_snapshot
 from benchmarks.beir.snapshot import load_verified_snapshot, snapshot_checksum
 
-PRIMARY_METRICS = ("ndcg@5", "mrr", "precision@5", "recall@5")
+PRIMARY_METRICS = ("ndcg@5", "mrr@5", "precision@5", "recall@5")
 B1_MODEL = "cross-encoder/ms-marco-MiniLM-L6-v2"
 B1_REVISION = "233902d25c440f23af6f7d6e94d2946bac0bee0a"
 QUALIFIED_SNAPSHOTS = {

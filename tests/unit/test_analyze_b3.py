@@ -26,7 +26,7 @@ def test_per_query_outcomes_distinguish_wins_losses_and_ties() -> None:
 
 
 def test_hard_diagnostics_preserve_category_level_results() -> None:
-    """Hard-set analysis records Top-1, MRR, and relevant rank by category."""
+    """Hard-set analysis records Top-1, unrestricted MRR, and relevant rank."""
     snapshot = {
         "qrels": {"q": {"relevant": 1}},
         "queries": [
@@ -42,7 +42,7 @@ def test_hard_diagnostics_preserve_category_level_results() -> None:
 
     assert diagnostics["by_category"]["wrong_version"] == {
         "top_1_accuracy": 0.0,
-        "mrr": 0.5,
+        "unrestricted_mrr": 0.5,
         "mean_relevant_rank": 2.0,
     }
 

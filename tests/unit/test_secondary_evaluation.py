@@ -107,14 +107,14 @@ def test_secondary_analysis_reports_metrics_outcomes_and_regressions() -> None:
 
     quality = summary["retrieval_quality"]
     assert quality["metrics"].keys() == {"B0", "B1-reference", "B2-L"}
-    assert quality["per_query_outcomes_vs_b0"]["B1-reference"]["mrr"] == {
+    assert quality["per_query_outcomes_vs_b0"]["B1-reference"]["mrr@5"] == {
         "wins": 1,
         "losses": 1,
         "unchanged": 0,
     }
     assert quality["dataset_regressions"]["B1-reference"]
-    assert per_query[0]["outcome_vs_b0"]["B1-reference"]["mrr"] == "win"
-    assert per_query[1]["outcome_vs_b0"]["B1-reference"]["mrr"] == "loss"
+    assert per_query[0]["outcome_vs_b0"]["B1-reference"]["mrr@5"] == "win"
+    assert per_query[1]["outcome_vs_b0"]["B1-reference"]["mrr@5"] == "loss"
     assert "runtime_observations" in summary
     assert "runtime" not in quality
 

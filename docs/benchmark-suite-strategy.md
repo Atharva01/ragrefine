@@ -43,7 +43,7 @@ snapshots; regenerating retrieval would violate the comparison invariant.
 | SciFact | Primary effectiveness reference | Retain: controlled and high candidate-pool availability |
 | NFCorpus | Secondary effectiveness coverage | Retain: exposes candidate-generation ceiling while both retained profiles improve ranking metrics |
 | FiQA | Secondary effectiveness coverage | Retain: reveals B2-L’s aggregate regression and prevents SciFact-only generalization |
-| Structured hard-negative set v1 | Deterministic schema/constraint regression diagnostic only | Retain as diagnostic; reject for profile selection because all evaluated rankings are Top-1/MRR 1.0 |
+| Structured hard-negative set v1 | Deterministic schema/constraint regression diagnostic only | Retain as diagnostic; reject for profile selection because its relevant candidate is initially rank 1 in every group, making original and evaluated rankings Top-1/unrestricted-MRR 1.0 |
 | B2-P pattern profile | No retained effectiveness tier | Reject from routine suite: it did not improve SciFact and the hard set is saturated |
 | B3 profiles | No retained effectiveness tier | Reject from routine suite: none surpassed its retained single-channel comparator on SciFact |
 | B4 S1/S2/S4 deduplication policies | No routine context-efficiency tier | Reject: no incremental benefit in the measured SciFact ablation; S2/S4 are also expensive |

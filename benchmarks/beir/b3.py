@@ -187,7 +187,7 @@ def _hard_diagnostics(snapshot: Mapping[str, object]) -> dict[str, object]:
             "query_id": query_id,
             "category": query["category"],
             "top_1_correct": rank == 1,
-            "mrr": 1 / rank,
+            "unrestricted_reciprocal_rank": 1 / rank,
             "relevant_rank": rank,
             "rank_movement": original_rank - rank,
         }
@@ -196,12 +196,16 @@ def _hard_diagnostics(snapshot: Mapping[str, object]) -> dict[str, object]:
     return {
         "query_count": len(rows),
         "top_1_accuracy": sum(row["top_1_correct"] for row in rows) / len(rows),
-        "mrr": sum(row["mrr"] for row in rows) / len(rows),
+        "unrestricted_mrr": sum(row["unrestricted_reciprocal_rank"] for row in rows)
+        / len(rows),
         "by_category": {
             name: {
                 "top_1_accuracy": sum(row["top_1_correct"] for row in values)
                 / len(values),
-                "mrr": sum(row["mrr"] for row in values) / len(values),
+                "unrestricted_mrr": sum(
+                    row["unrestricted_reciprocal_rank"] for row in values
+                )
+                / len(values),
                 "mean_rank_movement": sum(row["rank_movement"] for row in values)
                 / len(values),
             }
