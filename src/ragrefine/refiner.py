@@ -4,13 +4,14 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from time import perf_counter
 
+from ragrefine._channels import _ChannelResult
+from ragrefine.config import ChannelConfig, RefinerConfig
 from ragrefine.errors import (
     ChannelExecutionError,
     MultipleActiveChannelsError,
     RerankerError,
 )
 from ragrefine.models import Candidate, CandidateSet, RankingSignal, RefinedCandidate
-from ragrefine.orchestration import ChannelConfig, RefinerConfig, _ChannelResult
 from ragrefine.ranking.lexical import LexicalRanker
 from ragrefine.ranking.patterns import PatternRanker
 from ragrefine.ranking.rrf import RankFusion

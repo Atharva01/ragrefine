@@ -15,8 +15,12 @@ from typing import Any
 from benchmarks.beir.redundancy import WORD_TOKENIZATION, word_token_count
 from benchmarks.beir.snapshot import load_snapshot, snapshot_checksum
 from ragrefine import Candidate, RankingSignal, RefinedCandidate
-from ragrefine.context import RankPreservingContextSelector, SelectionRecord
-from ragrefine.filtering import CandidateDeduplicator, DeduplicationConfig
+from ragrefine.selection import (
+    CandidateDeduplicator,
+    DeduplicationConfig,
+    RankPreservingContextSelector,
+    SelectionRecord,
+)
 
 TOP_K = 5
 TOKEN_BUDGET = 1_000

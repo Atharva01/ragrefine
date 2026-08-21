@@ -5,7 +5,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from statistics import mean
 
-from ragrefine.filtering.deduplicate import content_hash, normalized_content
+from ragrefine.selection.deduplicate import content_hash, normalized_content
 
 NEAR_DUPLICATE_THRESHOLDS = (0.80, 0.90, 0.95)
 SHINGLE_SIZE = 5

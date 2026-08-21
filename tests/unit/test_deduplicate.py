@@ -1,8 +1,8 @@
 """Deterministic post-ranking duplicate-suppression tests."""
 
 from ragrefine import Candidate, RankingSignal, RefinedCandidate
-from ragrefine.filtering import CandidateDeduplicator, DeduplicationConfig
-from ragrefine.filtering.deduplicate import content_hash, shingle_jaccard
+from ragrefine.selection import CandidateDeduplicator, DeduplicationConfig
+from ragrefine.selection.deduplicate import content_hash, shingle_jaccard
 
 
 def _ranked(candidate_id: str, text: str, rank: int) -> RefinedCandidate:

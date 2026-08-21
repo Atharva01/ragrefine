@@ -2,13 +2,13 @@
 
 import pytest
 
+from ragrefine.config import ChannelConfig, RefinerConfig
 from ragrefine.errors import (
     ChannelExecutionError,
     MultipleActiveChannelsError,
     RerankerError,
 )
 from ragrefine.models import Candidate, CandidateSet
-from ragrefine.orchestration import ChannelConfig, RefinerConfig
 from ragrefine.query.patterns import PatternRegistry, PatternRule
 from ragrefine.ranking.lexical import LexicalRanker
 from ragrefine.ranking.patterns import PatternRanker

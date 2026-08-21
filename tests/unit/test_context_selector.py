@@ -1,8 +1,7 @@
 """Deterministic post-ranking context-selection tests."""
 
 from ragrefine import Candidate, RankingSignal, RefinedCandidate
-from ragrefine.context import RankPreservingContextSelector
-from ragrefine.filtering import CandidateDeduplicator
+from ragrefine.selection import CandidateDeduplicator, RankPreservingContextSelector
 
 
 class _WordCounter:

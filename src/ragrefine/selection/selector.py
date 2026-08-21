@@ -4,9 +4,9 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Protocol
 
-from ragrefine.context.tokens import TokenCounter
-from ragrefine.filtering import SuppressedCandidate
 from ragrefine.models import RefinedCandidate
+from ragrefine.selection.deduplicate import SuppressedCandidate
+from ragrefine.selection.tokens import TokenCounter
 
 
 @dataclass(frozen=True, slots=True)
