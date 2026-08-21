@@ -67,7 +67,10 @@ interpreted as a probability beyond Ragas's own 0–1 definition.
 
 ## Running
 
-Ragas is an optional dependency and is not part of fast CI.
+Ragas is an optional dependency and is not part of fast CI. DeepSeek is
+configured **only through environment variables**: `DEEPSEEK_API_KEY` for the
+key and `DEEPSEEK_MODEL` for the model name (defaulting to `deepseek-chat`);
+the endpoint is the OpenAI-compatible `https://api.deepseek.com/v1`.
 
 ```text
 uv sync --extra ragas --extra haystack
@@ -75,9 +78,9 @@ uv sync --extra ragas --extra haystack
 
 ```powershell
 $env:DEEPSEEK_API_KEY = "..."
+$env:DEEPSEEK_MODEL = "deepseek-chat"
 uv run python -m benchmarks.haystack.ragas_eval `
   --output-dir benchmarks/results/haystack-ragas-v1 `
-  --model deepseek-chat `
   --top-n 5 --top-k 3
 ```
 
@@ -90,15 +93,21 @@ rather than overwrite existing results.
 
 - the test-set checksum and shape;
 - review provenance and the frozen evaluation configuration;
-- the model, endpoint, and generation settings;
+- the model, endpoint, prompt template, temperature, and generation limits;
 - `top_n`, `top_k`, and the refinement profile;
-- per-query paired context IDs, answers, generation latencies, and per-query
-  Ragas scores for both branches;
-- aggregate baseline and refined metrics;
+- per-query paired context IDs, the shared-pool digest, the **exact prompts
+  sent to the generator**, answers, the **full refinement trace**, retrieval/
+  refinement/generation timing, and **per-arm generation failures** for both
+  branches;
+- a pairing summary: a query is scored only when both arms generated an
+  answer, so aggregate baseline versus refined metrics stay comparable;
+- per-query Ragas scores and aggregate baseline/refined metrics;
 - environment provenance (Python version and git commit).
 
 Answers and metrics are non-deterministic by nature (LLM calls); ranking,
 context selection, and the frozen test set are deterministic and reproducible.
+A failed arm is persisted with its typed failure and the prompt it attempted;
+it never aborts the run and never exposes credentials.
 
 ## Out of scope
 
