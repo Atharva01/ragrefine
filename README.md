@@ -92,6 +92,43 @@ assert result.candidates[0].rank == 1
 `Refiner`, `RefinementResult`, and trace models are available from the package
 root. Internal modules remain implementation details.
 
+## Haystack integration
+
+Haystack support is optional and preserves Haystack document IDs and metadata.
+Install it alongside the package:
+
+```bash
+uv pip install "ragrefine[haystack]"
+```
+
+When working from this checkout, use `uv sync --extra haystack` instead.
+
+The component consumes a Haystack `documents` list and returns the refined
+list. This runnable in-memory example performs retrieval, refinement, prompt
+construction, and optional generation is deliberately left to the application.
+
+```python
+from ragrefine.integrations.haystack import (
+    FrozenHaystackFixture,
+    RagRefineComponent,
+    prompt_builder,
+)
+
+query = "Which Python version improves f-string parsing?"
+documents = list(FrozenHaystackFixture().retrieve(query))
+refined = RagRefineComponent(top_k=1).run(query, documents)["documents"]
+prompt = prompt_builder().run(query=query, documents=refined)["prompt"]
+
+assert refined[0].id == "python-312"
+print(prompt)
+```
+
+`RagRefineComponent` belongs after a retriever and before a prompt builder or
+generator. It does not replace Haystack indexing, retrieval, document parsing,
+or generation. The optional generator smoke test accepts an OpenAI-compatible
+endpoint (including DeepSeek) through explicit environment configuration; its
+recorded output is integration evidence only, not a generation-quality claim.
+
 ---
 
 ## Implemented refinement pipeline
@@ -124,6 +161,11 @@ The goal is not to prove this assumption by implementation. Each refinement stag
 
 ## Evaluation Results
 
+The [v0.1 evaluation and regression contract](docs/evaluation-contract-v0.1.md)
+defines the retained profiles, frozen candidate-pool rules, benchmark tiers,
+metrics, artifact requirements, and reporting policy. Machine-readable
+benchmark artifacts remain the source of truth.
+
 ### B2 independent signal ablations
 
 Both B2 signals reused the frozen SciFact B0 Top-50 snapshot; retrieval was not
@@ -134,7 +176,7 @@ remain the source of truth.
 | Experiment | nDCG@5 | MRR@5 | Precision@5 | Recall@5 | Candidate-pool Recall@50 | Decision |
 |---|---:|---:|---:|---:|---:|---|
 | B2-L — lexical / CPU | 0.5432 | 0.5238 | 0.1353 | 0.6289 | 0.7919 | Retain |
-| B2-P — patterns / CPU | 0.4559 | 0.4370 | 0.1207 | 0.5447 | 0.7919 | Modify |
+| B2-P — patterns / CPU | 0.4559 | 0.4370 | 0.1207 | 0.5447 | 0.7919 | Not retained |
 
 B2-L improved the measured SciFact ranking metrics relative to B0. B2-P was
 perfect on the curated constraint diagnostic (Top-1 and unrestricted MRR both 1.0) but did
@@ -200,7 +242,7 @@ per query**. Its frozen snapshot SHA-256 is
 | B0 | 0.4592 | 0.4381 | 0.1240 | 0.5567 | 0.7919 | Validated baseline |
 | B1-reference — `cross-encoder/ms-marco-MiniLM-L6-v2` / CUDA | 0.6262 | 0.6190 | 0.1507 | 0.6839 | 0.7919 | Measured on the B0 snapshot |
 | B1-light — `cross-encoder/ms-marco-TinyBERT-L2-v2` / CPU | 0.6112 | 0.6043 | 0.1473 | 0.6644 | 0.7919 | Measured on the B0 snapshot |
-| B2 / B3 / B4 | — | — | — | — | — | Not evaluated |
+| B2 / B3 / B4 | — | — | — | — | — | See the B2/B3 tables above; B4 is not quality-qualified |
 
 ### Neural runtime / deployment observations
 
@@ -282,6 +324,18 @@ Its responsibility is deliberately constrained to:
 candidate refinement + context selection + traceability
 ```
 
+## v0.1 release record
+
+Version 0.1.0 packages the core library and its optional Haystack adapter.
+The [v0.1 release record](docs/v0.1-release.md) links the implementation,
+frozen evaluation contract, retained artifact bundle, integration tests, and
+clean-wheel validation. It also records the retained deployment profiles,
+known limitations, and the B2-P/B3 strategies that are not retained.
+
+Further production deployment, Azure integration, application orchestration,
+and operational infrastructure belong in a separate repository. They are not
+part of `ragrefine` v0.1.
+
 ---
 
 ## Design principles
@@ -351,7 +405,7 @@ docs/                product, hypothesis, and technical design
 - [x] Reciprocal Rank Fusion
 - [x] Deduplication and context budgeting
 - [x] Hard-negative diagnostic evaluation
-- [ ] Haystack integration
+- [x] Optional Haystack integration
 - [ ] ONNX inference experiment
 
 ---
