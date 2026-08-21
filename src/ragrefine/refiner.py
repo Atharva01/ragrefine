@@ -18,6 +18,9 @@ from ragrefine.ranking.rrf import RankFusion
 from ragrefine.ranking.types import RankingChannel
 from ragrefine.rerank.base import NeuralReranker
 from ragrefine.results import RefinementResult
+from ragrefine.selection.deduplicate import CandidateDeduplicator
+from ragrefine.selection.selector import ContextSelector, RankPreservingContextSelector
+from ragrefine.selection.tokens import TokenCounter
 from ragrefine.tracing.models import RefinementTrace, StageTrace
 
 
@@ -37,12 +40,17 @@ class Refiner:
         lexical_ranker: LexicalRanker | None = None,
         pattern_ranker: PatternRanker | None = None,
         fusion: RankFusion | None = None,
+        deduplicator: CandidateDeduplicator | None = None,
+        selector: ContextSelector | None = None,
+        token_counter: TokenCounter | None = None,
         config: RefinerConfig | None = None,
     ) -> None:
         self._reranker = reranker
         self._lexical_ranker = lexical_ranker
         self._pattern_ranker = pattern_ranker
         self._fusion = fusion
+        self._deduplicator = deduplicator
+        self._selector = selector or RankPreservingContextSelector(token_counter)
         self._legacy_configuration = config is None
         self._config = config or self._legacy_config(reranker, fusion)
         if self._config.fusion_enabled and self._fusion is None:
@@ -72,6 +80,7 @@ class Refiner:
         candidate_set: CandidateSet,
         *,
         top_k: int = 5,
+        max_tokens: int | None = None,
     ) -> RefinementResult:
         """Rank one externally merged candidate set through enabled channels."""
         if top_k < 0:
@@ -86,13 +95,24 @@ class Refiner:
         candidates = candidate_set.candidates
         channel_results, failures = self._run_channels(query, candidates)
         ranked_candidates = self._resolve_final_ranking(channel_results)
-        refined_candidates = tuple(
+        ranked_output = tuple(
             RefinedCandidate(
                 candidate=ranked.candidate,
                 rank=rank,
                 signals=ranked.signals,
             )
-            for rank, ranked in enumerate(ranked_candidates[:top_k], start=1)
+            for rank, ranked in enumerate(ranked_candidates, start=1)
+        )
+        deduplicated = (
+            self._deduplicator.deduplicate(ranked_output)
+            if self._deduplicator is not None
+            else None
+        )
+        selection = self._selector.select(
+            deduplicated.candidates if deduplicated is not None else ranked_output,
+            top_k=top_k,
+            max_tokens=max_tokens,
+            suppressed=deduplicated.suppressed if deduplicated is not None else (),
         )
         duration_ms = (perf_counter() - started_at) * 1_000
         trace = RefinementTrace(
@@ -101,14 +121,18 @@ class Refiner:
                     name=self._stage_name(channel_results),
                     duration_ms=duration_ms,
                     configuration=self._trace_configuration(
-                        top_k, channel_results, failures
+                        top_k, channel_results, failures, max_tokens
                     ),
                 ),
             ),
             duration_ms=duration_ms,
             config_fingerprint=self._config_fingerprint(),
         )
-        return RefinementResult(candidates=refined_candidates, trace=trace)
+        return RefinementResult(
+            candidates=selection.candidates,
+            trace=trace,
+            selection=selection.records,
+        )
 
     def _run_channels(
         self, query: str, candidates: tuple[Candidate, ...]
@@ -353,9 +377,12 @@ class Refiner:
         top_k: int,
         results: tuple[_ChannelResult, ...],
         failures: tuple[Mapping[str, object], ...],
+        max_tokens: int | None,
     ) -> Mapping[str, object]:
         if self._legacy_configuration and not failures:
             configuration: dict[str, object] = {"top_k": top_k}
+            if max_tokens is not None:
+                configuration["max_tokens"] = max_tokens
             if self._reranker is not None and results:
                 neural = next((item for item in results if item.name == "neural"), None)
                 if neural is not None and neural.ranking:
@@ -375,7 +402,7 @@ class Refiner:
         fusion: Mapping[str, object] = {"enabled": self._config.fusion_enabled}
         if self._config.fusion_enabled and self._fusion is not None:
             fusion = {"enabled": True, "k": getattr(self._fusion, "k", None)}
-        return {
+        explicit_configuration: dict[str, object] = {
             "top_k": top_k,
             "participating_channels": [item.name for item in results],
             "channel_weights": {
@@ -391,6 +418,9 @@ class Refiner:
             "omitted_channels": list(failures),
             "fusion": fusion,
         }
+        if max_tokens is not None:
+            explicit_configuration["max_tokens"] = max_tokens
+        return explicit_configuration
 
     def _stage_name(self, results: tuple[_ChannelResult, ...]) -> str:
         if len(results) > 1 and self._config.fusion_enabled:

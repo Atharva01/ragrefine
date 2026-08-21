@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 from ragrefine.models import RefinedCandidate
+from ragrefine.selection.selector import SelectionRecord
 from ragrefine.tracing.models import RefinementTrace
 
 
@@ -16,3 +17,4 @@ class RefinementResult:
 
     candidates: tuple[RefinedCandidate, ...]
     trace: RefinementTrace
+    selection: tuple[SelectionRecord, ...] = ()

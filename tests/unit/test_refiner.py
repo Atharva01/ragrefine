@@ -15,6 +15,7 @@ from ragrefine.ranking.patterns import PatternRanker
 from ragrefine.ranking.rrf import ReciprocalRankFusion
 from ragrefine.refiner import Refiner
 from ragrefine.rerank.base import ScoredCandidate
+from ragrefine.selection import CandidateDeduplicator
 
 
 class ReversingReranker:
@@ -382,3 +383,32 @@ def test_refiner_applies_top_k_after_fusion_and_is_deterministic() -> None:
         "lexical": signals["lexical"].rank,
         "pattern": signals["pattern"].rank,
     }
+
+
+def test_refiner_applies_deduplication_and_budget_only_after_full_ranking() -> None:
+    """Final selection preserves ranked evidence and records every omission."""
+    candidates = CandidateSet(
+        name="dense",
+        candidates=(
+            Candidate(id="first", text="one two", retrieval_rank=1),
+            Candidate(id="duplicate", text="ONE two", retrieval_rank=2),
+            Candidate(id="later", text="fits", retrieval_rank=3),
+        ),
+    )
+
+    class WordCounter:
+        def count(self, text: str) -> int:
+            return len(text.split())
+
+    result = Refiner(
+        deduplicator=CandidateDeduplicator(), token_counter=WordCounter()
+    ).refine("query", candidates, top_k=2, max_tokens=1)
+
+    assert tuple(item.candidate.id for item in result.candidates) == ("later",)
+    assert result.candidates[0].rank == 3
+    assert [record.status for record in result.selection] == [
+        "duplicate_suppressed",
+        "budget_excluded",
+        "selected",
+    ]
+    assert result.selection[-1].selected_position == 1
