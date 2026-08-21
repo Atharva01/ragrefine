@@ -18,4 +18,6 @@ def test_ab_persists_shared_pools_and_traces(tmp_path: Path) -> None:
         assert [item["id"] for item in row["input_pool"]] == row["baseline_ids"]
         assert set(row["refined_ids"]) == set(row["baseline_ids"])
         assert row["trace"]["stages"]
+        assert row["context"]["candidate_reduction"] == 0
+    assert result["context_reduction"]["candidate_reduction"] == 0
     assert json.loads((tmp_path / "ab" / "ab-results.json").read_text()) == result

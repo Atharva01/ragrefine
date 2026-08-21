@@ -45,6 +45,15 @@ def run(output_dir: Path) -> dict[str, object]:
                 "baseline_ids": baseline_ids,
                 "refined_ids": refined_ids,
                 "trace": {"stages": [stage.name for stage in refined.trace.stages]},
+                "context": {
+                    "baseline_candidate_count": len(baseline_ids),
+                    "refined_candidate_count": len(refined_ids),
+                    "candidate_reduction": len(baseline_ids) - len(refined_ids),
+                    "baseline_word_tokens": _word_tokens(pool),
+                    "refined_word_tokens": _word_tokens(
+                        HaystackDocumentAdapter(pool).documents_for(refined.candidates)
+                    ),
+                },
             }
         )
     result: dict[str, object] = {
@@ -57,6 +66,7 @@ def run(output_dir: Path) -> dict[str, object]:
             "baseline": _metrics(rows, "baseline_ids"),
             "refined": _metrics(rows, "refined_ids"),
         },
+        "context_reduction": _context_reduction(rows),
     }
     output_dir.mkdir(parents=True)
     (output_dir / "ab-results.json").write_text(
@@ -70,4 +80,29 @@ def _metrics(rows: list[dict[str, object]], key: str) -> dict[str, float]:
     return {
         "mrr": sum(1 / rank for rank in ranks) / len(ranks),
         "precision@1": sum(rank == 1 for rank in ranks) / len(ranks),
+    }
+
+
+def _word_tokens(documents: object) -> int:
+    return sum(len(str(document.content).split()) for document in documents)
+
+
+def _context_reduction(rows: list[dict[str, object]]) -> dict[str, int]:
+    contexts = [row["context"] for row in rows]
+    return {
+        "baseline_candidates": sum(
+            context["baseline_candidate_count"] for context in contexts
+        ),
+        "refined_candidates": sum(
+            context["refined_candidate_count"] for context in contexts
+        ),
+        "candidate_reduction": sum(
+            context["candidate_reduction"] for context in contexts
+        ),
+        "baseline_word_tokens": sum(
+            context["baseline_word_tokens"] for context in contexts
+        ),
+        "refined_word_tokens": sum(
+            context["refined_word_tokens"] for context in contexts
+        ),
     }
