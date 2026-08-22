@@ -1,10 +1,22 @@
 # ragrefine
 
-**Post-retrieval refinement for RAG systems.**
+**Evidence-first post-retrieval refinement for RAG systems.**
 
-`ragrefine` is an experimental Python library for improving the quality of retrieved context **after retrieval and before generation**.
+[![CI](https://github.com/Atharva01/ragrefine/actions/workflows/ci.yml/badge.svg)](https://github.com/Atharva01/ragrefine/actions/workflows/ci.yml)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-Instead of replacing your retriever, vector database, or RAG framework, `ragrefine` takes an existing candidate set and applies additional relevance signals, reranking, fusion, and context-selection logic.
+`ragrefine` sits **between your retriever and your LLM**: it takes the retrieved
+candidate set and re-ranks, deduplicates, and trims it into a final context —
+deterministically, with a trace of every decision. It is retriever- and
+framework-agnostic, ships with a serializable [Haystack pipeline](docs/rag-pipeline-guide.md),
+and — deliberately — **does not claim to improve retrieval unless measured
+evaluation supports it**.
+
+Instead of replacing your retriever, vector database, or RAG framework,
+`ragrefine` adds relevance signals, reranking, fusion, and context-selection
+logic on top of the candidate set you already have. It never invents or
+rewrites evidence: output candidates are always a subset of the input pool.
 
 > **Status:** v0.2 implements the complete, serializable Haystack RAG pipeline
 > path (retriever → refinement → prompt → generator) with registered refiner
@@ -15,6 +27,28 @@ Instead of replacing your retriever, vector database, or RAG framework, `ragrefi
 
 ---
 
+## Results at a glance
+
+Every claim below is backed by frozen, checksummed benchmark artifacts in
+`benchmarks/results/` — no number here is a guess.
+
+| Experiment | What it tests | Result | Decision |
+|---|---|---|---|
+| B0 | Frozen dense-retrieval baseline (SciFact, 300 queries × Top-50) | nDCG@5 **0.4592** | Baseline |
+| B1-reference | CrossEncoder reranking (MiniLM-L6, CUDA) | nDCG@5 **0.6262** | **Retained** |
+| B1-light | CrossEncoder reranking (TinyBERT-L2, CPU) | nDCG@5 **0.6112** | Retained |
+| B2-L | Stdlib lexical-coverage signal | nDCG@5 **0.5432** (CPU, zero deps) | **Retained** |
+| B2-P | Regex/pattern signal | no SciFact gain | **Rejected** |
+| B3 | Multi-signal rank fusion (RRF) | all profiles below B1-reference | **Rejected** |
+| Ragas A/B | End-to-end B0 vs refined (13 paired queries, DeepSeek) | faithfulness +0.078, factual_correctness +0.049, but paired bootstrap CIs include zero | **Inconclusive — no claim** |
+
+The honest headline: **two refinement profiles measurably improve frozen
+retrieval metrics, two experiment families did not and were rejected, and the
+end-to-end generation A/B did not clear the evidence bar.** That is the point
+of the project: [see how the evaluation works](docs/haystack-ragas-evaluation.md)
+and read the [A/B report](benchmarks/results/haystack-ragas-analysis-v1/ragas-report.md).
+
+---
 ## Why ragrefine?
 
 Dense retrieval is good at finding semantically related text, but *semantic similarity is not the same as context utility*.
@@ -361,17 +395,20 @@ Its responsibility is deliberately constrained to:
 candidate refinement + context selection + traceability
 ```
 
-## v0.1 release record
+## Release records
 
-Version 0.1.0 packages the core library and its optional Haystack adapter.
-The [v0.1 release record](docs/v0.1-release.md) links the implementation,
-frozen evaluation contract, retained artifact bundle, integration tests, and
-clean-wheel validation. It also records the retained deployment profiles,
-known limitations, and the B2-P/B3 strategies that are not retained.
+- **v0.2** — the [v0.2 release record](docs/v0.2-release.md) marks the project
+  complete for building RAG pipelines: serializable refiner profiles, the
+  end-to-end Haystack pipeline, the pipeline guide, and the executed Ragas
+  A/B with its honest inconclusive result.
+- **v0.1** — the [v0.1 release record](docs/v0.1-release.md) links the core
+  library, frozen evaluation contract, retained artifact bundle, integration
+  tests, and clean-wheel validation, including the B2-P/B3 strategies that
+  were evaluated and not retained.
 
 Further production deployment, Azure integration, application orchestration,
 and operational infrastructure belong in a separate repository. They are not
-part of `ragrefine` v0.1.
+part of `ragrefine` v0.2.
 
 ---
 
@@ -445,6 +482,11 @@ docs/                product, hypothesis, and technical design
 - [x] Optional Haystack integration
 - [x] Serializable Haystack RAG pipeline (v0.2)
 - [ ] ONNX inference experiment (deferred research — not a pipeline prerequisite)
+
+**What's next** (research hypotheses, not pipeline blockers): entity signals,
+a generic query-analyzer layer, relevance gates, and the ONNX backend
+comparison; a larger, more discriminative end-to-end evaluation set to
+resolve the inconclusive Ragas A/B; and publishing `ragrefine` to PyPI.
 
 ---
 
