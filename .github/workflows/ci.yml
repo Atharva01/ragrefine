@@ -94,4 +94,20 @@ jobs:
           uv build
           uv venv --clear "$RUNNER_TEMP/ragrefine-haystack-wheel-env"
           uv pip install --python "$RUNNER_TEMP/ragrefine-haystack-wheel-env/bin/python" "dist/*.whl[haystack]"
-          "$RUNNER_TEMP/ragrefine-haystack-wheel-env/bin/python" -c "from ragrefine.integrations.haystack import FrozenHaystackFixture; assert FrozenHaystackFixture().retrieve('Python parser')"
+          "$RUNNER_TEMP/ragrefine-haystack-wheel-env/bin/python" -c "
+import json
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from ragrefine.integrations.haystack import (
+    FrozenHaystackFixture,
+    build_rag_pipeline,
+    demo_documents,
+)
+assert FrozenHaystackFixture().retrieve('Python parser')
+store = InMemoryDocumentStore(bm25_algorithm='BM25L')
+store.write_documents(demo_documents())
+pipeline = build_rag_pipeline(store, top_k=2, profile='b2-l-lexical')
+restored = type(pipeline).loads(pipeline.dumps())
+profile = restored.get_component('refine').to_dict()['init_parameters']['refiner_profile']
+assert profile == 'b2-l-lexical', profile
+print('haystack wheel smoke OK')
+"
