@@ -39,8 +39,8 @@ jobs:
           version: "0.12.5"
           enable-cache: true
 
-      - name: Synchronize locked dependencies
-        run: uv sync --locked
+      - name: Synchronize core and Haystack type-check dependencies
+        run: uv sync --locked --extra haystack
 
       - name: Lint
         run: uv run ruff check .
@@ -83,11 +83,11 @@ jobs:
           version: "0.12.5"
           enable-cache: true
 
-      - name: Synchronize Haystack extra
-        run: uv sync --locked --extra haystack
+      - name: Synchronize Haystack and Ragas extras
+        run: uv sync --locked --extra haystack --extra ragas
 
       - name: Test supported Haystack integration
-        run: uv run --extra haystack pytest tests/integration
+        run: uv run --extra haystack --extra ragas pytest tests/integration
 
       - name: Verify installed wheel extra
         run: |
