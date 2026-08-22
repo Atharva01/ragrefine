@@ -48,6 +48,7 @@ def _run(
     tmp_path: Path,
     name: str = "eval",
     generator: object | None = None,
+    max_queries: int | None = None,
 ) -> dict[str, object]:
     return run(
         tmp_path / name,
@@ -55,6 +56,7 @@ def _run(
         model="deepseek-chat",
         generator=generator or _FakeGenerator(),
         evaluator=_FakeEvaluator(),
+        max_queries=max_queries,
     )
 
 
@@ -218,3 +220,79 @@ def test_default_model_is_environment_configured(
     assert _default_model() == "deepseek-coder"
     monkeypatch.delenv("DEEPSEEK_MODEL")
     assert _default_model() == "deepseek-chat"
+
+
+def test_inline_evaluator_extracts_mode_keyed_and_failed_scores() -> None:
+    """The inline Ragas scorer must read mode-keyed columns and never score failures."""
+    pytest.importorskip("ragas")
+    from benchmarks.haystack.ragas_eval import (
+        EvaluationRecord,
+        _RagasEvaluator,
+    )
+
+    class _FakeResult:
+        def __init__(self, scores: list[dict]) -> None:
+            self.scores = scores
+
+    def evaluate_fn(**kwargs) -> _FakeResult:
+        return _FakeResult(
+            [
+                {
+                    "faithfulness": 1.0,
+                    "context_recall": 1.0,
+                    "factual_correctness(mode=f1)": 0.67,
+                },
+                {
+                    "faithfulness": 0.5,
+                    "context_recall": 1.0,
+                    "factual_correctness(mode=f1)": None,
+                },
+            ]
+        )
+
+    evaluator = _RagasEvaluator(
+        api_key="not-used", model="deepseek-chat", evaluate_fn=evaluate_fn
+    )
+    records = [
+        EvaluationRecord(question="q1", contexts=("c",), answer="a", reference="r"),
+        EvaluationRecord(question="q2", contexts=("c",), answer="a", reference="r"),
+    ]
+    result = evaluator.evaluate(records)
+
+    assert result["metrics"] == [
+        "faithfulness",
+        "context_recall",
+        "factual_correctness",
+    ]
+    assert result["per_record"][0] == {
+        "faithfulness": 1.0,
+        "context_recall": 1.0,
+        "factual_correctness": 0.67,
+    }
+    # The failed sample is None, never a fabricated score.
+    assert result["per_record"][1]["factual_correctness"] is None
+    assert result["aggregate"]["faithfulness"] == pytest.approx(0.75)
+    assert result["aggregate"]["context_recall"] == pytest.approx(1.0)
+    assert result["aggregate"]["factual_correctness"] == pytest.approx(0.67)
+
+
+def test_ragas_eval_pilot_slices_queries(tmp_path: Path) -> None:
+    result = _run(tmp_path, name="pilot", max_queries=3)
+
+    assert len(result["per_query"]) == 3
+    assert result["evaluation"]["queries_total"] == 3
+    assert result["evaluation"]["paired_query_count"] == 3
+    # The frozen test set itself is unchanged by the pilot slice.
+    assert result["testset"]["qa_pair_count"] == 13
+
+
+def test_ragas_eval_rejects_invalid_pilot_slice(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="max_queries"):
+        run(
+            tmp_path / "bad-slice",
+            api_key="x",
+            model="deepseek-chat",
+            generator=_FakeGenerator(),
+            evaluator=_FakeEvaluator(),
+            max_queries=0,
+        )

@@ -175,6 +175,64 @@ Checks performed:
 - the input→scores SHA-256 link (scores were produced from this exact input);
 - per-metric coverage of exactly the paired queries for both arms.
 
+## A/B analysis and decision
+
+`benchmarks.haystack.ragas_report` consumes the input and scores artifacts and
+produces the evidence-backed B0-versus-refined comparison:
+
+```powershell
+uv run python -m benchmarks.haystack.ragas_report `
+  --input benchmarks/results/haystack-ragas-v1/ragas-results.json `
+  --scores benchmarks/results/haystack-ragas-scores-v1/ragas-scores.json `
+  --output-dir benchmarks/results/haystack-ragas-analysis-v1
+```
+
+Writes `ragas-report.json` (+ `.sha256` sidecar) and `ragas-report.md` into a
+**new** directory. The report includes, per metric:
+
+- aggregate baseline/refined scores and the mean paired delta;
+- paired wins/losses/ties (tolerance `1e-9`);
+- a deterministic paired bootstrap 95% confidence interval on the mean delta
+  (10 000 resamples, fixed seed 97);
+- context size changes (prompt word counts per arm);
+- representative wins and representative regressions (up to 3 queries each,
+  only actual positive/negative deltas);
+- an explicit decision and rationale.
+
+Each metric is classified as `supported_improvement`, `regression`, or
+`inconclusive`: an improvement requires a positive mean paired delta, a 95%
+CI excluding zero, and more wins than losses; a regression is the mirror
+image. The overall decision is `supported_improvement` only when at least one
+metric is a supported improvement and none is a regression, `regression` only
+when at least one metric regresses and none improves, and `inconclusive`
+otherwise. No broader claim is made.
+
+The report embeds the `verify` output as the reproduction record, so the
+retained analysis directory (artifacts + report + reproduction record) is
+self-validating.
+
+## Execution workflow
+
+The declared experiment is executed in two steps. First a small **pilot**
+validates prompts, artifact structure, metric behaviour, and cost:
+
+```powershell
+uv run python -m benchmarks.haystack.ragas_eval `
+  --output-dir benchmarks/results/haystack-ragas-pilot-v1 `
+  --max-queries 3
+```
+
+Then the **frozen full run** uses the declared immutable configuration
+(`top_n 5`, `top_k 3`, no token limit, B2-L lexical profile,
+`deepseek-chat`, temperature 0, 512-token generation limit, the shared prompt
+template, and the fixed metrics). The retained artifact set lives at:
+
+```text
+benchmarks/results/haystack-ragas-v1/          paired harness artifact
+benchmarks/results/haystack-ragas-scores-v1/   Ragas scores + judge reasons
+benchmarks/results/haystack-ragas-analysis-v1/ comparison report + decision
+```
+
 ## Out of scope
 
 - changing or regenerating first-stage retrieval;

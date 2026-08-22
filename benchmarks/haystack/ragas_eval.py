@@ -21,10 +21,11 @@ refinement improves generation or context quality.
 import argparse
 import hashlib
 import json
+import math
 import os
 import platform
 import subprocess
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from time import perf_counter
@@ -86,9 +87,19 @@ class Evaluator(Protocol):
 
 
 class _RagasEvaluator:
-    """Ragas scorer built against DeepSeek's OpenAI-compatible endpoint."""
+    """Ragas scorer built against DeepSeek's OpenAI-compatible endpoint.
 
-    def __init__(self, *, api_key: str, model: str) -> None:
+    ``evaluate_fn`` is a test seam; when injected, no LLM client is built and
+    the caller must supply a fake result object with a ``scores`` attribute.
+    """
+
+    def __init__(
+        self,
+        *,
+        api_key: str,
+        model: str,
+        evaluate_fn: Callable[..., object] | None = None,
+    ) -> None:
         # Imported lazily so the harness and its tests do not require Ragas.
         from langchain_openai import ChatOpenAI  # type: ignore[import-not-found]
         from ragas.llms import LangchainLLMWrapper  # type: ignore[import-not-found]
@@ -106,9 +117,16 @@ class _RagasEvaluator:
         )
         self._evaluator_llm = LangchainLLMWrapper(llm)
         self._metrics = [Faithfulness(), LLMContextRecall(), FactualCorrectness()]
+        self._evaluate_fn = evaluate_fn
 
     def evaluate(self, records: list[EvaluationRecord]) -> dict[str, object]:
-        """Score one branch and return aggregate plus per-record metrics."""
+        """Score one branch and return aggregate plus per-record metrics.
+
+        ``result.scores`` in Ragas 0.4.x is a list of per-sample dicts; a
+        non-finite or failed sample is recorded as None, never as a score.
+        Mode-parameterised metrics (``factual_correctness``) are keyed by
+        Ragas as ``name(mode=...)``.
+        """
         from ragas import EvaluationDataset, evaluate  # type: ignore[import-not-found]
 
         dataset = EvaluationDataset.from_list(
@@ -122,19 +140,29 @@ class _RagasEvaluator:
                 for record in records
             ]
         )
-        result = evaluate(
-            dataset=dataset, metrics=self._metrics, llm=self._evaluator_llm
+        evaluate_fn = self._evaluate_fn or evaluate
+        result = evaluate_fn(
+            dataset=dataset,
+            metrics=self._metrics,
+            llm=None if self._evaluate_fn is not None else self._evaluator_llm,
+            raise_exceptions=True,
         )
         metric_names = [metric.name for metric in self._metrics]
-        scores = dict(result.scores)
-        frame = result.to_pandas()
+        score_keys = [_score_key(metric) for metric in self._metrics]
+        rows = result.scores
         per_record = [
-            {name: float(frame.iloc[index][name]) for name in metric_names}
-            for index in range(len(records))
+            {
+                name: _finite_or_none(row.get(key))
+                for name, key in zip(metric_names, score_keys)
+            }
+            for row in rows
         ]
         return {
             "metrics": metric_names,
-            "aggregate": {name: float(scores[name]) for name in metric_names},
+            "aggregate": {
+                name: _mean_or_none([row.get(key) for row in rows])
+                for name, key in zip(metric_names, score_keys)
+            },
             "per_record": per_record,
         }
 
@@ -150,12 +178,20 @@ def run(
     top_n: int = 5,
     top_k: int = 3,
     testset_path: Path = DEFAULT_TESTSET_PATH,
+    max_queries: int | None = None,
 ) -> dict[str, object]:
-    """Run the paired baseline/refined Ragas evaluation and persist artifacts."""
+    """Run the paired baseline/refined Ragas evaluation and persist artifacts.
+
+    ``max_queries`` slices the frozen test set to the first N questions for a
+    cost/behaviour pilot only; the declared frozen run leaves it unset so every
+    question is evaluated.
+    """
     if output_dir.exists():
         raise FileExistsError(f"Ragas evaluation output already exists: {output_dir}")
     if top_n < 1 or top_k < 1 or top_k > top_n:
         raise ValueError("top_k must satisfy 1 <= top_k <= top_n")
+    if max_queries is not None and max_queries < 1:
+        raise ValueError("max_queries must be a positive integer or None")
 
     testset = load_testset(testset_path)
     contract = testset.contract
@@ -192,7 +228,7 @@ def run(
     rows: list[dict[str, object]] = []
     paired_row_indexes: list[int] = []
 
-    for pair in testset.qa_pairs:
+    for pair in testset.qa_pairs[:max_queries]:
         retrieval_started = perf_counter()
         pool = tuple(retriever.run(query=pair.question, top_k=top_n)["documents"])
         retrieval_latency = perf_counter() - retrieval_started
@@ -404,6 +440,36 @@ def _failure(error: Exception) -> dict[str, object]:
     return {"failure_type": type(error).__name__, "reason": str(error)}
 
 
+def _finite_or_none(value: object) -> float | None:
+    """Convert a metric value to a finite float, or None for a failure."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    if not math.isfinite(float(value)):
+        return None
+    return float(value)
+
+
+def _mean_or_none(values: Sequence[object]) -> float | None:
+    """Mean of finite per-sample values; failures are never converted to scores."""
+    finite = [
+        value
+        for value in (_finite_or_none(item) for item in values)
+        if value is not None
+    ]
+    return sum(finite) / len(finite) if finite else None
+
+
+def _score_key(metric_obj: object) -> str:
+    """Return the Ragas score-column key for one metric object.
+
+    Ragas keys mode-parameterised metrics (e.g. ``FactualCorrectness``) as
+    ``"factual_correctness(mode=f1)"``; everything else uses the plain name.
+    """
+    name = getattr(metric_obj, "name", "")
+    mode = getattr(metric_obj, "mode", None)
+    return f"{name}(mode={mode})" if mode is not None else name
+
+
 def _pool_digest(documents: Sequence[Document]) -> str:
     """Hash ordered pool IDs and text to prove both arms shared the same pool."""
     payload = json.dumps(
@@ -463,6 +529,12 @@ def main() -> None:
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--top-n", type=int, default=5)
     parser.add_argument("--top-k", type=int, default=3)
+    parser.add_argument(
+        "--max-queries",
+        type=int,
+        default=None,
+        help="pilot hook: evaluate only the first N frozen questions",
+    )
     args = parser.parse_args()
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
@@ -475,6 +547,7 @@ def main() -> None:
                 model=_default_model(),
                 top_n=args.top_n,
                 top_k=args.top_k,
+                max_queries=args.max_queries,
             ),
             sort_keys=True,
         )

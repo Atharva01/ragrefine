@@ -1,0 +1,2542 @@
+{
+  "configuration": {
+    "input_pool_reused": true,
+    "metrics": [
+      "context_precision",
+      "id_based_context_recall",
+      "faithfulness",
+      "factual_correctness"
+    ],
+    "omitted_metrics": {
+      "answer_relevancy": "no pinned embedding provider configured"
+    },
+    "paired_rows_scored": 13,
+    "unpaired_rows_skipped": 0
+  },
+  "environment": {
+    "api_base_url": "https://api.deepseek.com/v1",
+    "embedding_provider_configured": false,
+    "git_commit": "3d033a2b5d884dbfd8ba53d4e12451f25d41bd12",
+    "inference_backend": "OpenAI-compatible HTTP",
+    "model": "deepseek-chat",
+    "python_version": "3.12.12"
+  },
+  "input_artifact": {
+    "path": "benchmarks\\results\\haystack-ragas-v1\\ragas-results.json",
+    "schema_version": "1.1",
+    "sha256": "956ea198d2057ab2352b3f1c61121f9c82f8947b2f9d5bfa016906f94f0737a0"
+  },
+  "interpretation": "Ragas scoring of the persisted paired artifact only; a refined-branch advantage is reported only when the recorded aggregate and per-query metrics support it. Metric errors are persisted as failures and are never converted into scores.",
+  "model": "deepseek-chat",
+  "schema_version": "1.0",
+  "scores": {
+    "baseline": {
+      "context_precision": {
+        "aggregate": 0.999999999903846,
+        "failures": [],
+        "judge_reasons": {
+          "q-01": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context mentions Python 3.13 features but does not mention f-string parsing improvements or Python 3.12, so it is not useful for arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-02": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context discusses Python 3.12 features, not Python 3.13, and does not mention free-threaded build or improved interactive interpreter, so it is not useful for the answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-03": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context only mentions BEIR, a benchmark for information retrieval, and does not provide any information about ragrefine or its definition. Therefore, the context was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-04": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context mentions reciprocal rank fusion, which is unrelated to the BM25 retriever's ranking mechanism. The answer about lexical overlap using BM25L is not supported by the context.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-05": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not provide any information about the Ragas faithfulness metric; it only mentions a definition of a frozen evaluation set and contract, which is unrelated to the metric's measurement.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-06": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not mention BEIR or provide any information about it, so it was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-07": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context mentions 'ragrefine' and 'RAG context' but does not provide any information about SciFact, making it not useful for arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-08": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context discusses BM25, a sparse lexical retrieval model, which is unrelated to cross-encoders. The answer about cross-encoders scoring query-document pairs jointly is not supported by the context.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-09": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not mention reciprocal rank fusion or provide any information related to the answer. It only describes a dataset, which is irrelevant to the question.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-10": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context discusses Python 3.11 features, which are unrelated to the question about removing near-duplicate passages. The answer provides a method not mentioned in the context.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-11": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context only mentions that the frozen Haystack Ragas evaluation retrieves five candidate documents before refinement, but it does not mention RRF-94 or define the evaluation set and contract. Therefore, the context was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-12": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context only mentions the creation date of a Haystack smoke fixture, not the review date of the frozen Haystack Ragas evaluation contract. Therefore, the context is not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-13": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context states that the evaluation retrieves five candidate documents before refinement, but it does not mention the number of final contexts selected. The answer claims three final contexts are selected, which is not supported by the context. Therefore, the context was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          }
+        },
+        "per_sample": {
+          "q-01": 0.9999999999,
+          "q-02": 0.9999999999,
+          "q-03": 0.9999999999,
+          "q-04": 0.9999999999,
+          "q-05": 0.99999999995,
+          "q-06": 0.9999999999,
+          "q-07": 0.9999999999,
+          "q-08": 0.9999999999,
+          "q-09": 0.9999999999,
+          "q-10": 0.9999999999,
+          "q-11": 0.9999999999,
+          "q-12": 0.9999999999,
+          "q-13": 0.9999999999
+        }
+      },
+      "factual_correctness": {
+        "aggregate": 0.6684615384615384,
+        "failures": [],
+        "judge_reasons": {
+          "q-01": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Python 3.12 improves the f-string parser.",
+                  "Python 3.12 adds type parameter syntax."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.12 improves the f-string parser.",
+                    "statement": "Python 3.12 improves the f-string parser.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-02": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Python 3.13 introduces a free-threaded build.",
+                  "Python 3.13 introduces an improved interactive interpreter."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces a free-threaded build.",
+                    "statement": "Python 3.13 introduces a free-threaded build.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces an improved interactive interpreter.",
+                    "statement": "Python 3.13 introduces an improved interactive interpreter.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-03": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                  "ragrefine is for RAG context."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that 'ragrefine' is a 'retriever-agnostic post-retrieval refinement library'.",
+                    "statement": "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions that ragrefine is designed for RAG (Retrieval-Augmented Generation) contexts, so this statement is directly supported.",
+                    "statement": "ragrefine is for RAG context.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-04": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "It ranks documents by lexical overlap.",
+                  "It uses BM25L for ranking."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states 'It ranks documents by lexical overlap using BM25L.' The pronoun 'It' likely refers to Haystack's in-memory BM25 retriever, but the context does not explicitly mention Haystack or in-memory BM25 retriever. Therefore, the statement cannot be directly inferred.",
+                    "statement": "Haystack's in-memory BM25 retriever ranks documents by lexical overlap using BM25L.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context only mentions BM25L but does not provide any information about its relationship to the standard BM25 algorithm.",
+                    "statement": "BM25L is a variant of the standard BM25 algorithm.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention the standard BM25 algorithm or its scoring criteria.",
+                    "statement": "The standard BM25 algorithm scores documents based on term frequency and inverse document frequency.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not define term frequency.",
+                    "statement": "Term frequency refers to how often query terms appear in a document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not define inverse document frequency.",
+                    "statement": "Inverse document frequency refers to how rare or common terms are across the document collection.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not explain the meaning of 'L' in BM25L.",
+                    "statement": "The 'L' in BM25L refers to a length normalization adjustment.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention length normalization or its purpose.",
+                    "statement": "The length normalization adjustment in BM25L helps handle documents of varying lengths more fairly.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention RRF or Haystack's in-memory BM25 retriever, so it is true that it does not mention it. However, the statement is about the context itself, and since the context does not mention RRF, the statement is directly inferable.",
+                    "statement": "The provided context does not mention the use of reciprocal rank fusion (RRF) in Haystack's in-memory BM25 retriever.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention reciprocal rank fusion or any method for combining rankings.",
+                    "statement": "Reciprocal rank fusion is a separate method for combining multiple rankings.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention reciprocal rank fusion or its relationship to BM25L.",
+                    "statement": "Reciprocal rank fusion is not part of the BM25L scoring itself.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-05": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Faithfulness measures how factually consistent a generated answer is with the retrieved context."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context defines faithfulness as measuring factual consistency between a generated answer and the retrieved context, but it does not mention the Ragas faithfulness metric specifically. Therefore, the statement cannot be directly inferred.",
+                    "statement": "The Ragas faithfulness metric measures how factually consistent a generated answer is with the retrieved context.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-06": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "BEIR is a heterogeneous benchmark.",
+                  "BEIR is used for zero-shot information retrieval evaluation."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that BEIR is a heterogeneous benchmark.",
+                    "statement": "BEIR is a heterogeneous benchmark.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that BEIR is used for zero-shot information retrieval evaluation.",
+                    "statement": "BEIR is used for zero-shot information retrieval evaluation.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-07": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "SciFact is a scientific claim verification dataset.",
+                  "SciFact is used for retrieval benchmarking."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that SciFact is a scientific claim verification dataset.",
+                    "statement": "SciFact is a scientific claim verification dataset.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that SciFact is used for retrieval benchmarking.",
+                    "statement": "SciFact is used for retrieval benchmarking.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-08": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "A cross-encoder scores query-document pairs jointly.",
+                  "A cross-encoder uses a transformer model."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that a cross-encoder scores query-document pairs jointly through a transformer model, which directly implies processing the query and each document together as a single input pair.",
+                    "statement": "A cross-encoder scores documents by processing the query and each document together as a single input pair through a transformer model.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention concatenation, [SEP] tokens, or the specific input format. This detail is not directly inferable from the given context.",
+                    "statement": "A cross-encoder concatenates the query and document, often with a [SEP] token, and feeds the combined sequence into the transformer.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says it 'scores' query-document pairs, which implies outputting a score, but it does not specify the nature of the score (probability or logit) or that it is a single score. This is not directly inferable.",
+                    "statement": "A cross-encoder outputs a single relevance score for the specific pair, such as a probability or logit.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says it scores pairs 'jointly' through a transformer model, which implies that the model processes both together, allowing for interactions. However, the context does not explicitly mention 'deep interactions' or 'terms'. This is a reasonable inference but not directly stated.",
+                    "statement": "A cross-encoder captures deep interactions between query terms and document terms.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not provide any information about accuracy or computational cost. This cannot be inferred from the given context.",
+                    "statement": "Joint scoring by a cross-encoder is more accurate but computationally expensive.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention reranking, first-stage retrievers, or BM25. This is not directly inferable.",
+                    "statement": "A cross-encoder is typically used for reranking a small set of top candidates from a faster first-stage retriever like BM25.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-09": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Reciprocal rank fusion combines multiple rankings.",
+                  "Reciprocal rank fusion sums reciprocal ranks."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that reciprocal rank fusion combines multiple rankings by summing reciprocal ranks, which directly implies it is a method for combining multiple ranked lists into a single ranking.",
+                    "statement": "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists into a single, unified ranking.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not specify the source of the rankings, only that it combines multiple rankings. This cannot be directly inferred.",
+                    "statement": "The ranked lists can come from different retrieval systems or queries.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context only mentions summing reciprocal ranks but does not provide the formula. This cannot be directly inferred.",
+                    "statement": "For each document in each ranking, its reciprocal rank is computed as 1 divided by (k + rank(d, R)).",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any constant or its value. This cannot be directly inferred.",
+                    "statement": "In the reciprocal rank formula, k is a constant typically set to 60.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any constant or its purpose. This cannot be directly inferred.",
+                    "statement": "The constant k in reciprocal rank fusion is used to avoid division by zero and to dampen the effect of high ranks.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context states that reciprocal rank fusion combines multiple rankings by summing reciprocal ranks, which directly implies this.",
+                    "statement": "For each document, the reciprocal ranks are summed across all rankings.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not provide the formula, so this cannot be directly inferred.",
+                    "statement": "The final score for a document d is the sum over all rankings R of 1/(k + rank(d, R)).",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention sorting or the order of the final ranking. This cannot be directly inferred.",
+                    "statement": "Documents are sorted by their summed score in descending order to produce the fused ranking.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention normalization or calibration. This cannot be directly inferred.",
+                    "statement": "RRF does not require score normalization or calibration across different systems.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context mentions summing reciprocal ranks, which are based on rank positions, but does not explicitly state that only rank positions are used. This is a slight inference but not directly stated.",
+                    "statement": "RRF only uses rank positions.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention robustness or outliers. This cannot be directly inferred.",
+                    "statement": "RRF is robust to outliers.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention score distributions or performance under varying conditions. This cannot be directly inferred.",
+                    "statement": "RRF works well even when individual rankings have very different score distributions.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention parameters or simplicity. This cannot be directly inferred.",
+                    "statement": "RRF is simple and parameter-light, with only k as a parameter.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention practical effectiveness or specific use cases. This cannot be directly inferred.",
+                    "statement": "RRF is effective in practice for ensemble retrieval or combining results from multiple query formulations.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention benchmarks or specific applications. This cannot be directly inferred.",
+                    "statement": "In information retrieval benchmarks like BEIR or SciFact, RRF is often used to fuse results from multiple retrieval models.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention specific retrieval models. This cannot be directly inferred.",
+                    "statement": "RRF can be used to combine BM25 and dense retrieval results.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention effectiveness, complementary strengths, or weight tuning. This cannot be directly inferred.",
+                    "statement": "RRF improves overall effectiveness by leveraging complementary strengths of different ranking signals without needing to tune weights.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-10": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Near-duplicate passages are removed by normalized text hashing.",
+                  "Near-duplicate passages are removed by token-shingle Jaccard similarity."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that near-duplicate passages are removed by normalized text hashing, so this statement is directly supported.",
+                    "statement": "Near-duplicate passages are removed using normalized text hashing.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that near-duplicate passages are removed by token-shingle Jaccard similarity, so this statement is directly supported.",
+                    "statement": "Near-duplicate passages are removed using token-shingle Jaccard similarity.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-11": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "RRF-94 defines the frozen Haystack Ragas evaluation set.",
+                  "RRF-94 defines the contract for the frozen Haystack Ragas evaluation set."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that RRF-94 defines the frozen Haystack Ragas evaluation set and contract, which directly implies that the ticket defining it is rrf-94.",
+                    "statement": "The ticket that defines the frozen Haystack Ragas evaluation set and contract is rrf-94.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly names RRF-94 as the entity that defines the frozen Haystack Ragas evaluation set and contract, so it can be directly inferred that the ticket is identified as RRF-94.",
+                    "statement": "The ticket is identified as RRF-94.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-12": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that the contract was reviewed on 2026-08-21, which is August 21, 2026.",
+                    "statement": "The date is August 21, 2026.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-13": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that the frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.",
+                    "statement": "The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "per_sample": {
+          "q-01": 0.67,
+          "q-02": 1.0,
+          "q-03": 0.67,
+          "q-04": 0.18,
+          "q-05": 0.0,
+          "q-06": 1.0,
+          "q-07": 1.0,
+          "q-08": 0.29,
+          "q-09": 0.21,
+          "q-10": 1.0,
+          "q-11": 1.0,
+          "q-12": 0.67,
+          "q-13": 1.0
+        }
+      },
+      "faithfulness": {
+        "aggregate": 0.7296869796869797,
+        "failures": [],
+        "judge_reasons": {
+          "q-01": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.12 improves the f-string parser.",
+                    "statement": "Python 3.12 improves the f-string parser.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Python 3.12 improves the f-string parser."
+                ]
+              }
+            }
+          },
+          "q-02": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces a free-threaded build.",
+                    "statement": "Python 3.13 introduces a free-threaded build.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces an improved interactive interpreter.",
+                    "statement": "Python 3.13 introduces an improved interactive interpreter.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Python 3.13 introduces a free-threaded build.",
+                  "Python 3.13 introduces an improved interactive interpreter."
+                ]
+              }
+            }
+          },
+          "q-03": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that 'ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context.'",
+                    "statement": "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context states 'for RAG context', which directly implies it is designed for RAG contexts.",
+                    "statement": "ragrefine is designed for RAG (Retrieval-Augmented Generation) contexts.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions 'RRF-95 implements the paired Haystack B0 versus ragrefine Ragas harness', which indicates ragrefine is used in an evaluation harness.",
+                    "statement": "ragrefine is used in evaluation harnesses.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly mentions 'the paired Haystack B0 versus ragrefine Ragas harness', which is an example of an evaluation harness.",
+                    "statement": "An example of an evaluation harness is the paired Haystack B0 versus ragrefine Ragas harness.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not explicitly state that the harness is used to test retrieval refinement performance. It only mentions the harness exists, but not its purpose.",
+                    "statement": "The evaluation harness is used to test retrieval refinement performance.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not explicitly state that the harness is used to compare retrieval refinement performance. It only mentions the harness exists, but not its purpose.",
+                    "statement": "The evaluation harness is used to compare retrieval refinement performance.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                  "ragrefine is designed for RAG (Retrieval-Augmented Generation) contexts.",
+                  "ragrefine is used in evaluation harnesses.",
+                  "An example of an evaluation harness is the paired Haystack B0 versus ragrefine Ragas harness.",
+                  "The evaluation harness is used to test retrieval refinement performance.",
+                  "The evaluation harness is used to compare retrieval refinement performance."
+                ]
+              }
+            }
+          },
+          "q-04": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that the Haystack in-memory BM25 retriever ranks documents by lexical overlap using BM25L.",
+                    "statement": "Haystack's in-memory BM25 retriever ranks documents by lexical overlap using BM25L.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions BM25L and BM25 separately but does not explicitly state that BM25L is a variant of BM25. This cannot be directly inferred.",
+                    "statement": "BM25L is a variant of the standard BM25 algorithm.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context states that BM25 scores documents by term frequency and inverse document frequency, so this is directly inferred.",
+                    "statement": "The standard BM25 algorithm scores documents based on term frequency.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not define term frequency; it only mentions it as a scoring factor. This cannot be directly inferred.",
+                    "statement": "Term frequency measures how often query terms appear in a document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context states that BM25 scores documents by term frequency and inverse document frequency, so this is directly inferred.",
+                    "statement": "The standard BM25 algorithm scores documents based on inverse document frequency.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not define inverse document frequency; it only mentions it as a scoring factor. This cannot be directly inferred.",
+                    "statement": "Inverse document frequency measures how rare or common terms are across the document collection.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not explain what the 'L' in BM25L stands for. This cannot be directly inferred.",
+                    "statement": "The \"L\" in BM25L refers to a length normalization adjustment.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention length normalization or its purpose. This cannot be directly inferred.",
+                    "statement": "The length normalization adjustment helps handle documents of varying lengths more fairly.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context mentions reciprocal rank fusion as a separate method but does not state whether it is used in the retriever. However, the statement is a negative claim about the context, and since the context does not mention RRF in the retriever, this is directly inferable.",
+                    "statement": "The context does not mention any use of reciprocal rank fusion (RRF) in this retriever.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context states that reciprocal rank fusion combines multiple rankings by summing reciprocal ranks, which implies it is a separate method. This is directly inferred.",
+                    "statement": "RRF is a separate method for combining multiple rankings.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context describes BM25L as a scoring method and RRF as a separate method for combining rankings, implying they are distinct. This is directly inferred.",
+                    "statement": "RRF is not part of the BM25L scoring itself.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Haystack's in-memory BM25 retriever ranks documents by lexical overlap using BM25L.",
+                  "BM25L is a variant of the standard BM25 algorithm.",
+                  "The standard BM25 algorithm scores documents based on term frequency.",
+                  "Term frequency measures how often query terms appear in a document.",
+                  "The standard BM25 algorithm scores documents based on inverse document frequency.",
+                  "Inverse document frequency measures how rare or common terms are across the document collection.",
+                  "The \"L\" in BM25L refers to a length normalization adjustment.",
+                  "The length normalization adjustment helps handle documents of varying lengths more fairly.",
+                  "The context does not mention any use of reciprocal rank fusion (RRF) in this retriever.",
+                  "RRF is a separate method for combining multiple rankings.",
+                  "RRF is not part of the BM25L scoring itself."
+                ]
+              }
+            }
+          },
+          "q-05": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states 'Faithfulness measures how factually consistent a generated answer is with the retrieved context.' This directly supports the statement.",
+                    "statement": "The Ragas faithfulness metric measures how factually consistent a generated answer is with the retrieved context.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says 'Faithfulness measures how factually consistent a generated answer is with the retrieved context.' This implies the measurement is based on the retrieved context, which is the provided context in this case.",
+                    "statement": "The measurement is based on the provided context.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions 'RRF-94 defines the frozen Haystack Ragas evaluation set and contract.' but does not specify that the source for the measurement is 'ragas-faithfulness'. No direct reference to 'ragas-faithfulness' as a source is made.",
+                    "statement": "The source for the measurement is ragas-faithfulness.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The Ragas faithfulness metric measures how factually consistent a generated answer is with the retrieved context.",
+                  "The measurement is based on the provided context.",
+                  "The source for the measurement is ragas-faithfulness."
+                ]
+              }
+            }
+          },
+          "q-06": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation.",
+                    "statement": "BEIR is a heterogeneous benchmark.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation.",
+                    "statement": "BEIR is used for zero-shot information retrieval evaluation.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context describes BEIR as a benchmark, so it can be directly inferred that its topic is categorized as a benchmark.",
+                    "statement": "The topic of BEIR is categorized as a \"benchmark.\"",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "BEIR is a heterogeneous benchmark.",
+                  "BEIR is used for zero-shot information retrieval evaluation.",
+                  "The topic of BEIR is categorized as a \"benchmark.\""
+                ]
+              }
+            }
+          },
+          "q-07": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that 'SciFact is a scientific claim verification dataset used for retrieval benchmarking.' This directly supports the statement.",
+                    "statement": "SciFact is a scientific claim verification dataset.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context states that SciFact is 'used for retrieval benchmarking', which directly supports the statement.",
+                    "statement": "SciFact is specifically used for retrieval benchmarking.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "SciFact is a scientific claim verification dataset.",
+                  "SciFact is specifically used for retrieval benchmarking."
+                ]
+              }
+            }
+          },
+          "q-08": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that a cross-encoder scores query-document pairs jointly, which implies processing them together as a single input pair.",
+                    "statement": "A cross-encoder scores documents by processing the query and each document together as a single input pair.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly says 'through a transformer model' for the joint scoring.",
+                    "statement": "The processing of the query and each document together as a single input pair is done through a transformer model.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says 'jointly' which implies not separately, but it does not explicitly state that it does not encode separately. However, the joint scoring implies a single input pair, so it can be inferred.",
+                    "statement": "A cross-encoder does not encode the query and document separately.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention bi-encoders at all.",
+                    "statement": "A bi-encoder encodes the query and document separately.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention concatenation or [SEP] tokens.",
+                    "statement": "A cross-encoder concatenates the query and document, often with a [SEP] token.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says 'scores query-document pairs jointly through a transformer model', which implies the combined pair is fed into the transformer.",
+                    "statement": "The combined sequence is fed into the transformer.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says 'scores query-document pairs jointly', which implies a score for each pair, but it does not explicitly say 'single' or 'relevance score'. However, it is a reasonable inference.",
+                    "statement": "The transformer model outputs a single relevance score for that specific pair.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention probabilities or logits.",
+                    "statement": "The relevance score can be a probability or a logit.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention 'deep interactions' or 'terms'.",
+                    "statement": "The joint scoring allows the cross-encoder to capture deep interactions between the query terms and document terms.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not compare accuracy.",
+                    "statement": "The joint scoring is more accurate than separate encoding.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention computational cost.",
+                    "statement": "The joint scoring is computationally expensive.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention reranking or top candidates.",
+                    "statement": "The cross-encoder is typically used for reranking a small set of top candidates.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention first-stage retrievers.",
+                    "statement": "The top candidates come from a faster first-stage retriever.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context mentions BM25 as a sparse lexical retrieval model, but does not connect it to being a first-stage retriever or faster.",
+                    "statement": "An example of a faster first-stage retriever is BM25.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "A cross-encoder scores documents by processing the query and each document together as a single input pair.",
+                  "The processing of the query and each document together as a single input pair is done through a transformer model.",
+                  "A cross-encoder does not encode the query and document separately.",
+                  "A bi-encoder encodes the query and document separately.",
+                  "A cross-encoder concatenates the query and document, often with a [SEP] token.",
+                  "The combined sequence is fed into the transformer.",
+                  "The transformer model outputs a single relevance score for that specific pair.",
+                  "The relevance score can be a probability or a logit.",
+                  "The joint scoring allows the cross-encoder to capture deep interactions between the query terms and document terms.",
+                  "The joint scoring is more accurate than separate encoding.",
+                  "The joint scoring is computationally expensive.",
+                  "The cross-encoder is typically used for reranking a small set of top candidates.",
+                  "The top candidates come from a faster first-stage retriever.",
+                  "An example of a faster first-stage retriever is BM25."
+                ]
+              }
+            }
+          },
+          "q-09": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states 'Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks', which directly supports this statement.",
+                    "statement": "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists into a single, unified ranking.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not specify the source of the multiple rankings, only that they are combined. This cannot be directly inferred.",
+                    "statement": "The multiple ranked lists can come from different retrieval systems or queries.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context only mentions 'summing reciprocal ranks' without providing the formula or details about the constant k. This cannot be directly inferred.",
+                    "statement": "For each document in each ranking, the reciprocal rank is computed as 1 divided by the sum of a constant k and the rank of the document in that ranking.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any constant k or its typical value.",
+                    "statement": "The constant k is typically set to 60.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any constant k or its purpose.",
+                    "statement": "The constant k avoids division by zero.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any constant k or its effect.",
+                    "statement": "The constant k dampens the effect of high ranks.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context states 'summing reciprocal ranks', which directly implies this statement.",
+                    "statement": "For each document, the reciprocal ranks are summed across all rankings.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not provide the specific formula involving k and rank. This cannot be directly inferred.",
+                    "statement": "The final score for a document is the sum over all rankings of 1 divided by the sum of k and the rank of the document in that ranking.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention sorting or the order of the final ranking.",
+                    "statement": "Documents are sorted by the summed score in descending order to produce the fused ranking.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention normalization or any requirements of RRF.",
+                    "statement": "RRF does not require score normalization across different systems.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention calibration or any requirements of RRF.",
+                    "statement": "RRF does not require score calibration across different systems.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context mentions 'reciprocal ranks' which are based on rank positions, but does not explicitly state that only rank positions are used.",
+                    "statement": "RRF only uses rank positions.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention robustness or outliers.",
+                    "statement": "RRF is robust to outliers.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention score distributions or performance under varying conditions.",
+                    "statement": "RRF works well even when the individual rankings have very different score distributions.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not describe the simplicity of RRF.",
+                    "statement": "RRF is simple.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention parameters or the constant k.",
+                    "statement": "RRF is parameter-light, with only the constant k as a parameter.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not discuss the effectiveness of RRF in practice.",
+                    "statement": "RRF is effective in practice.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention ensemble retrieval or specific use cases.",
+                    "statement": "RRF is especially effective for ensemble retrieval.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention query formulations or specific use cases.",
+                    "statement": "RRF is especially effective for combining results from multiple query formulations.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context mentions BEIR and SciFact as benchmarks but does not connect them to RRF usage.",
+                    "statement": "In the context of information retrieval benchmarks like BEIR or SciFact, RRF is often used to fuse results from multiple retrieval models.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any specific retrieval models.",
+                    "statement": "Examples of multiple retrieval models include BM25 and dense retrieval.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not discuss the effectiveness of RRF in benchmarks.",
+                    "statement": "RRF improves overall effectiveness in information retrieval benchmarks.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention complementary strengths or ranking signals.",
+                    "statement": "RRF leverages the complementary strengths of different ranking signals.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention weights or tuning requirements.",
+                    "statement": "RRF does not require tuning weights.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists into a single, unified ranking.",
+                  "The multiple ranked lists can come from different retrieval systems or queries.",
+                  "For each document in each ranking, the reciprocal rank is computed as 1 divided by the sum of a constant k and the rank of the document in that ranking.",
+                  "The constant k is typically set to 60.",
+                  "The constant k avoids division by zero.",
+                  "The constant k dampens the effect of high ranks.",
+                  "For each document, the reciprocal ranks are summed across all rankings.",
+                  "The final score for a document is the sum over all rankings of 1 divided by the sum of k and the rank of the document in that ranking.",
+                  "Documents are sorted by the summed score in descending order to produce the fused ranking.",
+                  "RRF does not require score normalization across different systems.",
+                  "RRF does not require score calibration across different systems.",
+                  "RRF only uses rank positions.",
+                  "RRF is robust to outliers.",
+                  "RRF works well even when the individual rankings have very different score distributions.",
+                  "RRF is simple.",
+                  "RRF is parameter-light, with only the constant k as a parameter.",
+                  "RRF is effective in practice.",
+                  "RRF is especially effective for ensemble retrieval.",
+                  "RRF is especially effective for combining results from multiple query formulations.",
+                  "In the context of information retrieval benchmarks like BEIR or SciFact, RRF is often used to fuse results from multiple retrieval models.",
+                  "Examples of multiple retrieval models include BM25 and dense retrieval.",
+                  "RRF improves overall effectiveness in information retrieval benchmarks.",
+                  "RRF leverages the complementary strengths of different ranking signals.",
+                  "RRF does not require tuning weights."
+                ]
+              }
+            }
+          },
+          "q-10": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity. Since the statement mentions one of the two methods explicitly, it can be directly inferred.",
+                    "statement": "Near-duplicate passages are removed using normalized text hashing.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context states that near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity. Since the statement mentions the other method explicitly, it can be directly inferred.",
+                    "statement": "Near-duplicate passages are removed using token-shingle Jaccard similarity.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Near-duplicate passages are removed using normalized text hashing.",
+                  "Near-duplicate passages are removed using token-shingle Jaccard similarity."
+                ]
+              }
+            }
+          },
+          "q-11": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that RRF-94 defines the frozen Haystack Ragas evaluation set and contract, but it does not explicitly mention a 'ticket' or that the context itself defines a ticket. The statement adds information not directly present in the context.",
+                    "statement": "The provided context defines the ticket that defines the frozen Haystack Ragas evaluation set and contract.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context states that RRF-94 defines the frozen Haystack Ragas evaluation set and contract, and the statement identifies this as a ticket with the identifier [rrf-94] RRF-94. While the context does not use the word 'ticket', it directly states that RRF-94 defines the evaluation set and contract, and the statement's identification of RRF-94 as the defining entity is directly supported.",
+                    "statement": "The ticket that defines the frozen Haystack Ragas evaluation set and contract is [rrf-94] RRF-94.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The provided context defines the ticket that defines the frozen Haystack Ragas evaluation set and contract.",
+                  "The ticket that defines the frozen Haystack Ragas evaluation set and contract is [rrf-94] RRF-94."
+                ]
+              }
+            }
+          },
+          "q-12": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that the frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.",
+                    "statement": "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21."
+                ]
+              }
+            }
+          },
+          "q-13": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that the frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.",
+                    "statement": "The frozen Haystack Ragas evaluation selects three final contexts.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that the selection is from each Top-5 retrieval pool.",
+                    "statement": "The three final contexts are selected from each Top-5 retrieval pool.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention any basis for the selection; it only states the selection process and the retrieval pool. Therefore, this cannot be directly inferred.",
+                    "statement": "The selection of three final contexts is based on the provided context.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The frozen Haystack Ragas evaluation selects three final contexts.",
+                  "The three final contexts are selected from each Top-5 retrieval pool.",
+                  "The selection of three final contexts is based on the provided context."
+                ]
+              }
+            }
+          }
+        },
+        "per_sample": {
+          "q-01": 1.0,
+          "q-02": 1.0,
+          "q-03": 0.6666666666666666,
+          "q-04": 0.5454545454545454,
+          "q-05": 0.6666666666666666,
+          "q-06": 1.0,
+          "q-07": 1.0,
+          "q-08": 0.35714285714285715,
+          "q-09": 0.08333333333333333,
+          "q-10": 1.0,
+          "q-11": 0.5,
+          "q-12": 1.0,
+          "q-13": 0.6666666666666666
+        }
+      },
+      "id_based_context_recall": {
+        "aggregate": 1.0,
+        "failures": [],
+        "judge_reasons": {},
+        "per_sample": {
+          "q-01": 1.0,
+          "q-02": 1.0,
+          "q-03": 1.0,
+          "q-04": 1.0,
+          "q-05": 1.0,
+          "q-06": 1.0,
+          "q-07": 1.0,
+          "q-08": 1.0,
+          "q-09": 1.0,
+          "q-10": 1.0,
+          "q-11": 1.0,
+          "q-12": 1.0,
+          "q-13": 1.0
+        }
+      }
+    },
+    "refined": {
+      "context_precision": {
+        "aggregate": 0.999999999903846,
+        "failures": [],
+        "judge_reasons": {
+          "q-01": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context mentions Python 3.13 features but does not mention f-string parsing improvements or Python 3.12, so it is not useful for arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-02": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context discusses Python 3.12, not Python 3.13, and does not mention free-threaded build or improved interactive interpreter, so it is not useful for the answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-03": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context only mentions BEIR, a benchmark for information retrieval, and does not provide any information about ragrefine or its definition. Therefore, the context was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-04": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not mention BM25, BM25L, or any details about ranking documents by lexical overlap. It only discusses a frozen Haystack Ragas evaluation retrieving five candidate documents, which is unrelated to the specific ranking mechanism described in the answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-05": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not provide any information about the Ragas faithfulness metric; it only mentions a definition of a frozen evaluation set and contract, which is unrelated to the metric's measurement.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-06": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not mention BEIR or provide any information about it; it only describes ragrefine, which is unrelated to the question.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-07": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context mentions 'ragrefine' and 'RAG context' but does not provide any information about SciFact, making it not useful for arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-08": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context discusses BM25, a sparse lexical retrieval model, which is unrelated to cross-encoders. The answer about cross-encoders scoring query-document pairs jointly is not supported by the context.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-09": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not contain any information about reciprocal rank fusion; it only mentions a dataset called SciFact, which is unrelated to the question.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-10": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context is about Python 3.11 and does not contain any information related to near-duplicate passage removal, making it not useful for the answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-11": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context only mentions that the frozen Haystack Ragas evaluation retrieves five candidate documents before refinement, but it does not mention RRF-94 or define the evaluation set and contract. Therefore, the context was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-12": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context does not mention any date for the review of the frozen Haystack Ragas evaluation contract; it only describes the retrieval process. Therefore, the context was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          },
+          "q-13": {
+            "context_precision_prompt": {
+              "output": {
+                "reason": "The context states that the evaluation retrieves five candidate documents before refinement, but it does not mention the number of final contexts selected. The answer claims three final contexts are selected, which is not supported by the context. Therefore, the context was not useful in arriving at the given answer.",
+                "verdict": 0
+              }
+            }
+          }
+        },
+        "per_sample": {
+          "q-01": 0.9999999999,
+          "q-02": 0.9999999999,
+          "q-03": 0.9999999999,
+          "q-04": 0.9999999999,
+          "q-05": 0.99999999995,
+          "q-06": 0.9999999999,
+          "q-07": 0.9999999999,
+          "q-08": 0.9999999999,
+          "q-09": 0.9999999999,
+          "q-10": 0.9999999999,
+          "q-11": 0.9999999999,
+          "q-12": 0.9999999999,
+          "q-13": 0.9999999999
+        }
+      },
+      "factual_correctness": {
+        "aggregate": 0.7176923076923077,
+        "failures": [],
+        "judge_reasons": {
+          "q-01": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Python 3.12 improves the f-string parser.",
+                  "Python 3.12 adds type parameter syntax."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.12 improves the f-string parser.",
+                    "statement": "Python 3.12 improves the f-string parser.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-02": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Python 3.13 introduces a free-threaded build.",
+                  "Python 3.13 introduces an improved interactive interpreter."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces a free-threaded build.",
+                    "statement": "Python 3.13 introduces a free-threaded build.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces an improved interactive interpreter.",
+                    "statement": "Python 3.13 introduces an improved interactive interpreter.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-03": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                  "ragrefine is designed for RAG context."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context directly states that ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context.",
+                    "statement": "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions 'RAG context' which stands for Retrieval-Augmented Generation, and states that ragrefine is for that purpose.",
+                    "statement": "ragrefine is designed for RAG (Retrieval-Augmented Generation) contexts.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention evaluation harnesses or any usage in such a context.",
+                    "statement": "ragrefine is used in evaluation harnesses.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention testing or comparing performance; it only describes what ragrefine is.",
+                    "statement": "ragrefine is used to test and compare retrieval refinement performance.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-04": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "It ranks documents by lexical overlap.",
+                  "It uses BM25L for ranking."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context only mentions 'It ranks documents by lexical overlap using BM25L.' It does not specify that 'It' refers to Haystack's in-memory BM25 retriever, so this cannot be directly inferred.",
+                    "statement": "Haystack's in-memory BM25 retriever ranks documents by lexical overlap using BM25L.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention BM25L being a variant of BM25; it only states that ranking is done using BM25L.",
+                    "statement": "BM25L is a variant of the standard BM25 algorithm.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention BM25 or its scoring criteria; it only mentions BM25L and lexical overlap.",
+                    "statement": "BM25 scores documents based on term frequency and inverse document frequency.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not define term frequency or any related concepts.",
+                    "statement": "Term frequency measures how often query terms appear in a document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not define inverse document frequency or any related concepts.",
+                    "statement": "Inverse document frequency measures how rare or common terms are across the document collection.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not explain the meaning of the 'L' in BM25L.",
+                    "statement": "The 'L' in BM25L refers to a length normalization adjustment.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention length normalization or any bias against longer documents.",
+                    "statement": "The length normalization adjustment in BM25L helps prevent bias against longer documents.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context only states that ranking is done using BM25L, with no formula or parameters given, so this is directly inferable.",
+                    "statement": "The provided context does not provide details on the exact formula or parameters of BM25L.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says 'It ranks documents by lexical overlap using BM25L,' which directly states that BM25L is used for lexical overlap ranking.",
+                    "statement": "The provided context explicitly states that the ranking mechanism is BM25L for lexical overlap.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-05": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Faithfulness measures how factually consistent a generated answer is with the retrieved context."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context defines faithfulness as measuring factual consistency between a generated answer and the retrieved context, but it does not mention 'Ragas' or a specific metric named 'Ragas faithfulness'. Therefore, this cannot be directly inferred.",
+                    "statement": "The Ragas faithfulness metric measures how factually consistent a generated answer is with the retrieved context.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context only mentions 'Faithfulness' as a concept, not any specific metrics or a count of three. There is no mention of 'Ragas' or multiple metrics.",
+                    "statement": "The Ragas faithfulness metric is one of three metrics mentioned.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any metrics, a count of three, or RAG answers. It only defines faithfulness in general terms.",
+                    "statement": "The three metrics mentioned are used to evaluate RAG answers.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any other metrics, nor does it mention 'context recall' or 'factual correctness'. Therefore, this cannot be inferred.",
+                    "statement": "The other two metrics mentioned are context recall and factual correctness.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-06": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "BEIR is a heterogeneous benchmark.",
+                  "BEIR is used for zero-shot information retrieval evaluation."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context directly states that BEIR is a heterogeneous benchmark.",
+                    "statement": "BEIR is a heterogeneous benchmark.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context directly states that BEIR is for zero-shot information retrieval evaluation.",
+                    "statement": "BEIR is used for zero-shot information retrieval evaluation.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context describes BEIR as a benchmark, so it can be inferred that it falls under the topic of benchmark.",
+                    "statement": "BEIR is categorized under the topic of \"benchmark.\"",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-07": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "SciFact is a scientific claim verification dataset.",
+                  "SciFact is used for retrieval benchmarking."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that SciFact is a scientific claim verification dataset.",
+                    "statement": "SciFact is a scientific claim verification dataset.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that SciFact is used for retrieval benchmarking.",
+                    "statement": "SciFact is used for retrieval benchmarking.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-08": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "A cross-encoder scores query-document pairs jointly.",
+                  "A cross-encoder uses a transformer model."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that a cross-encoder scores query-document pairs jointly through a transformer model, which directly implies processing them together as a single input sequence.",
+                    "statement": "A cross-encoder scores documents by processing the query and document together as a single input sequence through a transformer model.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says the pairs are scored jointly, which implies they are not processed separately, but this is an inference rather than a direct statement.",
+                    "statement": "A cross-encoder does not encode the query and document separately.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention concatenation or special tokens; it only says they are scored jointly.",
+                    "statement": "In a cross-encoder, the query and document are concatenated into one input string, typically separated by a special token.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention cross-attention or token-level interactions; it only states that pairs are scored jointly.",
+                    "statement": "The transformer in a cross-encoder processes the combined sequence, allowing full cross-attention between every token of the query and every token of the document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not specify how the model compares or weighs interactions; it only mentions joint scoring.",
+                    "statement": "In a cross-encoder, the model can directly compare and weigh interactions between words in both texts.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says it scores pairs, which implies a score output, but it does not specify the type of score or that it is scalar.",
+                    "statement": "The cross-encoder outputs a single scalar score representing the relevance or similarity between the query and the document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention classification heads, regression heads, or the [CLS] token.",
+                    "statement": "The scalar score from a cross-encoder often comes from a classification head on the [CLS] token or a regression head.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention ranking or the meaning of higher scores.",
+                    "statement": "The score from a cross-encoder is used to rank documents, with higher scores indicating higher relevance.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention bi-encoders or pre-computing embeddings.",
+                    "statement": "Unlike bi-encoders, a cross-encoder cannot pre-compute document embeddings.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention computational requirements or running the transformer for each pair.",
+                    "statement": "A cross-encoder must run the full transformer for every query-document pair.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not discuss computational cost or accuracy.",
+                    "statement": "A cross-encoder is computationally expensive but highly accurate.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention usage scenarios, reranking, or BM25.",
+                    "statement": "A cross-encoder is typically used for reranking a small set of top candidates, such as from BM25, rather than for initial retrieval.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-09": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Reciprocal rank fusion combines multiple rankings.",
+                  "Reciprocal rank fusion sums reciprocal ranks."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that reciprocal rank fusion combines multiple rankings, which directly implies it is a method for combining multiple ranked lists into a single ranking.",
+                    "statement": "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists into a single, unified ranking.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions summing reciprocal ranks, which directly implies that scores are assigned based on this sum across all lists.",
+                    "statement": "RRF assigns a score to each document based on the sum of its reciprocal ranks across all lists.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context only mentions summing reciprocal ranks without specifying the formula or the constant k. This detail is not provided in the context.",
+                    "statement": "For each document, the score is calculated as the sum of 1/(k + rank) for each list it appears in, where k is a constant typically set to 60.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "Since the method sums reciprocal ranks, documents appearing high in multiple lists would have higher reciprocal ranks, leading to higher sums. This can be directly inferred from the context.",
+                    "statement": "Documents that appear high in multiple lists receive higher fused scores.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "If a document appears in only one list or at low ranks, its reciprocal rank sum would be lower, leading to a lower fused score. This is directly inferable from the context.",
+                    "statement": "Documents that appear in only one list or at low ranks receive lower fused scores.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention simplicity or robustness of the method.",
+                    "statement": "RRF is simple and robust.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention anything about training or score normalization requirements.",
+                    "statement": "RRF does not require any training or score normalization.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention popularity or specific application areas.",
+                    "statement": "RRF is popular in information retrieval and ensemble methods.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          },
+          "q-10": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "Near-duplicate passages are removed by normalized text hashing.",
+                  "Near-duplicate passages are removed by token-shingle Jaccard similarity."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that near-duplicate passages are removed by normalized text hashing, so this statement is directly supported.",
+                    "statement": "Near-duplicate passages are removed using normalized text hashing.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that near-duplicate passages are removed by token-shingle Jaccard similarity, so this statement is directly supported.",
+                    "statement": "Near-duplicate passages are removed using token-shingle Jaccard similarity.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-11": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "RRF-94 defines the frozen Haystack Ragas evaluation set.",
+                  "RRF-94 defines a contract."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that RRF-94 defines the frozen Haystack Ragas evaluation set and contract, which directly implies that the ticket (RRF-94) is the one that defines it.",
+                    "statement": "The ticket that defines the frozen Haystack Ragas evaluation set and contract is rrf-94.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "This statement is a direct restatement of the context.",
+                    "statement": "RRF-94 defines the frozen Haystack Ragas evaluation set and contract.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-12": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that the frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.",
+                    "statement": "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            }
+          },
+          "q-13": {
+            "claim_decomposition_prompt": {
+              "output": {
+                "claims": [
+                  "The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool."
+                ]
+              }
+            },
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The statement is a direct restatement of the context, which explicitly states that the evaluation selects three final contexts from each Top-5 retrieval pool.",
+                    "statement": "The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention any basis for the selection, only that the selection occurs. Therefore, it cannot be directly inferred that the selection is based on the provided context.",
+                    "statement": "The selection of three final contexts is based on the provided context.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "per_sample": {
+          "q-01": 0.67,
+          "q-02": 1.0,
+          "q-03": 0.67,
+          "q-04": 0.36,
+          "q-05": 0.0,
+          "q-06": 1.0,
+          "q-07": 1.0,
+          "q-08": 0.29,
+          "q-09": 0.67,
+          "q-10": 1.0,
+          "q-11": 1.0,
+          "q-12": 1.0,
+          "q-13": 0.67
+        }
+      },
+      "faithfulness": {
+        "aggregate": 0.807569623359097,
+        "failures": [],
+        "judge_reasons": {
+          "q-01": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.12 improves the f-string parser.",
+                    "statement": "Python 3.12 improves the f-string parser.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Python 3.12 improves the f-string parser."
+                ]
+              }
+            }
+          },
+          "q-02": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces a free-threaded build.",
+                    "statement": "Python 3.13 introduces a free-threaded build.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that Python 3.13 introduces an improved interactive interpreter.",
+                    "statement": "Python 3.13 introduces an improved interactive interpreter.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Python 3.13 introduces a free-threaded build.",
+                  "Python 3.13 introduces an improved interactive interpreter."
+                ]
+              }
+            }
+          },
+          "q-03": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that 'ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context.'",
+                    "statement": "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context states that ragrefine is a library 'for RAG context', which directly implies it is designed for RAG contexts.",
+                    "statement": "ragrefine is designed for RAG (Retrieval-Augmented Generation) contexts.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions 'RRF-95 implements the paired Haystack B0 versus ragrefine Ragas harness', which indicates that ragrefine is part of an evaluation harness.",
+                    "statement": "ragrefine is used in evaluation harnesses.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly mentions 'the paired Haystack B0 versus ragrefine Ragas harness' as an implementation, which serves as an example of an evaluation harness.",
+                    "statement": "An example of an evaluation harness is the paired Haystack B0 versus ragrefine Ragas harness.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not explicitly state that the evaluation harnesses are used to test retrieval refinement performance. It only mentions the existence of the harness and its components.",
+                    "statement": "The evaluation harnesses are used to test retrieval refinement performance.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not explicitly state that the evaluation harnesses are used to compare retrieval refinement performance. It only mentions the existence of the harness and its components.",
+                    "statement": "The evaluation harnesses are used to compare retrieval refinement performance.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "ragrefine is a retriever-agnostic post-retrieval refinement library.",
+                  "ragrefine is designed for RAG (Retrieval-Augmented Generation) contexts.",
+                  "ragrefine is used in evaluation harnesses.",
+                  "An example of an evaluation harness is the paired Haystack B0 versus ragrefine Ragas harness.",
+                  "The evaluation harnesses are used to test retrieval refinement performance.",
+                  "The evaluation harnesses are used to compare retrieval refinement performance."
+                ]
+              }
+            }
+          },
+          "q-04": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states exactly that: 'Haystack in-memory BM25 retriever ranks documents by lexical overlap using BM25L.'",
+                    "statement": "Haystack's in-memory BM25 retriever ranks documents by lexical overlap using BM25L.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions BM25L and BM25 separately but does not explicitly state that BM25L is a variant of BM25. This cannot be directly inferred.",
+                    "statement": "BM25L is a variant of the standard BM25 algorithm.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says 'BM25 is a sparse lexical retrieval model that scores documents by term frequency and inverse document frequency.' This directly supports the statement.",
+                    "statement": "The standard BM25 algorithm scores documents based on term frequency.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions term frequency as a scoring factor but does not define what it measures. This cannot be directly inferred.",
+                    "statement": "Term frequency measures how often query terms appear in a document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says 'BM25 is a sparse lexical retrieval model that scores documents by term frequency and inverse document frequency.' This directly supports the statement.",
+                    "statement": "The standard BM25 algorithm scores documents based on inverse document frequency.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions inverse document frequency as a scoring factor but does not define what it measures. This cannot be directly inferred.",
+                    "statement": "Inverse document frequency measures how rare or common terms are across the document collection.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not explain what the 'L' in BM25L stands for. This cannot be directly inferred.",
+                    "statement": "The \"L\" in BM25L refers to a length normalization adjustment.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention length normalization or any bias against longer documents. This cannot be directly inferred.",
+                    "statement": "The length normalization adjustment helps prevent bias against longer documents.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context only mentions BM25L in passing and does not give any formula or parameters. This is directly supported by the absence of such details.",
+                    "statement": "The provided context does not provide details on the exact formula or parameters of BM25L.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says 'Haystack in-memory BM25 retriever ranks documents by lexical overlap using BM25L.' This directly supports the statement.",
+                    "statement": "The provided context explicitly states that the ranking mechanism is BM25L for lexical overlap.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Haystack's in-memory BM25 retriever ranks documents by lexical overlap using BM25L.",
+                  "BM25L is a variant of the standard BM25 algorithm.",
+                  "The standard BM25 algorithm scores documents based on term frequency.",
+                  "Term frequency measures how often query terms appear in a document.",
+                  "The standard BM25 algorithm scores documents based on inverse document frequency.",
+                  "Inverse document frequency measures how rare or common terms are across the document collection.",
+                  "The \"L\" in BM25L refers to a length normalization adjustment.",
+                  "The length normalization adjustment helps prevent bias against longer documents.",
+                  "The provided context does not provide details on the exact formula or parameters of BM25L.",
+                  "The provided context explicitly states that the ranking mechanism is BM25L for lexical overlap."
+                ]
+              }
+            }
+          },
+          "q-05": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states 'Faithfulness measures how factually consistent a generated answer is with the retrieved context.' This directly matches the statement.",
+                    "statement": "The Ragas faithfulness metric measures how factually consistent a generated answer is with the retrieved context.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context lists 'faithfulness, context recall, and factual correctness' which are three metrics, and faithfulness is one of them.",
+                    "statement": "The Ragas faithfulness metric is one of three metrics mentioned.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly mentions 'faithfulness, context recall, and factual correctness' as the three metrics, and faithfulness is referred to as 'Ragas faithfulness' in the first sentence.",
+                    "statement": "The three metrics mentioned are context recall, factual correctness, and the Ragas faithfulness metric.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says 'Ragas computes faithfulness, context recall, and factual correctness for RAG answers.' This implies these metrics are used to evaluate RAG answers.",
+                    "statement": "The three metrics are used to evaluate RAG answers.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The Ragas faithfulness metric measures how factually consistent a generated answer is with the retrieved context.",
+                  "The Ragas faithfulness metric is one of three metrics mentioned.",
+                  "The three metrics mentioned are context recall, factual correctness, and the Ragas faithfulness metric.",
+                  "The three metrics are used to evaluate RAG answers."
+                ]
+              }
+            }
+          },
+          "q-06": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation.",
+                    "statement": "BEIR is a heterogeneous benchmark.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation.",
+                    "statement": "BEIR is used for zero-shot information retrieval evaluation.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context describes BEIR as a benchmark, so it can be directly inferred that it falls under the topic of benchmark.",
+                    "statement": "BEIR is categorized under the topic of \"benchmark.\"",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "BEIR is a heterogeneous benchmark.",
+                  "BEIR is used for zero-shot information retrieval evaluation.",
+                  "BEIR is categorized under the topic of \"benchmark.\""
+                ]
+              }
+            }
+          },
+          "q-07": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that 'SciFact is a scientific claim verification dataset used for retrieval benchmarking.' This directly supports the statement.",
+                    "statement": "SciFact is a scientific claim verification dataset.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context states that SciFact is 'used for retrieval benchmarking', which directly supports the statement.",
+                    "statement": "SciFact is specifically used for retrieval benchmarking.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "SciFact is a scientific claim verification dataset.",
+                  "SciFact is specifically used for retrieval benchmarking."
+                ]
+              }
+            }
+          },
+          "q-08": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that a cross-encoder scores query-document pairs jointly through a transformer model, which implies processing them together as a single input sequence.",
+                    "statement": "A cross-encoder scores documents by processing the query and document together as a single input sequence through a transformer model.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context says the cross-encoder scores query-document pairs jointly, which implies they are not encoded separately.",
+                    "statement": "A cross-encoder does not encode the query and document separately.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context mentions joint scoring but does not explicitly state concatenation into one input string.",
+                    "statement": "The query and document are concatenated into one input string.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any special tokens or specific input formatting.",
+                    "statement": "The concatenated input string is typically separated by a special token, such as [CLS] query [SEP] document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says the cross-encoder scores query-document pairs jointly through a transformer model, which implies the transformer processes the combined input.",
+                    "statement": "The transformer processes the combined sequence.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention cross-attention or token-level interactions.",
+                    "statement": "The combined sequence allows full cross-attention between every token of the query and every token of the document.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention word-level comparisons or interactions.",
+                    "statement": "The model can directly compare and weigh interactions between words in both texts.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not specify the output format of the cross-encoder.",
+                    "statement": "The model outputs a single scalar score.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention classification heads, regression heads, or [CLS] tokens.",
+                    "statement": "The scalar score often comes from a classification head on the [CLS] token or a regression head.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says the cross-encoder scores query-document pairs, which implies the score represents relevance or similarity.",
+                    "statement": "The scalar score represents the relevance or similarity between the query and that specific document.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not explicitly state that the score is used for ranking.",
+                    "statement": "The score is used to rank documents.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not specify the direction of the score interpretation.",
+                    "statement": "Higher scores indicate higher relevance.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention bi-encoders or pre-computation of embeddings.",
+                    "statement": "Unlike bi-encoders, a cross-encoder cannot pre-compute document embeddings.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says the cross-encoder scores query-document pairs jointly, which implies running the transformer for each pair, but does not explicitly state 'must run the full transformer'.",
+                    "statement": "A cross-encoder must run the full transformer for every query-document pair.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not discuss computational cost.",
+                    "statement": "Running the full transformer for every query-document pair makes the cross-encoder computationally expensive.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not discuss accuracy.",
+                    "statement": "Running the full transformer for every query-document pair makes the cross-encoder highly accurate.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention reranking or typical usage scenarios.",
+                    "statement": "The cross-encoder is typically used for reranking a small set of top candidates.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention initial retrieval or typical usage scenarios.",
+                    "statement": "The cross-encoder is typically not used for initial retrieval.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context mentions BM25 as a sparse lexical retrieval model but does not connect it to cross-encoder reranking.",
+                    "statement": "An example of top candidates for reranking is from BM25.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "A cross-encoder scores documents by processing the query and document together as a single input sequence through a transformer model.",
+                  "A cross-encoder does not encode the query and document separately.",
+                  "The query and document are concatenated into one input string.",
+                  "The concatenated input string is typically separated by a special token, such as [CLS] query [SEP] document.",
+                  "The transformer processes the combined sequence.",
+                  "The combined sequence allows full cross-attention between every token of the query and every token of the document.",
+                  "The model can directly compare and weigh interactions between words in both texts.",
+                  "The model outputs a single scalar score.",
+                  "The scalar score often comes from a classification head on the [CLS] token or a regression head.",
+                  "The scalar score represents the relevance or similarity between the query and that specific document.",
+                  "The score is used to rank documents.",
+                  "Higher scores indicate higher relevance.",
+                  "Unlike bi-encoders, a cross-encoder cannot pre-compute document embeddings.",
+                  "A cross-encoder must run the full transformer for every query-document pair.",
+                  "Running the full transformer for every query-document pair makes the cross-encoder computationally expensive.",
+                  "Running the full transformer for every query-document pair makes the cross-encoder highly accurate.",
+                  "The cross-encoder is typically used for reranking a small set of top candidates.",
+                  "The cross-encoder is typically not used for initial retrieval.",
+                  "An example of top candidates for reranking is from BM25."
+                ]
+              }
+            }
+          },
+          "q-09": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states 'Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks', which directly implies combining multiple ranked lists into a unified ranking.",
+                    "statement": "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists into a single, unified ranking.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not specify the source of the rankings, only that it combines multiple rankings. This cannot be directly inferred.",
+                    "statement": "The multiple ranked lists can come from different retrieval systems or queries.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says 'summing reciprocal ranks' which implies assigning scores based on the sum of reciprocal ranks, but it does not explicitly mention documents. However, the concept of rankings implies documents, so this is a direct inference.",
+                    "statement": "Reciprocal rank fusion works by assigning a score to each document based on the sum of its reciprocal ranks across all lists.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not provide the formula for reciprocal rank calculation, only that reciprocal ranks are summed. This specific formula is not mentioned.",
+                    "statement": "For each document, the reciprocal rank is calculated as 1/(k + rank) for each list in which the document appears.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention any constant k or its typical value.",
+                    "statement": "The constant k is typically set to 60.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context says 'summing reciprocal ranks' which directly implies summing across lists to get a fused score.",
+                    "statement": "The reciprocal ranks for a document are summed across all lists to obtain the fused score.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "This is a logical consequence of summing reciprocal ranks: higher ranks (lower rank numbers) yield higher reciprocal ranks, and appearing in multiple lists adds more contributions. This can be directly inferred from the context.",
+                    "statement": "Documents that appear high in multiple lists receive higher fused scores.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "This is the inverse of the previous statement and can be directly inferred from the context as a logical consequence of the method.",
+                    "statement": "Documents that appear in only one list or at low ranks receive lower fused scores.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not describe the simplicity or robustness of the method.",
+                    "statement": "Reciprocal rank fusion is simple and robust.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention training or score normalization requirements.",
+                    "statement": "Reciprocal rank fusion does not require any training or score normalization.",
+                    "verdict": 0
+                  },
+                  {
+                    "reason": "The context does not mention popularity or usage in ensemble methods.",
+                    "statement": "Reciprocal rank fusion is popular in information retrieval and ensemble methods.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists into a single, unified ranking.",
+                  "The multiple ranked lists can come from different retrieval systems or queries.",
+                  "Reciprocal rank fusion works by assigning a score to each document based on the sum of its reciprocal ranks across all lists.",
+                  "For each document, the reciprocal rank is calculated as 1/(k + rank) for each list in which the document appears.",
+                  "The constant k is typically set to 60.",
+                  "The reciprocal ranks for a document are summed across all lists to obtain the fused score.",
+                  "Documents that appear high in multiple lists receive higher fused scores.",
+                  "Documents that appear in only one list or at low ranks receive lower fused scores.",
+                  "Reciprocal rank fusion is simple and robust.",
+                  "Reciprocal rank fusion does not require any training or score normalization.",
+                  "Reciprocal rank fusion is popular in information retrieval and ensemble methods."
+                ]
+              }
+            }
+          },
+          "q-10": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity. Since the statement mentions one of the two methods, it can be directly inferred.",
+                    "statement": "Near-duplicate passages are removed using normalized text hashing.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context explicitly states that near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity. Since the statement mentions the other method, it can be directly inferred.",
+                    "statement": "Near-duplicate passages are removed using token-shingle Jaccard similarity.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "Near-duplicate passages are removed using normalized text hashing.",
+                  "Near-duplicate passages are removed using token-shingle Jaccard similarity."
+                ]
+              }
+            }
+          },
+          "q-11": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context states that 'RRF-94 defines the frozen Haystack Ragas evaluation set and contract.' This directly implies that the ticket (RRF-94) defines the set and contract, so the statement is directly inferred.",
+                    "statement": "The ticket that defines the frozen Haystack Ragas evaluation set and contract is [rrf-94].",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "This is a direct quote from the context, so it is directly inferred.",
+                    "statement": "RRF-94 defines the frozen Haystack Ragas evaluation set and contract.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The ticket that defines the frozen Haystack Ragas evaluation set and contract is [rrf-94].",
+                  "RRF-94 defines the frozen Haystack Ragas evaluation set and contract."
+                ]
+              }
+            }
+          },
+          "q-12": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that the contract was reviewed on 2026-08-21.",
+                    "statement": "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context provides the review date, so the statement is directly inferred from the context.",
+                    "statement": "The review date is based on the provided context.",
+                    "verdict": 1
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.",
+                  "The review date is based on the provided context."
+                ]
+              }
+            }
+          },
+          "q-13": {
+            "n_l_i_statement_prompt": {
+              "output": {
+                "statements": [
+                  {
+                    "reason": "The context explicitly states that the frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.",
+                    "statement": "The frozen Haystack Ragas evaluation selects three final contexts.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context states that the evaluation selects three final contexts from each Top-5 retrieval pool, which directly supports this statement.",
+                    "statement": "The three final contexts are selected from each Top-5 retrieval pool.",
+                    "verdict": 1
+                  },
+                  {
+                    "reason": "The context does not mention the basis for the selection; it only states that the selection happens from each Top-5 retrieval pool. The provided context does not specify the selection criteria.",
+                    "statement": "The selection of three final contexts is based on the provided context.",
+                    "verdict": 0
+                  }
+                ]
+              }
+            },
+            "statement_generator_prompt": {
+              "output": {
+                "statements": [
+                  "The frozen Haystack Ragas evaluation selects three final contexts.",
+                  "The three final contexts are selected from each Top-5 retrieval pool.",
+                  "The selection of three final contexts is based on the provided context."
+                ]
+              }
+            }
+          }
+        },
+        "per_sample": {
+          "q-01": 1.0,
+          "q-02": 1.0,
+          "q-03": 0.6666666666666666,
+          "q-04": 0.5,
+          "q-05": 1.0,
+          "q-06": 1.0,
+          "q-07": 1.0,
+          "q-08": 0.21052631578947367,
+          "q-09": 0.45454545454545453,
+          "q-10": 1.0,
+          "q-11": 1.0,
+          "q-12": 1.0,
+          "q-13": 0.6666666666666666
+        }
+      },
+      "id_based_context_recall": {
+        "aggregate": 1.0,
+        "failures": [],
+        "judge_reasons": {},
+        "per_sample": {
+          "q-01": 1.0,
+          "q-02": 1.0,
+          "q-03": 1.0,
+          "q-04": 1.0,
+          "q-05": 1.0,
+          "q-06": 1.0,
+          "q-07": 1.0,
+          "q-08": 1.0,
+          "q-09": 1.0,
+          "q-10": 1.0,
+          "q-11": 1.0,
+          "q-12": 1.0,
+          "q-13": 1.0
+        }
+      }
+    }
+  },
+  "testset": {
+    "corpus_size": 21,
+    "path": "D:\\ragrefine\\benchmarks\\haystack\\testset\\ragas-testset-v2.json",
+    "sha256": "452f88dcb54d24940ba7e3863ddd49a4c229f5792e8acefdee6b6fdef4782742"
+  }
+}

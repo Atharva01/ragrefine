@@ -1,0 +1,532 @@
+{
+  "configuration": {
+    "metrics": [
+      "context_precision",
+      "id_based_context_recall",
+      "faithfulness",
+      "factual_correctness"
+    ],
+    "omitted_metrics": {
+      "answer_relevancy": "no pinned embedding provider configured"
+    },
+    "paired_queries": 13,
+    "refinement_profile": "B2-L lexical"
+  },
+  "context": {
+    "aggregate": {
+      "baseline_words": 689,
+      "delta_words": 3,
+      "refined_words": 692
+    },
+    "per_query": {
+      "q-01": {
+        "baseline_words": 50,
+        "delta_words": 0,
+        "refined_words": 50
+      },
+      "q-02": {
+        "baseline_words": 49,
+        "delta_words": 0,
+        "refined_words": 49
+      },
+      "q-03": {
+        "baseline_words": 47,
+        "delta_words": 0,
+        "refined_words": 47
+      },
+      "q-04": {
+        "baseline_words": 60,
+        "delta_words": 1,
+        "refined_words": 61
+      },
+      "q-05": {
+        "baseline_words": 55,
+        "delta_words": 0,
+        "refined_words": 55
+      },
+      "q-06": {
+        "baseline_words": 48,
+        "delta_words": 0,
+        "refined_words": 48
+      },
+      "q-07": {
+        "baseline_words": 48,
+        "delta_words": 0,
+        "refined_words": 48
+      },
+      "q-08": {
+        "baseline_words": 60,
+        "delta_words": 0,
+        "refined_words": 60
+      },
+      "q-09": {
+        "baseline_words": 50,
+        "delta_words": 0,
+        "refined_words": 50
+      },
+      "q-10": {
+        "baseline_words": 52,
+        "delta_words": 0,
+        "refined_words": 52
+      },
+      "q-11": {
+        "baseline_words": 56,
+        "delta_words": 0,
+        "refined_words": 56
+      },
+      "q-12": {
+        "baseline_words": 54,
+        "delta_words": 2,
+        "refined_words": 56
+      },
+      "q-13": {
+        "baseline_words": 60,
+        "delta_words": 0,
+        "refined_words": 60
+      }
+    }
+  },
+  "decision": {
+    "outcome": "inconclusive",
+    "rationale": "mixed or absent signals (0 supported improvements, 0 regressions)"
+  },
+  "environment": {
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 97,
+    "git_commit": "3d033a2b5d884dbfd8ba53d4e12451f25d41bd12",
+    "model": "deepseek-chat",
+    "python_version": "3.12.12",
+    "tie_tolerance": 1e-09
+  },
+  "input_artifact": {
+    "path": "benchmarks\\results\\haystack-ragas-v1\\ragas-results.json",
+    "sha256": "956ea198d2057ab2352b3f1c61121f9c82f8947b2f9d5bfa016906f94f0737a0"
+  },
+  "interpretation": "Ragas A/B of the frozen human-reviewed set (B2-L lexical profile); per-query and aggregate scores are LLM-judged and non-deterministic. An outcome is classified supported_improvement or regression only when the paired delta, its bootstrap confidence interval, and the win/loss counts agree; no broader claim is made.",
+  "per_metric": {
+    "context_precision": {
+      "aggregate": {
+        "baseline": 0.999999999903846,
+        "refined": 0.999999999903846
+      },
+      "decision": {
+        "outcome": "inconclusive",
+        "rationale": "mean paired delta 0.0000 with CI [0.0000, 0.0000] does not give a consistent signal (0 wins, 0 losses, 13 ties)"
+      },
+      "mean_paired_delta": 0.0,
+      "outcomes": {
+        "losses": 0,
+        "ties": 13,
+        "wins": 0
+      },
+      "paired_delta_ci95": [
+        0.0,
+        0.0
+      ],
+      "per_query": {
+        "q-01": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-02": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-03": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-04": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-05": {
+          "baseline": 0.99999999995,
+          "delta": 0.0,
+          "refined": 0.99999999995
+        },
+        "q-06": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-07": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-08": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-09": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-10": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-11": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-12": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        },
+        "q-13": {
+          "baseline": 0.9999999999,
+          "delta": 0.0,
+          "refined": 0.9999999999
+        }
+      },
+      "representative_regressions": [],
+      "representative_wins": [],
+      "scored_queries": 13
+    },
+    "factual_correctness": {
+      "aggregate": {
+        "baseline": 0.6684615384615384,
+        "refined": 0.7176923076923077
+      },
+      "decision": {
+        "outcome": "inconclusive",
+        "rationale": "mean paired delta 0.0492 with CI [-0.0508, 0.1554] does not give a consistent signal (3 wins, 1 losses, 9 ties)"
+      },
+      "mean_paired_delta": 0.04923076923076924,
+      "outcomes": {
+        "losses": 1,
+        "ties": 9,
+        "wins": 3
+      },
+      "paired_delta_ci95": [
+        -0.050769,
+        0.155385
+      ],
+      "per_query": {
+        "q-01": {
+          "baseline": 0.67,
+          "delta": 0.0,
+          "refined": 0.67
+        },
+        "q-02": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-03": {
+          "baseline": 0.67,
+          "delta": 0.0,
+          "refined": 0.67
+        },
+        "q-04": {
+          "baseline": 0.18,
+          "delta": 0.18,
+          "refined": 0.36
+        },
+        "q-05": {
+          "baseline": 0.0,
+          "delta": 0.0,
+          "refined": 0.0
+        },
+        "q-06": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-07": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-08": {
+          "baseline": 0.29,
+          "delta": 0.0,
+          "refined": 0.29
+        },
+        "q-09": {
+          "baseline": 0.21,
+          "delta": 0.4600000000000001,
+          "refined": 0.67
+        },
+        "q-10": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-11": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-12": {
+          "baseline": 0.67,
+          "delta": 0.32999999999999996,
+          "refined": 1.0
+        },
+        "q-13": {
+          "baseline": 1.0,
+          "delta": -0.32999999999999996,
+          "refined": 0.67
+        }
+      },
+      "representative_regressions": [
+        {
+          "delta": -0.32999999999999996,
+          "qa_id": "q-13"
+        }
+      ],
+      "representative_wins": [
+        {
+          "delta": 0.4600000000000001,
+          "qa_id": "q-09"
+        },
+        {
+          "delta": 0.32999999999999996,
+          "qa_id": "q-12"
+        },
+        {
+          "delta": 0.18,
+          "qa_id": "q-04"
+        }
+      ],
+      "scored_queries": 13
+    },
+    "faithfulness": {
+      "aggregate": {
+        "baseline": 0.7296869796869797,
+        "refined": 0.807569623359097
+      },
+      "decision": {
+        "outcome": "inconclusive",
+        "rationale": "mean paired delta 0.0779 with CI [-0.0148, 0.1864] does not give a consistent signal (3 wins, 2 losses, 8 ties)"
+      },
+      "mean_paired_delta": 0.07788264367211736,
+      "outcomes": {
+        "losses": 2,
+        "ties": 8,
+        "wins": 3
+      },
+      "paired_delta_ci95": [
+        -0.014775,
+        0.186445
+      ],
+      "per_query": {
+        "q-01": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-02": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-03": {
+          "baseline": 0.6666666666666666,
+          "delta": 0.0,
+          "refined": 0.6666666666666666
+        },
+        "q-04": {
+          "baseline": 0.5454545454545454,
+          "delta": -0.045454545454545414,
+          "refined": 0.5
+        },
+        "q-05": {
+          "baseline": 0.6666666666666666,
+          "delta": 0.33333333333333337,
+          "refined": 1.0
+        },
+        "q-06": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-07": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-08": {
+          "baseline": 0.35714285714285715,
+          "delta": -0.14661654135338348,
+          "refined": 0.21052631578947367
+        },
+        "q-09": {
+          "baseline": 0.08333333333333333,
+          "delta": 0.3712121212121212,
+          "refined": 0.45454545454545453
+        },
+        "q-10": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-11": {
+          "baseline": 0.5,
+          "delta": 0.5,
+          "refined": 1.0
+        },
+        "q-12": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-13": {
+          "baseline": 0.6666666666666666,
+          "delta": 0.0,
+          "refined": 0.6666666666666666
+        }
+      },
+      "representative_regressions": [
+        {
+          "delta": -0.14661654135338348,
+          "qa_id": "q-08"
+        },
+        {
+          "delta": -0.045454545454545414,
+          "qa_id": "q-04"
+        }
+      ],
+      "representative_wins": [
+        {
+          "delta": 0.5,
+          "qa_id": "q-11"
+        },
+        {
+          "delta": 0.3712121212121212,
+          "qa_id": "q-09"
+        },
+        {
+          "delta": 0.33333333333333337,
+          "qa_id": "q-05"
+        }
+      ],
+      "scored_queries": 13
+    },
+    "id_based_context_recall": {
+      "aggregate": {
+        "baseline": 1.0,
+        "refined": 1.0
+      },
+      "decision": {
+        "outcome": "inconclusive",
+        "rationale": "mean paired delta 0.0000 with CI [0.0000, 0.0000] does not give a consistent signal (0 wins, 0 losses, 13 ties)"
+      },
+      "mean_paired_delta": 0.0,
+      "outcomes": {
+        "losses": 0,
+        "ties": 13,
+        "wins": 0
+      },
+      "paired_delta_ci95": [
+        0.0,
+        0.0
+      ],
+      "per_query": {
+        "q-01": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-02": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-03": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-04": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-05": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-06": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-07": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-08": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-09": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-10": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-11": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-12": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        },
+        "q-13": {
+          "baseline": 1.0,
+          "delta": 0.0,
+          "refined": 1.0
+        }
+      },
+      "representative_regressions": [],
+      "representative_wins": [],
+      "scored_queries": 13
+    }
+  },
+  "schema_version": "1.0",
+  "scores_artifact": {
+    "path": "benchmarks\\results\\haystack-ragas-scores-v1\\ragas-scores.json",
+    "sha256": "1788bae6651fd6756de5438665e8c342600d17387fb8d12b69ffa9bcfecbf4fd"
+  },
+  "statistics": {
+    "bootstrap_samples": 10000,
+    "bootstrap_seed": 97,
+    "tie_tolerance": 1e-09
+  },
+  "verification": {
+    "checks": [
+      "testset_checksum",
+      "input_artifact_structure",
+      "input_testset_link",
+      "input_artifact_checksum",
+      "scores_checksum",
+      "scores_schema",
+      "scores_input_link",
+      "scores_coverage"
+    ],
+    "failures": [],
+    "ok": true
+  }
+}

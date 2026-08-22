@@ -73,8 +73,9 @@ class _FakeResult:
 
 
 class _DummyMetric:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, mode: str | None = None) -> None:
         self.name = name
+        self.mode = mode
 
 
 def _dummy_factory(metric: str) -> _DummyMetric:
@@ -358,6 +359,41 @@ class TestRagasMetricScorerIsolation:
         assert outcome.judge_reasons == {
             "q-01": {"judge_prompt": {"output": {"verdict": 1, "reason": "grounded"}}}
         }
+
+    def test_mode_keyed_metric_scores_are_extracted(self) -> None:
+        """FactualCorrectness scores are keyed ``name(mode=f1)`` by Ragas."""
+
+        def factory(metric: str) -> _DummyMetric:
+            return _DummyMetric(metric, mode="f1")
+
+        def evaluate_fn(**kwargs) -> _FakeResult:
+            return _FakeResult(
+                scores=[{"factual_correctness(mode=f1)": 0.8}],
+                traces=[
+                    {
+                        "factual_correctness": {
+                            "n_l_i_statement_prompt": {
+                                "input": {},
+                                "output": {
+                                    "statements": [{"verdict": 1, "reason": "ok"}]
+                                },
+                            }
+                        }
+                    }
+                ],
+            )
+
+        scorer = _RagasMetricScorer(
+            api_key="not-used",
+            model="deepseek-chat",
+            evaluate_fn=evaluate_fn,
+            metric_factory=factory,
+        )
+        outcome = scorer.score("factual_correctness", self._sample(), arm="baseline")
+        assert outcome.per_sample == {"q-01": 0.8}
+        assert outcome.aggregate == 0.8
+        assert outcome.failures == ()
+        assert "n_l_i_statement_prompt" in outcome.judge_reasons["q-01"]
 
     def test_evaluate_failure_is_preserved_not_a_score(self) -> None:
         def evaluate_fn(**kwargs) -> _FakeResult:

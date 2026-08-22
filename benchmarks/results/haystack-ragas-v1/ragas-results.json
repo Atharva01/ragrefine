@@ -1,0 +1,1720 @@
+{
+  "api_base_url": "https://api.deepseek.com/v1",
+  "configuration": {
+    "max_tokens": null,
+    "pool_reused": true,
+    "prompt_template": "ragrefine-haystack-prompt-v1",
+    "top_k": 3,
+    "top_n": 5
+  },
+  "environment": {
+    "api_base_url": "https://api.deepseek.com/v1",
+    "generation_settings": {
+      "temperature": 0
+    },
+    "git_commit": "3d033a2b5d884dbfd8ba53d4e12451f25d41bd12",
+    "inference_backend": "OpenAI-compatible HTTP",
+    "model": "deepseek-chat",
+    "python_version": "3.12.12"
+  },
+  "evaluation": {
+    "baseline_failures": 0,
+    "baseline_record_count": 13,
+    "paired_query_count": 13,
+    "queries_total": 13,
+    "refined_failures": 0,
+    "refined_record_count": 13
+  },
+  "generation": {
+    "api_base_url": "https://api.deepseek.com/v1",
+    "max_tokens": 512,
+    "model": "deepseek-chat",
+    "prompt_template": "ragrefine-haystack-prompt-v1",
+    "temperature": 0
+  },
+  "interpretation": "Ragas evaluation only; a refined-branch advantage is reported only when the recorded aggregate and per-query metrics support it. Queries are scored only when both arms generated an answer; per-arm failures are persisted per query.",
+  "metrics": {
+    "baseline": {
+      "context_recall": 1.0,
+      "factual_correctness": 0.6799999999999999,
+      "faithfulness": 0.7344488844488845
+    },
+    "names": [
+      "faithfulness",
+      "context_recall",
+      "factual_correctness"
+    ],
+    "refined": {
+      "context_recall": 1.0,
+      "factual_correctness": 0.7207692307692307,
+      "faithfulness": 0.7715004293951662
+    }
+  },
+  "model": "deepseek-chat",
+  "per_query": [
+    {
+      "baseline_answer": "Python 3.12 improves the f-string parser.",
+      "baseline_context_ids": [
+        "python-312",
+        "python-311",
+        "python-313"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.0961262000000715,
+      "baseline_prompt": "Question: Which Python version improves f-string parsing?\nContext:\n\n[python-312] Python 3.12 improves the f-string parser and adds type parameter syntax. | {'topic': 'python'}\n\n[python-311] Python 3.11 adds exception groups and task groups. | {'topic': 'python'}\n\n[python-313] Python 3.13 introduces a free-threaded build and an improved interactive interpreter. | {'topic': 'python'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.67,
+        "faithfulness": 1.0
+      },
+      "paired": true,
+      "pool_ids": [
+        "python-312",
+        "python-311",
+        "python-313",
+        "haystack-pipeline",
+        "haystack-retriever"
+      ],
+      "pool_sha256": "9eb23d3538ca239d3f740c30e85e4b244ea9f72eb9bb0e98a0f83442afd68b7a",
+      "qa_id": "q-01",
+      "question": "Which Python version improves f-string parsing?",
+      "reference_answer": "Python 3.12 improves the f-string parser and adds type parameter syntax.",
+      "reference_context_ids": [
+        "python-312"
+      ],
+      "refined_answer": "Python 3.12 improves the f-string parser.",
+      "refined_context_ids": [
+        "python-312",
+        "python-311",
+        "python-313"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 0.9178609999999026,
+      "refined_prompt": "Question: Which Python version improves f-string parsing?\nContext:\n\n[python-312] Python 3.12 improves the f-string parser and adds type parameter syntax. | {'topic': 'python'}\n\n[python-311] Python 3.11 adds exception groups and task groups. | {'topic': 'python'}\n\n[python-313] Python 3.13 introduces a free-threaded build and an improved interactive interpreter. | {'topic': 'python'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.67,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.00034360000063315965,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.16200000027311035,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.113999999484804,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.00039999940781854093,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "python-312",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "python-311",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "python-313",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "haystack-pipeline",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "haystack-retriever",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.013399999261309858,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.0002069000001938548
+    },
+    {
+      "baseline_answer": "Python 3.13 introduces a free-threaded build and an improved interactive interpreter.",
+      "baseline_context_ids": [
+        "python-313",
+        "python-311",
+        "python-312"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 0.8157440999993923,
+      "baseline_prompt": "Question: What does Python 3.13 introduce?\nContext:\n\n[python-313] Python 3.13 introduces a free-threaded build and an improved interactive interpreter. | {'topic': 'python'}\n\n[python-311] Python 3.11 adds exception groups and task groups. | {'topic': 'python'}\n\n[python-312] Python 3.12 improves the f-string parser and adds type parameter syntax. | {'topic': 'python'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "paired": true,
+      "pool_ids": [
+        "python-313",
+        "python-311",
+        "python-312",
+        "haystack-pipeline",
+        "haystack-retriever"
+      ],
+      "pool_sha256": "b4d31177b32c166606c105dc8f862a9bed34bb0ce9b0a7947555624fdeb51240",
+      "qa_id": "q-02",
+      "question": "What does Python 3.13 introduce?",
+      "reference_answer": "Python 3.13 introduces a free-threaded build and an improved interactive interpreter.",
+      "reference_context_ids": [
+        "python-313"
+      ],
+      "refined_answer": "Python 3.13 introduces a free-threaded build and an improved interactive interpreter.",
+      "refined_context_ids": [
+        "python-313",
+        "python-311",
+        "python-312"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 0.8156306999999288,
+      "refined_prompt": "Question: What does Python 3.13 introduce?\nContext:\n\n[python-313] Python 3.13 introduces a free-threaded build and an improved interactive interpreter. | {'topic': 'python'}\n\n[python-311] Python 3.11 adds exception groups and task groups. | {'topic': 'python'}\n\n[python-312] Python 3.12 improves the f-string parser and adds type parameter syntax. | {'topic': 'python'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.000273399999969115,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.15720000010333024,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.11159999939991394,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.0005000001692678779,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "python-313",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "python-311",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "python-312",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "haystack-pipeline",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "haystack-retriever",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.01249999968422344,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00024170000051526586
+    },
+    {
+      "baseline_answer": "Based on the provided context, **ragrefine** is a **retriever-agnostic post-retrieval refinement library** designed for RAG (Retrieval-Augmented Generation) contexts. \n\nIt is used in evaluation harnesses (like the paired Haystack B0 versus ragrefine Ragas harness mentioned in the second context entry) to test and compare retrieval refinement performance.",
+      "baseline_context_ids": [
+        "haystack-ragrefine",
+        "rrf-95",
+        "beir"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.431459100000211,
+      "baseline_prompt": "Question: What is ragrefine?\nContext:\n\n[haystack-ragrefine] ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context. | {'topic': 'ragrefine'}\n\n[rrf-95] RRF-95 implements the paired Haystack B0 versus ragrefine Ragas harness. | {'topic': 'evaluation'}\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.67,
+        "faithfulness": 0.8
+      },
+      "paired": true,
+      "pool_ids": [
+        "haystack-ragrefine",
+        "rrf-95",
+        "beir",
+        "scifact",
+        "ragas-faithfulness"
+      ],
+      "pool_sha256": "7f986a54d5680f7f73418ab96b4572224bf56d2220b731d8943a67ef26aee34f",
+      "qa_id": "q-03",
+      "question": "What is ragrefine?",
+      "reference_answer": "ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context.",
+      "reference_context_ids": [
+        "haystack-ragrefine"
+      ],
+      "refined_answer": "Based on the provided context, **ragrefine** is a **retriever-agnostic post-retrieval refinement library** designed for RAG (Retrieval-Augmented Generation) contexts. \n\nIt is used in evaluation harnesses (like the paired Haystack B0 versus ragrefine Ragas harness mentioned in the second context) to test and compare retrieval refinement performance.",
+      "refined_context_ids": [
+        "haystack-ragrefine",
+        "rrf-95",
+        "beir"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 1.3521226999991995,
+      "refined_prompt": "Question: What is ragrefine?\nContext:\n\n[haystack-ragrefine] ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context. | {'topic': 'ragrefine'}\n\n[rrf-95] RRF-95 implements the paired Haystack B0 versus ragrefine Ragas harness. | {'topic': 'evaluation'}\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.67,
+        "faithfulness": 0.6666666666666666
+      },
+      "refinement_latency_seconds": 0.0004253999995853519,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.32000000010157237,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.2764000000752276,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.00030000046535860747,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "haystack-ragrefine",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "rrf-95",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "beir",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "scifact",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.011500000255182385,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00018390000059298472
+    },
+    {
+      "baseline_answer": "Based on the provided context, Haystack's in-memory BM25 retriever ranks documents **by lexical overlap using BM25L**. \n\nBM25L is a variant of the standard BM25 algorithm, which itself scores documents based on term frequency (how often query terms appear in a document) and inverse document frequency (how rare or common those terms are across the document collection). The \"L\" in BM25L typically refers to a length normalization adjustment that helps handle documents of varying lengths more fairly. \n\nThe context does not mention any use of reciprocal rank fusion (RRF) in this retriever\u2014RRF is a separate method for combining multiple rankings, not part of the BM25L scoring itself.",
+      "baseline_context_ids": [
+        "haystack-retriever",
+        "bm25",
+        "rrf"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.9219645000002856,
+      "baseline_prompt": "Question: How does Haystack's in-memory BM25 retriever rank documents?\nContext:\n\n[haystack-retriever] Haystack in-memory BM25 retriever ranks documents by lexical overlap using BM25L. | {'topic': 'haystack'}\n\n[bm25] BM25 is a sparse lexical retrieval model that scores documents by term frequency and inverse document frequency. | {'topic': 'retrieval'}\n\n[rrf] Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks. | {'topic': 'fusion'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.33,
+        "faithfulness": 0.5454545454545454
+      },
+      "paired": true,
+      "pool_ids": [
+        "haystack-retriever",
+        "bm25",
+        "rrf",
+        "retrieval-pool-count",
+        "ragas-faithfulness"
+      ],
+      "pool_sha256": "eb3ef9764170bd718ee10b6abb6e1315d034c4aa28f7a8ee4496219da05db65a",
+      "qa_id": "q-04",
+      "question": "How does Haystack's in-memory BM25 retriever rank documents?",
+      "reference_answer": "It ranks documents by lexical overlap using BM25L.",
+      "reference_context_ids": [
+        "haystack-retriever"
+      ],
+      "refined_answer": "Based on the provided context, Haystack's in-memory BM25 retriever ranks documents by **lexical overlap using BM25L**. \n\nBM25L is a variant of the standard BM25 algorithm, which scores documents based on term frequency (how often query terms appear in a document) and inverse document frequency (how rare or common those terms are across the document collection). The \"L\" in BM25L typically refers to a length normalization adjustment that helps prevent bias against longer documents. \n\nThe context does not provide details on the exact formula or parameters, but it explicitly states that the ranking mechanism is **BM25L** for lexical overlap.",
+      "refined_context_ids": [
+        "haystack-retriever",
+        "bm25",
+        "retrieval-pool-count"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 1.9093179000001328,
+      "refined_prompt": "Question: How does Haystack's in-memory BM25 retriever rank documents?\nContext:\n\n[haystack-retriever] Haystack in-memory BM25 retriever ranks documents by lexical overlap using BM25L. | {'topic': 'haystack'}\n\n[bm25] BM25 is a sparse lexical retrieval model that scores documents by term frequency and inverse document frequency. | {'topic': 'retrieval'}\n\n[retrieval-pool-count] The frozen Haystack Ragas evaluation retrieves five candidate documents before refinement. | {'topic': 'evaluation'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.36,
+        "faithfulness": 0.5
+      },
+      "refinement_latency_seconds": 0.00025939999977708794,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.1587999995535938,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.11960000028921058,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.00030000046535860747,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "haystack-retriever",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "bm25",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "retrieval-pool-count",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "rrf",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.011299999641778413,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.0002518999999665539
+    },
+    {
+      "baseline_answer": "Based on the provided context, the Ragas faithfulness metric measures **how factually consistent a generated answer is with the retrieved context**. \n\n(Source: [ragas-faithfulness])",
+      "baseline_context_ids": [
+        "ragas",
+        "ragas-faithfulness",
+        "rrf-94"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.157174699999814,
+      "baseline_prompt": "Question: What does the Ragas faithfulness metric measure?\nContext:\n\n[ragas] Ragas computes faithfulness, context recall, and factual correctness for RAG answers. | {'topic': 'evaluation'}\n\n[ragas-faithfulness] Faithfulness measures how factually consistent a generated answer is with the retrieved context. | {'topic': 'evaluation'}\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.0,
+        "faithfulness": 0.6666666666666666
+      },
+      "paired": true,
+      "pool_ids": [
+        "ragas",
+        "ragas-faithfulness",
+        "rrf-94",
+        "rrf-95",
+        "retrieval-pool-count"
+      ],
+      "pool_sha256": "65588db4d5c8928132ae3fa897e9246702d2000f4a9b4e52c7296b0c8f112b00",
+      "qa_id": "q-05",
+      "question": "What does the Ragas faithfulness metric measure?",
+      "reference_answer": "Faithfulness measures how factually consistent a generated answer is with the retrieved context.",
+      "reference_context_ids": [
+        "ragas-faithfulness"
+      ],
+      "refined_answer": "Based on the provided context, the Ragas faithfulness metric measures **how factually consistent a generated answer is with the retrieved context**. \n\n(It is one of three metrics mentioned\u2014alongside context recall and factual correctness\u2014used to evaluate RAG answers.)",
+      "refined_context_ids": [
+        "ragas",
+        "ragas-faithfulness",
+        "rrf-94"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 1.4341433999998117,
+      "refined_prompt": "Question: What does the Ragas faithfulness metric measure?\nContext:\n\n[ragas] Ragas computes faithfulness, context recall, and factual correctness for RAG answers. | {'topic': 'evaluation'}\n\n[ragas-faithfulness] Faithfulness measures how factually consistent a generated answer is with the retrieved context. | {'topic': 'evaluation'}\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.0,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.0002573000001575565,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.15859999984968454,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.11730000005627517,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.0004000003173132427,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "ragas",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "rrf-94",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "rrf-95",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "retrieval-pool-count",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.011000000085914508,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00022230000013223616
+    },
+    {
+      "baseline_answer": "Based on the provided context, **BEIR** is a **heterogeneous benchmark** used for **zero-shot information retrieval evaluation**. Its topic is categorized as a \"benchmark.\"",
+      "baseline_context_ids": [
+        "beir",
+        "scifact",
+        "haystack-ragrefine"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.3005216999999902,
+      "baseline_prompt": "Question: What is BEIR?\nContext:\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n\n[scifact] SciFact is a scientific claim verification dataset used for retrieval benchmarking. | {'topic': 'benchmark'}\n\n[haystack-ragrefine] ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context. | {'topic': 'ragrefine'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "paired": true,
+      "pool_ids": [
+        "beir",
+        "scifact",
+        "haystack-ragrefine",
+        "ragas-faithfulness",
+        "bm25"
+      ],
+      "pool_sha256": "61d23962e19e54e18619871c2ee30219a3684a6f377a50f44107033f7d0e5f2d",
+      "qa_id": "q-06",
+      "question": "What is BEIR?",
+      "reference_answer": "BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation.",
+      "reference_context_ids": [
+        "beir"
+      ],
+      "refined_answer": "Based on the provided context, **BEIR** is a heterogeneous benchmark used for zero-shot information retrieval evaluation. It is categorized under the topic of \"benchmark.\"",
+      "refined_context_ids": [
+        "beir",
+        "scifact",
+        "haystack-ragrefine"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 1.209467499999846,
+      "refined_prompt": "Question: What is BEIR?\nContext:\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n\n[scifact] SciFact is a scientific claim verification dataset used for retrieval benchmarking. | {'topic': 'benchmark'}\n\n[haystack-ragrefine] ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context. | {'topic': 'ragrefine'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.0002616000001580687,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.1578999999765074,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.11449999965407187,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.00039999940781854093,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "beir",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "scifact",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "haystack-ragrefine",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "bm25",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.012500000593718141,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00019840000004478497
+    },
+    {
+      "baseline_answer": "Based on the provided context, SciFact is a **scientific claim verification dataset** that is specifically used for **retrieval benchmarking**.",
+      "baseline_context_ids": [
+        "scifact",
+        "beir",
+        "haystack-ragrefine"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 0.9782847000005859,
+      "baseline_prompt": "Question: What is SciFact?\nContext:\n\n[scifact] SciFact is a scientific claim verification dataset used for retrieval benchmarking. | {'topic': 'benchmark'}\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n\n[haystack-ragrefine] ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context. | {'topic': 'ragrefine'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "paired": true,
+      "pool_ids": [
+        "scifact",
+        "beir",
+        "haystack-ragrefine",
+        "ragas-faithfulness",
+        "bm25"
+      ],
+      "pool_sha256": "6b3a1fcaba302ad6cb74ca3728177e2290ca183b7693b49c65fa6ed5e2728096",
+      "qa_id": "q-07",
+      "question": "What is SciFact?",
+      "reference_answer": "SciFact is a scientific claim verification dataset used for retrieval benchmarking.",
+      "reference_context_ids": [
+        "scifact"
+      ],
+      "refined_answer": "Based on the provided context, SciFact is a **scientific claim verification dataset** that is specifically used for **retrieval benchmarking**.",
+      "refined_context_ids": [
+        "scifact",
+        "beir",
+        "haystack-ragrefine"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 0.9771528999999646,
+      "refined_prompt": "Question: What is SciFact?\nContext:\n\n[scifact] SciFact is a scientific claim verification dataset used for retrieval benchmarking. | {'topic': 'benchmark'}\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n\n[haystack-ragrefine] ragrefine is a retriever-agnostic post-retrieval refinement library for RAG context. | {'topic': 'ragrefine'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.000247500000114087,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.1503000003140187,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.10899999961111462,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.0002999995558639057,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "scifact",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "beir",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "haystack-ragrefine",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "bm25",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.01120000069931848,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00019390000034036348
+    },
+    {
+      "baseline_answer": "A cross-encoder scores documents by **processing the query and each document together as a single input pair** through a transformer model. \n\nInstead of encoding the query and document separately (like a bi-encoder), it concatenates them (often with a `[SEP]` token) and feeds the combined sequence into the transformer. The model then outputs a single relevance score (e.g., a probability or logit) for that specific pair, allowing it to capture deep interactions between the query terms and document terms. This joint scoring is more accurate but computationally expensive, so it is typically used for **reranking** a small set of top candidates from a faster first-stage retriever (like BM25).",
+      "baseline_context_ids": [
+        "crossencoder",
+        "ragas-faithfulness",
+        "bm25"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 2.341320900000028,
+      "baseline_prompt": "Question: How does a cross-encoder score documents?\nContext:\n\n[crossencoder] A cross-encoder scores query-document pairs jointly through a transformer model. | {'topic': 'reranking'}\n\n[ragas-faithfulness] Faithfulness measures how factually consistent a generated answer is with the retrieved context. | {'topic': 'evaluation'}\n\n[bm25] BM25 is a sparse lexical retrieval model that scores documents by term frequency and inverse document frequency. | {'topic': 'retrieval'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.29,
+        "faithfulness": 0.2857142857142857
+      },
+      "paired": true,
+      "pool_ids": [
+        "crossencoder",
+        "ragas-faithfulness",
+        "bm25",
+        "embedding",
+        "retrieval-pool-count"
+      ],
+      "pool_sha256": "48564f98cd1b3655493ffc45232d1f89500f9d2d702c07df211ae4b21c89cb6c",
+      "qa_id": "q-08",
+      "question": "How does a cross-encoder score documents?",
+      "reference_answer": "A cross-encoder scores query-document pairs jointly through a transformer model.",
+      "reference_context_ids": [
+        "crossencoder"
+      ],
+      "refined_answer": "A cross-encoder scores documents by **processing the query and document together as a single input sequence** through a transformer model, rather than encoding them separately. \n\nHere\u2019s the step-by-step process:\n\n1. **Concatenation**: The query and document are concatenated into one input string, typically separated by a special token (e.g., `[CLS] query [SEP] document`).\n2. **Joint Encoding**: The transformer processes this combined sequence, allowing **full cross-attention** between every token of the query and every token of the document. This means the model can directly compare and weigh interactions between words in both texts.\n3. **Output Scoring**: The model outputs a single scalar score (often from a classification head on the `[CLS]` token or a regression head) that represents the relevance or similarity between the query and that specific document.\n4. **Ranking**: This score is used to rank documents\u2014higher scores indicate higher relevance. \n\n**Key distinction**: Unlike bi-encoders (which encode query and document separately and then compute a dot product), a cross-encoder cannot pre-compute document embeddings. It must run the full transformer for **every query-document pair**, making it computationally expensive but highly accurate\u2014which is why it is typically used for **reranking** a small set of top candidates (e.g., from BM25) rather than for initial retrieval.",
+      "refined_context_ids": [
+        "crossencoder",
+        "ragas-faithfulness",
+        "bm25"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 3.626296600000387,
+      "refined_prompt": "Question: How does a cross-encoder score documents?\nContext:\n\n[crossencoder] A cross-encoder scores query-document pairs jointly through a transformer model. | {'topic': 'reranking'}\n\n[ragas-faithfulness] Faithfulness measures how factually consistent a generated answer is with the retrieved context. | {'topic': 'evaluation'}\n\n[bm25] BM25 is a sparse lexical retrieval model that scores documents by term frequency and inverse document frequency. | {'topic': 'retrieval'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.29,
+        "faithfulness": 0.10526315789473684
+      },
+      "refinement_latency_seconds": 0.00026080000043293694,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.1599000006535789,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.11929999982385198,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.00020000061340397224,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "crossencoder",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "bm25",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "embedding",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "retrieval-pool-count",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.01089999932446517,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.0002296999991813209
+    },
+    {
+      "baseline_answer": "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists (e.g., from different retrieval systems or queries) into a single, unified ranking.  \n\n**How it works:**  \nFor each document \\( d \\) in each ranking \\( R \\), you compute its reciprocal rank as \\( \\frac{1}{k + \\text{rank}(d, R)} \\), where \\( k \\) is a constant (typically 60) to avoid division by zero and to dampen the effect of high ranks. Then, for each document, you sum these reciprocal ranks across all rankings. The final score for document \\( d \\) is:  \n\n\\[\n\\text{RRF}(d) = \\sum_{R} \\frac{1}{k + \\text{rank}(d, R)}\n\\]\n\nDocuments are then sorted by this summed score in descending order to produce the fused ranking.\n\n**Key properties:**  \n- It does not require score normalization or calibration across different systems, since it only uses rank positions.  \n- It is robust to outliers and works well even when the individual rankings have very different score distributions.  \n- It is simple, parameter-light (only \\( k \\)), and effective in practice, especially for ensemble retrieval or combining results from multiple query formulations.\n\n**Context from your provided data:**  \nIn the context of information retrieval benchmarks like BEIR or SciFact, RRF is often used to fuse results from multiple retrieval models (e.g., BM25 + dense retrieval) to improve overall effectiveness, as it leverages the complementary strengths of different ranking signals without needing to tune weights.",
+      "baseline_context_ids": [
+        "rrf",
+        "beir",
+        "scifact"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 3.9926985000001878,
+      "baseline_prompt": "Question: What is reciprocal rank fusion?\nContext:\n\n[rrf] Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks. | {'topic': 'fusion'}\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n\n[scifact] SciFact is a scientific claim verification dataset used for retrieval benchmarking. | {'topic': 'benchmark'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.21,
+        "faithfulness": 0.08333333333333333
+      },
+      "paired": true,
+      "pool_ids": [
+        "rrf",
+        "beir",
+        "scifact",
+        "haystack-ragrefine",
+        "ragas-faithfulness"
+      ],
+      "pool_sha256": "d384de5085fa5ce41c7e0ac97ded8cc707db395b7653cb235c07675297961c5e",
+      "qa_id": "q-09",
+      "question": "What is reciprocal rank fusion?",
+      "reference_answer": "Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks.",
+      "reference_context_ids": [
+        "rrf"
+      ],
+      "refined_answer": "Reciprocal rank fusion (RRF) is a method for combining multiple ranked lists (e.g., from different retrieval systems or queries) into a single, unified ranking. It works by assigning a score to each document based on the sum of its reciprocal ranks across all lists. Specifically, for each document, you calculate 1/(k + rank) for each list it appears in (where k is a constant, typically 60), and then sum these values. Documents that appear high in multiple lists receive higher fused scores, while those appearing in only one list or at low ranks get lower scores. This approach is simple, robust, and does not require any training or score normalization, making it popular in information retrieval and ensemble methods.",
+      "refined_context_ids": [
+        "rrf",
+        "beir",
+        "scifact"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 2.2552197000004526,
+      "refined_prompt": "Question: What is reciprocal rank fusion?\nContext:\n\n[rrf] Reciprocal rank fusion combines multiple rankings by summing reciprocal ranks. | {'topic': 'fusion'}\n\n[beir] BEIR is a heterogeneous benchmark for zero-shot information retrieval evaluation. | {'topic': 'benchmark'}\n\n[scifact] SciFact is a scientific claim verification dataset used for retrieval benchmarking. | {'topic': 'benchmark'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.71,
+        "faithfulness": 0.09090909090909091
+      },
+      "refinement_latency_seconds": 0.00023010000040812884,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.13870000020688167,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.10019999990618089,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.00030000046535860747,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "rrf",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "beir",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "scifact",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "haystack-ragrefine",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.0106999996205559,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00019429999974818202
+    },
+    {
+      "baseline_answer": "Near-duplicate passages are removed using either normalized text hashing or token-shingle Jaccard similarity.",
+      "baseline_context_ids": [
+        "dedup",
+        "ragas-faithfulness",
+        "python-311"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.2228844999999637,
+      "baseline_prompt": "Question: How are near-duplicate passages removed?\nContext:\n\n[dedup] Near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity. | {'topic': 'refinement'}\n\n[ragas-faithfulness] Faithfulness measures how factually consistent a generated answer is with the retrieved context. | {'topic': 'evaluation'}\n\n[python-311] Python 3.11 adds exception groups and task groups. | {'topic': 'python'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "paired": true,
+      "pool_ids": [
+        "dedup",
+        "ragas-faithfulness",
+        "python-311",
+        "python-312",
+        "python-313"
+      ],
+      "pool_sha256": "4f271c81591e9cdbd0bb712f8ece25e659d9c70ac84453b2bfc59490eb023d08",
+      "qa_id": "q-10",
+      "question": "How are near-duplicate passages removed?",
+      "reference_answer": "Near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity.",
+      "reference_context_ids": [
+        "dedup"
+      ],
+      "refined_answer": "Near-duplicate passages are removed using either normalized text hashing or token-shingle Jaccard similarity.",
+      "refined_context_ids": [
+        "dedup",
+        "ragas-faithfulness",
+        "python-311"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 0.9149029000000155,
+      "refined_prompt": "Question: How are near-duplicate passages removed?\nContext:\n\n[dedup] Near-duplicate passages are removed by normalized text hashing or token-shingle Jaccard similarity. | {'topic': 'refinement'}\n\n[ragas-faithfulness] Faithfulness measures how factually consistent a generated answer is with the retrieved context. | {'topic': 'evaluation'}\n\n[python-311] Python 3.11 adds exception groups and task groups. | {'topic': 'python'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.00039170000036392594,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.14559999999619322,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.1049999991664663,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.0004000003173132427,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "dedup",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "python-311",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "python-312",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "python-313",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.010900000233959872,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00021300000025803456
+    },
+    {
+      "baseline_answer": "Based on the provided context, the ticket that defines the frozen Haystack Ragas evaluation set and contract is:\n\n**[rrf-94]** RRF-94",
+      "baseline_context_ids": [
+        "rrf-94",
+        "evaluation-date",
+        "retrieval-pool-count"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.3597263999999996,
+      "baseline_prompt": "Question: Which ticket defines the frozen Haystack Ragas evaluation set and contract?\nContext:\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n\n[evaluation-date] The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21. | {'topic': 'evaluation'}\n\n[retrieval-pool-count] The frozen Haystack Ragas evaluation retrieves five candidate documents before refinement. | {'topic': 'evaluation'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 0.5
+      },
+      "paired": true,
+      "pool_ids": [
+        "rrf-94",
+        "evaluation-date",
+        "retrieval-pool-count",
+        "final-context-count",
+        "rrf-95"
+      ],
+      "pool_sha256": "3c2817fbf0047728f5d0ef5698047186a82db4c55813a28a94451793c2b4753d",
+      "qa_id": "q-11",
+      "question": "Which ticket defines the frozen Haystack Ragas evaluation set and contract?",
+      "reference_answer": "RRF-94 defines the frozen Haystack Ragas evaluation set and contract.",
+      "reference_context_ids": [
+        "rrf-94"
+      ],
+      "refined_answer": "Based on the provided context, the ticket that defines the frozen Haystack Ragas evaluation set and contract is:\n\n**[rrf-94]** RRF-94 defines the frozen Haystack Ragas evaluation set and contract.",
+      "refined_context_ids": [
+        "rrf-94",
+        "evaluation-date",
+        "retrieval-pool-count"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 1.3025912999992215,
+      "refined_prompt": "Question: Which ticket defines the frozen Haystack Ragas evaluation set and contract?\nContext:\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n\n[evaluation-date] The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21. | {'topic': 'evaluation'}\n\n[retrieval-pool-count] The frozen Haystack Ragas evaluation retrieves five candidate documents before refinement. | {'topic': 'evaluation'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.0002376000002186629,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.14509999982692534,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.10550000024522888,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.00019999970390927047,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "rrf-94",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "evaluation-date",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "retrieval-pool-count",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "final-context-count",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "rrf-95",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.011299999641778413,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00024149999990186188
+    },
+    {
+      "baseline_answer": "2026-08-21",
+      "baseline_context_ids": [
+        "evaluation-date",
+        "rrf-94",
+        "evaluation-date-distractor"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 0.8395987000003515,
+      "baseline_prompt": "Question: On what date was the frozen Haystack Ragas evaluation contract reviewed?\nContext:\n\n[evaluation-date] The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21. | {'topic': 'evaluation'}\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n\n[evaluation-date-distractor] The earlier Haystack smoke fixture was created on 2026-08-20. | {'topic': 'evaluation'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.67,
+        "faithfulness": 1.0
+      },
+      "paired": true,
+      "pool_ids": [
+        "evaluation-date",
+        "rrf-94",
+        "evaluation-date-distractor",
+        "retrieval-pool-count",
+        "final-context-count"
+      ],
+      "pool_sha256": "c518ffee9b38f22f791e2b1a18119ac130723a47dd4e5792b2226aa3deb6a0dc",
+      "qa_id": "q-12",
+      "question": "On what date was the frozen Haystack Ragas evaluation contract reviewed?",
+      "reference_answer": "The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21.",
+      "reference_context_ids": [
+        "evaluation-date"
+      ],
+      "refined_answer": "Based on the provided context, the frozen Haystack Ragas evaluation contract was reviewed on **2026-08-21**.",
+      "refined_context_ids": [
+        "evaluation-date",
+        "rrf-94",
+        "retrieval-pool-count"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 0.8978433000002042,
+      "refined_prompt": "Question: On what date was the frozen Haystack Ragas evaluation contract reviewed?\nContext:\n\n[evaluation-date] The frozen Haystack Ragas evaluation contract was reviewed on 2026-08-21. | {'topic': 'evaluation'}\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n\n[retrieval-pool-count] The frozen Haystack Ragas evaluation retrieves five candidate documents before refinement. | {'topic': 'evaluation'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 1.0
+      },
+      "refinement_latency_seconds": 0.0002640000002429588,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.1556999995955266,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.11369999992894009,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.0002999995558639057,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "evaluation-date",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "rrf-94",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "retrieval-pool-count",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "final-context-count",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "evaluation-date-distractor",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.011899999663000926,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.00025520000053802505
+    },
+    {
+      "baseline_answer": "Based on the provided context, the frozen Haystack Ragas evaluation selects **three** final contexts from each Top-5 retrieval pool.",
+      "baseline_context_ids": [
+        "final-context-count",
+        "rrf-94",
+        "retrieval-pool-count"
+      ],
+      "baseline_failure": null,
+      "baseline_generation_latency_seconds": 1.1195047999999588,
+      "baseline_prompt": "Question: How many final contexts does the frozen Haystack Ragas evaluation select?\nContext:\n\n[final-context-count] The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool. | {'topic': 'evaluation'}\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n\n[retrieval-pool-count] The frozen Haystack Ragas evaluation retrieves five candidate documents before refinement. | {'topic': 'evaluation'}\n",
+      "baseline_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 1.0,
+        "faithfulness": 0.6666666666666666
+      },
+      "paired": true,
+      "pool_ids": [
+        "final-context-count",
+        "rrf-94",
+        "retrieval-pool-count",
+        "evaluation-date",
+        "ragas-faithfulness"
+      ],
+      "pool_sha256": "33266a6e9158ac3cbbcac26d7f5a6e301921abc1a8d5cce411ea22a0072a4a54",
+      "qa_id": "q-13",
+      "question": "How many final contexts does the frozen Haystack Ragas evaluation select?",
+      "reference_answer": "The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool.",
+      "reference_context_ids": [
+        "final-context-count"
+      ],
+      "refined_answer": "Based on the provided context, the frozen Haystack Ragas evaluation selects **three** final contexts from each Top-5 retrieval pool.",
+      "refined_context_ids": [
+        "final-context-count",
+        "rrf-94",
+        "retrieval-pool-count"
+      ],
+      "refined_failure": null,
+      "refined_generation_latency_seconds": 1.0223792000006142,
+      "refined_prompt": "Question: How many final contexts does the frozen Haystack Ragas evaluation select?\nContext:\n\n[final-context-count] The frozen Haystack Ragas evaluation selects three final contexts from each Top-5 retrieval pool. | {'topic': 'evaluation'}\n\n[rrf-94] RRF-94 defines the frozen Haystack Ragas evaluation set and contract. | {'topic': 'evaluation'}\n\n[retrieval-pool-count] The frozen Haystack Ragas evaluation retrieves five candidate documents before refinement. | {'topic': 'evaluation'}\n",
+      "refined_scores": {
+        "context_recall": 1.0,
+        "factual_correctness": 0.67,
+        "faithfulness": 0.6666666666666666
+      },
+      "refinement_latency_seconds": 0.00024840000060066814,
+      "refinement_trace": {
+        "config_fingerprint": "7fffb254546e5068f1cd92cba2ad5621e5beee86d08d24f825b84ad878550ccb",
+        "duration_ms": 0.1519999996162369,
+        "stages": [
+          {
+            "configuration": {
+              "status": "completed"
+            },
+            "duration_ms": 0.11300000005576294,
+            "name": "lexical_ranking"
+          },
+          {
+            "configuration": {
+              "enabled": false
+            },
+            "duration_ms": 0.0004000003173132427,
+            "name": "deduplication"
+          },
+          {
+            "configuration": {
+              "channel_weights": {
+                "lexical": 1.0
+              },
+              "fusion": {
+                "enabled": false
+              },
+              "max_tokens": null,
+              "omitted_channels": [],
+              "participating_channels": [
+                "lexical"
+              ],
+              "records": [
+                {
+                  "candidate_id": "final-context-count",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 1,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "rrf-94",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 2,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "retrieval-pool-count",
+                  "reason": "within_constraints",
+                  "retained_candidate_id": null,
+                  "selected_position": 3,
+                  "status": "selected",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "evaluation-date",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                },
+                {
+                  "candidate_id": "ragas-faithfulness",
+                  "reason": "top_k_limit",
+                  "retained_candidate_id": null,
+                  "selected_position": null,
+                  "status": "excluded",
+                  "token_count": null
+                }
+              ],
+              "top_k": 3
+            },
+            "duration_ms": 0.0106999996205559,
+            "name": "context_selection"
+          }
+        ]
+      },
+      "retrieval_latency_seconds": 0.0002403999997113715
+    }
+  ],
+  "profile": "B2-L lexical",
+  "review": {
+    "reviewed_on": "2026-08-21",
+    "reviewer_role": "project-maintainer",
+    "status": "human-reviewed"
+  },
+  "schema_version": "1.1",
+  "testset": {
+    "corpus_size": 21,
+    "path": "D:\\ragrefine\\benchmarks\\haystack\\testset\\ragas-testset-v2.json",
+    "qa_pair_count": 13,
+    "sha256": "452f88dcb54d24940ba7e3863ddd49a4c229f5792e8acefdee6b6fdef4782742"
+  }
+}

@@ -179,20 +179,22 @@ class _RagasMetricScorer:
                 ),
                 judge_reasons={},
             )
-        return self._extract(metric, metric_obj.name, samples, result)
+        return self._extract(metric, metric_obj, samples, result)
 
     @staticmethod
     def _extract(
         metric: str,
-        metric_name: str,
+        metric_obj: object,
         samples: Sequence[ScoreSample],
         result: object,
     ) -> MetricOutcome:
+        score_key = _score_key(metric_obj)
+        trace_name = getattr(metric_obj, "name", metric)
         per_sample: dict[str, float] = {}
         failures: list[dict[str, object]] = []
         judge_reasons: dict[str, object] = {}
         for index, sample in enumerate(samples):
-            value = _score_value(result, index, metric_name)
+            value = _score_value(result, index, score_key)
             if value is None or not _is_finite(value):
                 failures.append(
                     {
@@ -203,7 +205,7 @@ class _RagasMetricScorer:
                 )
             else:
                 per_sample[sample.qa_id] = float(value)
-            outputs = _judge_outputs(result, index, metric_name)
+            outputs = _judge_outputs(result, index, trace_name)
             if outputs:
                 judge_reasons[sample.qa_id] = outputs
         aggregate = sum(per_sample.values()) / len(per_sample) if per_sample else None
@@ -691,6 +693,17 @@ def _metric_block(outcome: MetricOutcome) -> dict[str, object]:
 def _validate_metric(metric: str) -> None:
     if metric not in (*CORE_METRICS, *OPTIONAL_METRICS):
         raise ValueError(f"unsupported Ragas metric: {metric!r}")
+
+
+def _score_key(metric_obj: object) -> str:
+    """Return the Ragas score-column key for one metric object.
+
+    Ragas keys mode-parameterised metrics (e.g. ``FactualCorrectness``) as
+    ``"factual_correctness(mode=f1)"``; everything else uses the plain name.
+    """
+    name = getattr(metric_obj, "name", "")
+    mode = getattr(metric_obj, "mode", None)
+    return f"{name}(mode={mode})" if mode is not None else name
 
 
 def _score_value(result: object, index: int, metric_name: str) -> object:
