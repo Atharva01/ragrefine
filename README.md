@@ -6,10 +6,12 @@
 
 Instead of replacing your retriever, vector database, or RAG framework, `ragrefine` takes an existing candidate set and applies additional relevance signals, reranking, fusion, and context-selection logic.
 
-> **Status:** v0.1 implements independent refinement channels, optional RRF,
-> deduplication, greedy budget selection, and structured tracing. Only the
-> recorded B1-reference and B2-L configurations have measured evidence; no
-> unmeasured technique is described as an improvement.
+> **Status:** v0.2 implements the complete, serializable Haystack RAG pipeline
+> path (retriever → refinement → prompt → generator) with registered refiner
+> profiles, the pipeline guide, and a closure record. Measured evidence
+> retains B1-reference and B2-L; B3 fusion profiles and the Ragas A/B were
+> evaluated and are not claimed as improvements (the Ragas result is
+> inconclusive).
 
 ---
 
@@ -128,6 +130,41 @@ generator. It does not replace Haystack indexing, retrieval, document parsing,
 or generation. The optional generator smoke test accepts an OpenAI-compatible
 endpoint (including DeepSeek) through explicit environment configuration; its
 recorded output is integration evidence only, not a generation-quality claim.
+
+### Building a RAG pipeline with Haystack
+
+`build_rag_pipeline` wires a complete, serializable pipeline — BM25 retriever →
+`RagRefineComponent` → prompt builder → chat generator — using a **registered
+refiner profile**. The built-in profiles are `b0` (original retrieval order)
+and `b2-l-lexical` (the retained lightweight lexical profile); custom profiles
+can be registered with `register_refiner_factory`.
+
+```python
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from ragrefine.integrations.haystack import build_rag_pipeline, demo_documents
+
+store = InMemoryDocumentStore(bm25_algorithm="BM25L")
+store.write_documents(demo_documents())
+pipeline = build_rag_pipeline(store, top_k=3, profile="b2-l-lexical")
+
+result = pipeline.run(
+    {
+        "retriever": {"query": query},
+        "refine": {"query": query},
+        "prompt": {"query": query},
+    },
+    include_outputs_from={"refine", "prompt"},
+)
+answer = result["generator"]["replies"][0].text
+```
+
+The generator is built for DeepSeek's OpenAI-compatible endpoint from
+`DEEPSEEK_API_KEY`/`DEEPSEEK_MODEL`; without a key the pipeline stops after
+the prompt builder. Because the profile is serializable, the whole pipeline
+round-trips through `Pipeline.dumps()`/`loads()` (YAML). See the
+[RAG pipeline guide](docs/rag-pipeline-guide.md) for the full recipe,
+including how to point the retriever and generator at your own store and
+endpoint.
 
 ---
 
@@ -401,12 +438,13 @@ docs/                product, hypothesis, and technical design
 - [x] Frozen B0 retrieval baseline
 - [x] CrossEncoder reranking
 - [x] Lexical and regex/pattern signals
-- [ ] Entity signals (future hypothesis)
+- [ ] Entity signals (deferred research hypothesis — not a pipeline prerequisite)
 - [x] Reciprocal Rank Fusion
 - [x] Deduplication and context budgeting
 - [x] Hard-negative diagnostic evaluation
 - [x] Optional Haystack integration
-- [ ] ONNX inference experiment
+- [x] Serializable Haystack RAG pipeline (v0.2)
+- [ ] ONNX inference experiment (deferred research — not a pipeline prerequisite)
 
 ---
 
