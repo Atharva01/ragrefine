@@ -39,8 +39,8 @@ jobs:
           version: "0.12.5"
           enable-cache: true
 
-      - name: Synchronize core and Haystack type-check dependencies
-        run: uv sync --locked --extra haystack
+      - name: Synchronize dependencies used by validation
+        run: uv sync --locked --extra haystack --extra ragas
 
       - name: Lint
         run: uv run ruff check .
@@ -93,7 +93,8 @@ jobs:
         run: |
           uv build
           uv venv --clear "$RUNNER_TEMP/ragrefine-haystack-wheel-env"
-          uv pip install --python "$RUNNER_TEMP/ragrefine-haystack-wheel-env/bin/python" "dist/*.whl[haystack]"
+          wheel=$(find dist -maxdepth 1 -type f -name '*.whl' -print -quit)
+          uv pip install --python "$RUNNER_TEMP/ragrefine-haystack-wheel-env/bin/python" "${wheel}[haystack]"
           "$RUNNER_TEMP/ragrefine-haystack-wheel-env/bin/python" - <<'PY'
           from haystack.document_stores.in_memory import InMemoryDocumentStore
           from ragrefine.integrations.haystack import (
