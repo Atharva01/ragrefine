@@ -4,6 +4,15 @@ All notable changes to `ragrefine` are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-09-12
+
+### Added
+
+- PyPI packaging metadata (`license`, `authors`, `classifiers`,
+  `project.urls`) and a `py.typed` marker for downstream type checkers.
+- `release.yml`: trusted-publishing GitHub Actions workflow that builds
+  and publishes to PyPI on `v*.*.*` tag pushes.
+
 ## [0.2.0] - 2026-08-22
 
 ### Added
