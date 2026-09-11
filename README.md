@@ -3,6 +3,7 @@
 **Evidence-first post-retrieval refinement for RAG systems.**
 
 [![CI](https://github.com/Atharva01/ragrefine/actions/workflows/ci.yml/badge.svg)](https://github.com/Atharva01/ragrefine/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/ragrefine.svg)](https://pypi.org/project/ragrefine/)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -35,7 +36,13 @@ does not invent or rewrite evidence.
 
 ## Quick start
 
-Python 3.12+ is required. From this checkout:
+Python 3.12+ is required.
+
+```bash
+pip install ragrefine
+```
+
+Or, from this checkout:
 
 ```bash
 uv sync
