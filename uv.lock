@@ -2,40 +2,61 @@ version = 1
 revision = 3
 requires-python = ">=3.12"
 resolution-markers = [
-    "python_full_version >= '3.15' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.13.*' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.13.*' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.13.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.13' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.13' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.14' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.14' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.14' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.14' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
-    "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas'",
+    "python_full_version >= '3.15' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.13.*' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.13.*' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.13' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.13' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'emscripten' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform == 'emscripten' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
+    "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32' and extra != 'extra-9-ragrefine-langchain' and extra != 'extra-9-ragrefine-ragas' and extra != 'group-9-ragrefine-langchain-test'",
 ]
 conflicts = [[
     { package = "ragrefine", extra = "langchain" },
     { package = "ragrefine", extra = "ragas" },
+], [
+    { package = "ragrefine", extra = "ragas" },
+    { package = "ragrefine", group = "langchain-test" },
 ]]
 
 [[package]]
@@ -58,7 +79,7 @@ dependencies = [
     { name = "frozenlist" },
     { name = "multidict" },
     { name = "propcache" },
-    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "yarl" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/58/d9/22ce5786ac0c1653ae8b6c23bded02c1686d11f0dbb45b31ce128e0df985/aiohttp-3.14.3.tar.gz", hash = "sha256:9491196535a88924a60afd5b5f434b5b203b6cc616250878dbdb223a8f7844bc", size = 7971213, upload-time = "2026-07-23T01:57:27.037Z" }
@@ -153,7 +174,7 @@ version = "1.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "frozenlist" },
-    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/61/62/06741b579156360248d1ec624842ad0edf697050bbaf7c3e46394e106ad1/aiosignal-1.4.0.tar.gz", hash = "sha256:f47eecd9468083c2029cc99945502cb7708b082c232f9aca65da147157b251c7", size = 25007, upload-time = "2025-07-03T22:54:43.528Z" }
 wheels = [
@@ -184,7 +205,7 @@ version = "4.14.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "idna" },
-    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/61/cc/a381afa6efea9f496eff839d4a6a1aed3bfafc7b3ab4b0d1b243a12573dd/anyio-4.14.2.tar.gz", hash = "sha256:cfa139f3ed1a23ee8f88a145ddb5ac7605b8bbfd8592baacd7ce3d8bb4313c7f", size = 260176, upload-time = "2026-07-12T20:29:07.082Z" }
 wheels = [
@@ -441,7 +462,7 @@ name = "click"
 version = "8.4.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/76/d4/81420972a676e8ffea40450d8c8c92943e7218a78fe9b64359836cc9876b/click-8.4.2.tar.gz", hash = "sha256:9a6cea6e60b17ebe0a44c5cc636d94f09bd66142c1cd7d8b4cd731c4917a15f6", size = 338000, upload-time = "2026-06-24T17:45:15.148Z" }
 wheels = [
@@ -561,7 +582,7 @@ name = "cuda-bindings"
 version = "13.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cuda-pathfinder", marker = "python_full_version < '3.15' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "cuda-pathfinder", marker = "python_full_version < '3.15' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ce/67/5e7dba1ba576dd73da5dee894ca076ca5e959450dfff66d6d510a255d1f7/cuda_bindings-13.3.1-cp312-cp312-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:c7855c4868aabc0cfae28abbe83d56734bdfbd08f08fc234ac1912a12858bf49", size = 6025351, upload-time = "2026-05-29T23:11:49.685Z" },
@@ -596,43 +617,43 @@ wheels = [
 
 [package.optional-dependencies]
 cublas = [
-    { name = "nvidia-cublas", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-cuda-nvrtc", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cublas", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-cuda-nvrtc", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 cudart = [
-    { name = "nvidia-cuda-runtime", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cuda-runtime", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 cufft = [
-    { name = "nvidia-cufft", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cufft", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 cufile = [
-    { name = "nvidia-cufile", marker = "(platform_machine != 'aarch64' and platform_machine != 'x86_64' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cufile", marker = "(platform_machine != 'aarch64' and platform_machine != 'x86_64' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (platform_machine != 'aarch64' and platform_machine != 'x86_64' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 cupti = [
-    { name = "nvidia-cuda-cupti", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cuda-cupti", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 curand = [
-    { name = "nvidia-curand", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-curand", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 cusolver = [
-    { name = "nvidia-cublas", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-cusolver", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-cusparse", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cublas", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-cusolver", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-cusparse", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 cusparse = [
-    { name = "nvidia-cusparse", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cusparse", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 nvjitlink = [
-    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-nvjitlink", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 nvrtc = [
-    { name = "nvidia-cuda-nvrtc", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cuda-nvrtc", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 nvtx = [
-    { name = "nvidia-nvtx", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-nvtx", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux') or (platform_machine == 'AMD64' and sys_platform == 'win32') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and sys_platform != 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform == 'win32' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 
 [[package]]
@@ -1017,7 +1038,7 @@ dependencies = [
     { name = "click" },
     { name = "filelock" },
     { name = "fsspec" },
-    { name = "hf-xet", marker = "platform_machine == 'AMD64' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'arm64' or platform_machine == 'x86_64' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "hf-xet", marker = "platform_machine == 'AMD64' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'arm64' or platform_machine == 'x86_64' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "httpx" },
     { name = "packaging" },
     { name = "pyyaml" },
@@ -1288,7 +1309,7 @@ version = "0.3.30"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "langchain-core", version = "0.3.86", source = { registry = "https://pypi.org/simple" } },
-    { name = "langchain-text-splitters" },
+    { name = "langchain-text-splitters", version = "0.3.11", source = { registry = "https://pypi.org/simple" } },
     { name = "langsmith" },
     { name = "pydantic" },
     { name = "pyyaml" },
@@ -1298,6 +1319,24 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/14/f8/9d262e12d95ac940948847e0ed844eff430fc0660f73a704367c7c47a3ce/langchain-0.3.30.tar.gz", hash = "sha256:06599ec90fb550e0118b0ceab737667d2c0891fcc62ffce2058d21c945844448", size = 10243710, upload-time = "2026-05-07T15:48:12.796Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/da/54/c0775c29bf9ae27c8cbf8484ad600edd2e787a0eacf3a374cb6561613de9/langchain-0.3.30-py3-none-any.whl", hash = "sha256:37e6fcce92faf70cc7bac23739d13d6c3b9a3282da4dbcc06cb7e78330ed406a", size = 1025603, upload-time = "2026-05-07T15:48:10.607Z" },
+]
+
+[[package]]
+name = "langchain-classic"
+version = "1.0.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "langchain-core", version = "1.6.9", source = { registry = "https://pypi.org/simple" } },
+    { name = "langchain-text-splitters", version = "1.1.3", source = { registry = "https://pypi.org/simple" } },
+    { name = "langsmith" },
+    { name = "pydantic" },
+    { name = "pyyaml" },
+    { name = "requests" },
+    { name = "sqlalchemy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8d/65/6b5e8a7ff2f2968652c88a67dcecb925b9d8f0a0ce9458c76cd5a0dbd138/langchain_classic-1.0.8.tar.gz", hash = "sha256:ada0cc341a8a5b80fb24d73bdfaaeb849056ee2d8a41cc468355163fd3667484", size = 10557071, upload-time = "2026-06-10T21:27:54.866Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/99/9a/b8f5cb7490fdbf233088031fc69c9c747439d4097f67f196c1eb4869916d/langchain_classic-1.0.8-py3-none-any.whl", hash = "sha256:1a11ea7fbe630c4f2af2f3873d27718ceac9488cf32d0821030be7cf039a6213", size = 1041536, upload-time = "2026-06-10T21:27:52.767Z" },
 ]
 
 [[package]]
@@ -1418,12 +1457,49 @@ wheels = [
 name = "langchain-text-splitters"
 version = "0.3.11"
 source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.15' and sys_platform == 'win32'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version == '3.13.*' and sys_platform == 'win32'",
+    "python_full_version == '3.13.*' and sys_platform == 'emscripten'",
+    "python_full_version == '3.13.*' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version < '3.13' and sys_platform == 'win32'",
+    "python_full_version < '3.13' and sys_platform == 'emscripten'",
+    "python_full_version < '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+]
 dependencies = [
     { name = "langchain-core", version = "0.3.86", source = { registry = "https://pypi.org/simple" } },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/11/43/dcda8fd25f0b19cb2835f2f6bb67f26ad58634f04ac2d8eae00526b0fa55/langchain_text_splitters-0.3.11.tar.gz", hash = "sha256:7a50a04ada9a133bbabb80731df7f6ddac51bc9f1b9cab7fa09304d71d38a6cc", size = 46458, upload-time = "2025-08-31T23:02:58.316Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/58/0d/41a51b40d24ff0384ec4f7ab8dd3dcea8353c05c973836b5e289f1465d4f/langchain_text_splitters-0.3.11-py3-none-any.whl", hash = "sha256:cf079131166a487f1372c8ab5d0bfaa6c0a4291733d9c43a34a16ac9bcd6a393", size = 33845, upload-time = "2025-08-31T23:02:57.195Z" },
+]
+
+[[package]]
+name = "langchain-text-splitters"
+version = "1.1.3"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.15' and sys_platform == 'win32'",
+    "python_full_version >= '3.15' and sys_platform == 'emscripten'",
+    "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten'",
+    "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version < '3.14' and sys_platform == 'win32'",
+    "python_full_version < '3.14' and sys_platform == 'emscripten'",
+    "python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+]
+dependencies = [
+    { name = "langchain-core", version = "1.6.9", source = { registry = "https://pypi.org/simple" } },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/85/22/d401fffe8d3f1339f6ac880e5d637db73933efa95635304849b2d44ab0fe/langchain_text_splitters-1.1.3.tar.gz", hash = "sha256:929b6c76f99d611a5b1d8f5591ef302909b86a436ceb3217034d24e4757868d8", size = 308295, upload-time = "2026-10-02T15:46:33.173Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/51/2880d2e88cce13c1180178f7e8dc796c2f45b2dc09cc09ed407d116c08cc/langchain_text_splitters-1.1.3-py3-none-any.whl", hash = "sha256:50edeb318b3be6a6308dddd7d616ab82823a9ccbea59a9c14c58a7b91df60295", size = 38217, upload-time = "2026-10-02T15:46:32.271Z" },
 ]
 
 [[package]]
@@ -1797,7 +1873,7 @@ version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ast-serialize" },
-    { name = "librt", marker = "platform_python_implementation != 'PyPy' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "librt", marker = "platform_python_implementation != 'PyPy' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "mypy-extensions" },
     { name = "pathspec" },
     { name = "typing-extensions" },
@@ -2205,7 +2281,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
     { name = "python-dateutil" },
-    { name = "tzdata", marker = "sys_platform == 'emscripten' or sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "tzdata", marker = "sys_platform == 'emscripten' or sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/be/4f/5f3422a2afec5ffc46308b79e53291365a93748b498ac2e58bead0197916/pandas-3.0.5.tar.gz", hash = "sha256:dca3734d6ab7c906e6730f0788b0a1dbb9f2467731f9711f77995c8e9d62d712", size = 4658219, upload-time = "2026-07-22T22:19:28.819Z" }
 wheels = [
@@ -2596,7 +2672,7 @@ name = "pytest"
 version = "9.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "iniconfig" },
     { name = "packaging" },
     { name = "pluggy" },
@@ -2775,6 +2851,9 @@ dev = [
     { name = "pytest-cov" },
     { name = "ruff" },
 ]
+langchain-test = [
+    { name = "langchain-classic" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -2795,6 +2874,7 @@ dev = [
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "ruff", specifier = ">=0.16.3" },
 ]
+langchain-test = [{ name = "langchain-classic", specifier = ">=1.0.8,<2" }]
 
 [[package]]
 name = "referencing"
@@ -2803,7 +2883,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "rpds-py" },
-    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/22/f5/df4e9027acead3ecc63e50fe1e36aca1523e1719559c499951bb4b53188f/referencing-0.37.0.tar.gz", hash = "sha256:44aefc3142c5b842538163acb373e24cce6632bd54bdb01b21ad5863489f50d8", size = 78036, upload-time = "2025-10-13T15:30:48.871Z" }
 wheels = [
@@ -3410,19 +3490,19 @@ name = "torch"
 version = "2.13.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "cuda-bindings", marker = "(python_full_version < '3.15' and sys_platform == 'linux') or (python_full_version >= '3.15' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "cuda-toolkit", extra = ["cublas", "cudart", "cufft", "cufile", "cupti", "curand", "cusolver", "cusparse", "nvjitlink", "nvrtc", "nvtx"], marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "cuda-bindings", marker = "(python_full_version < '3.15' and sys_platform == 'linux') or (python_full_version >= '3.15' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (python_full_version >= '3.15' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "cuda-toolkit", extra = ["cublas", "cudart", "cufft", "cufile", "cupti", "curand", "cusolver", "cusparse", "nvjitlink", "nvrtc", "nvtx"], marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "filelock" },
     { name = "fsspec" },
     { name = "jinja2" },
     { name = "networkx" },
-    { name = "nvidia-cudnn-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-cusparselt-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-nccl-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
-    { name = "nvidia-nvshmem-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "nvidia-cudnn-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-cusparselt-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-nccl-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
+    { name = "nvidia-nvshmem-cu13", marker = "sys_platform == 'linux' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "setuptools" },
     { name = "sympy" },
-    { name = "triton", marker = "(python_full_version < '3.15' and sys_platform == 'linux') or (python_full_version >= '3.15' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "triton", marker = "(python_full_version < '3.15' and sys_platform == 'linux') or (python_full_version >= '3.15' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (python_full_version >= '3.15' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (sys_platform != 'linux' and extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "typing-extensions" },
 ]
 wheels = [
@@ -3449,7 +3529,7 @@ name = "tqdm"
 version = "4.70.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/21/3b/6c24bec5be5e743ffd99576daa5cc077722fc7d5bbc00bd133fa0c698dc6/tqdm-4.70.0.tar.gz", hash = "sha256:55b0b0dbd97462d06ebee91e4dac24ed4d4702be82b24f07e6c1d27e08cea220", size = 795438, upload-time = "2026-07-27T11:33:15.271Z" }
 wheels = [
@@ -3497,7 +3577,7 @@ version = "0.27.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas')" },
+    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'extra-9-ragrefine-langchain' and extra == 'extra-9-ragrefine-ragas') or (extra == 'extra-9-ragrefine-ragas' and extra == 'group-9-ragrefine-langchain-test')" },
     { name = "rich" },
     { name = "shellingham" },
 ]

@@ -41,7 +41,7 @@ jobs:
 
       # langchain and ragas extras conflict (langchain-core 1.x vs ragas' langchain-openai<1.0); ragas runs in the haystack job.
       - name: Synchronize dependencies used by validation
-        run: uv sync --locked --extra haystack --extra langchain
+        run: uv sync --locked --extra haystack --extra langchain --group langchain-test
 
       - name: Lint
         run: uv run ruff check .

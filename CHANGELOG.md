@@ -18,8 +18,10 @@ All notable changes to `ragrefine` are documented here. The format follows
 
 ### Changed
 
-- CI `validate` job now installs the `haystack` and `langchain` extras; the
-  `ragas` extra is exercised in the `haystack` job.
+- CI `validate` job now installs the `haystack` and `langchain` extras plus the
+  test-only `langchain-test` group (`langchain-classic`, for the
+  `ContextualCompressionRetriever` test); the `ragas` extra is exercised in the
+  `haystack` job.
 
 ## [0.2.1] - 2026-09-12
 
