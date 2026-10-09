@@ -30,6 +30,7 @@ Issues = "https://github.com/Atharva01/ragrefine/issues"
 beir = ["beir==2.2.0"]
 rerank = ["sentence-transformers>=6.0.0,<7"]
 haystack = ["haystack-ai==2.31.0"]
+langchain = ["langchain-core>=1.6.9,<2"]
 ragas = ["ragas==0.4.3", "langchain-openai>=0.2.0,<1.0"]
 
 [build-system]
@@ -43,6 +44,11 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.16.3",
+]
+
+[tool.uv]
+conflicts = [
+    [{ extra = "langchain" }, { extra = "ragas" }],
 ]
 
 [tool.ruff]

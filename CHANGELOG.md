@@ -4,6 +4,23 @@ All notable changes to `ragrefine` are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Optional LangChain integration (`ragrefine[langchain]`, requires
+  `langchain-core>=1.6.9`): `ragrefine.integrations.langchain.RagRefineCompressor`,
+  a `BaseDocumentCompressor` that refines retrieved documents through a
+  configured `Refiner`, returns the original `Document` objects unchanged, and
+  exposes the `RefinementTrace` via `refine()`.
+- `[tool.uv]` conflict declaration between the `langchain` and `ragas` extras
+  (`ragas` pins `langchain-openai<1.0`, i.e. `langchain-core` 0.3.x).
+
+### Changed
+
+- CI `validate` job now installs the `haystack` and `langchain` extras; the
+  `ragas` extra is exercised in the `haystack` job.
+
 ## [0.2.1] - 2026-09-12
 
 ### Added
