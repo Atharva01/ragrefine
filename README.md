@@ -15,8 +15,8 @@ original evidence and recording an auditable trace.
 retriever -> Top-N candidates -> ragrefine -> refined Top-K + trace -> LLM
 ```
 
-The core library is framework- and retriever-agnostic. Haystack support is
-available as an optional integration.
+The core library is framework- and retriever-agnostic. Haystack and LangChain
+support are available as optional integrations.
 
 ## Core deliverables
 
@@ -29,6 +29,7 @@ available as an optional integration.
 | Traceability | Per-channel evidence, fusion contributions, stage timings, configuration, and explicit failure records |
 | Neural reranking | Optional SentenceTransformers CrossEncoder adapter with batched inference |
 | Haystack integration | Serializable component profiles and a retriever-to-generator pipeline builder |
+| LangChain integration | `RagRefineCompressor`, a LangChain `BaseDocumentCompressor` that refines retrieved documents and exposes the trace |
 | Evaluation | Frozen BEIR candidate pools, checksummed artifacts, reproducibility commands, and a paired Ragas harness |
 
 Output candidates always originate from the supplied input pool; `ragrefine`
@@ -93,6 +94,51 @@ The optional integration provides document conversion, a serializable
 `RagRefineComponent`, registered refiner profiles, prompt construction, and a
 complete Haystack pipeline builder. The [RAG pipeline guide](docs/rag-pipeline-guide.md)
 contains the runnable recipe and customization points.
+
+## LangChain integration
+
+```bash
+pip install "ragrefine[langchain]"
+```
+
+This requires LangChain 1.x (`langchain-core>=1.6.9`). With the repository's
+current pins it cannot be installed in the same environment as the `ragas` extra
+(the `ragas` extra pins `langchain-openai<1.0`).
+
+```python
+from ragrefine import Refiner, RefinerConfig
+from ragrefine.config import ChannelConfig
+from ragrefine.integrations.langchain import RagRefineCompressor
+from ragrefine.ranking.lexical import LexicalRanker
+
+refiner = Refiner(
+    lexical_ranker=LexicalRanker(),
+    config=RefinerConfig(
+        original=ChannelConfig(enabled=False), lexical=ChannelConfig(enabled=True)
+    ),
+)
+compressor = RagRefineCompressor(refiner=refiner, top_k=5)
+# documents only
+docs = compressor.compress_documents(retrieved_docs, "my query")
+
+# documents + RefinementTrace
+docs, trace = compressor.refine("my query", retrieved_docs)
+```
+
+- Returned documents are the original objects. They are never copied or edited,
+  and the output is always a subset of the input.
+- Documents without an `id` get a positional id `lc:<n>`. Duplicate ids raise
+  `ValueError`.
+- Original retrieval scores are not read from LangChain metadata, so they are
+  not carried into the trace.
+- To plug into a retriever, use
+  `ContextualCompressionRetriever(base_compressor=compressor, base_retriever=retriever)`
+  (that class now ships in the `langchain-classic` package), or wrap the
+  compressor in a runnable:
+  `RunnableLambda(lambda x: compressor.compress_documents(x["documents"], x["query"]))`.
+
+This integration is plumbing only; it makes no retrieval-quality claim. See the
+evaluation section for what has been measured.
 
 ## Evaluation summary
 

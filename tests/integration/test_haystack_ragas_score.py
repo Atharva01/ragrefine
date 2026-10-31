@@ -6,6 +6,7 @@ isolation is tested through injected ``evaluate_fn`` and ``metric_factory``.
 """
 
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 
@@ -308,6 +309,10 @@ def test_score_refuses_existing_output(tmp_path: Path) -> None:
         _score(tmp_path, rows, name="scores")
 
 
+@pytest.mark.skipif(
+    importlib.util.find_spec("ragas") is None,
+    reason="_RagasMetricScorer imports ragas; the ragas extra conflicts with langchain",
+)
 class TestRagasMetricScorerIsolation:
     """Real scorer failure isolation without Ragas or DeepSeek."""
 
