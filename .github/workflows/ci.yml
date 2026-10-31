@@ -39,8 +39,9 @@ jobs:
           version: "0.12.5"
           enable-cache: true
 
+      # langchain and ragas extras conflict (langchain-core 1.x vs ragas' langchain-openai<1.0); ragas runs in the haystack job.
       - name: Synchronize dependencies used by validation
-        run: uv sync --locked --extra haystack --extra ragas
+        run: uv sync --locked --extra haystack --extra langchain --group langchain-test
 
       - name: Lint
         run: uv run ruff check .
@@ -62,6 +63,24 @@ jobs:
           uv venv --clear "$RUNNER_TEMP/ragrefine-wheel-env"
           uv pip install --python "$RUNNER_TEMP/ragrefine-wheel-env/bin/python" dist/*.whl
           "$RUNNER_TEMP/ragrefine-wheel-env/bin/python" -c "import ragrefine"
+
+      - name: Verify installed wheel langchain extra
+        run: |
+          uv venv --clear "$RUNNER_TEMP/ragrefine-langchain-wheel-env"
+          wheel=$(find dist -maxdepth 1 -type f -name '*.whl' -print -quit)
+          uv pip install --python "$RUNNER_TEMP/ragrefine-langchain-wheel-env/bin/python" "${wheel}[langchain]"
+          "$RUNNER_TEMP/ragrefine-langchain-wheel-env/bin/python" - <<'PY'
+          from langchain_core.documents import Document
+          from ragrefine import Refiner
+          from ragrefine.integrations.langchain import RagRefineCompressor
+
+          docs = [Document(page_content="a", id="1"), Document(page_content="b")]
+          out = RagRefineCompressor(refiner=Refiner(), top_k=1).compress_documents(
+              docs, "q"
+          )
+          assert out == [docs[0]] and out[0] is docs[0], out
+          print("langchain wheel smoke OK")
+          PY
 
   haystack:
     name: Validate Haystack extra
