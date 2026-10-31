@@ -1,6 +1,6 @@
 [project]
 name = "ragrefine"
-version = "0.3.0"
+version = "0.2.1"
 description = "Retriever-agnostic post-retrieval refinement for RAG candidates"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -30,7 +30,6 @@ Issues = "https://github.com/Atharva01/ragrefine/issues"
 beir = ["beir==2.2.0"]
 rerank = ["sentence-transformers>=6.0.0,<7"]
 haystack = ["haystack-ai==2.31.0"]
-langchain = ["langchain-core>=1.6.9,<2"]
 ragas = ["ragas==0.4.3", "langchain-openai>=0.2.0,<1.0"]
 
 [build-system]
@@ -44,14 +43,6 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.16.3",
-]
-# Test-only: ContextualCompressionRetriever moved to langchain-classic in 1.x.
-langchain-test = ["langchain-classic>=1.0.8,<2"]
-
-[tool.uv]
-conflicts = [
-    [{ extra = "langchain" }, { extra = "ragas" }],
-    [{ group = "langchain-test" }, { extra = "ragas" }],
 ]
 
 [tool.ruff]
