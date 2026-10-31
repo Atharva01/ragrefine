@@ -39,7 +39,8 @@ jobs:
           version: "0.12.5"
           enable-cache: true
 
-      # langchain and ragas extras conflict (langchain-core 1.x vs ragas' langchain-openai<1.0); ragas runs in the haystack job.
+      # langchain and ragas extras conflict: the ragas extra pins langchain-openai<1.0
+      # (langchain-core 0.3.x) while langchain needs langchain-core 1.x. ragas runs in the haystack job.
       - name: Synchronize dependencies used by validation
         run: uv sync --locked --extra haystack --extra langchain --group langchain-test
 

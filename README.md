@@ -101,8 +101,9 @@ contains the runnable recipe and customization points.
 pip install "ragrefine[langchain]"
 ```
 
-This requires LangChain 1.x (`langchain-core>=1.6.9`). It cannot be installed in
-the same environment as the `ragas` extra.
+This requires LangChain 1.x (`langchain-core>=1.6.9`). With the repository's
+current pins it cannot be installed in the same environment as the `ragas` extra
+(the `ragas` extra pins `langchain-openai<1.0`).
 
 ```python
 from ragrefine import Refiner, RefinerConfig

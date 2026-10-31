@@ -16,7 +16,8 @@ All notable changes to `ragrefine` are documented here. The format follows
   configured `Refiner`, returns the original `Document` objects unchanged, and
   exposes the `RefinementTrace` via `refine()`.
 - `[tool.uv]` conflict declaration between the `langchain` and `ragas` extras
-  (`ragas` pins `langchain-openai<1.0`, i.e. `langchain-core` 0.3.x).
+  (this repo's `ragas` extra pins `langchain-openai<1.0`, which keeps
+  `langchain-core` on 0.3.x; `ragas` itself does not require that bound).
 
 ### Changed
 
