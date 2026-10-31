@@ -6,6 +6,8 @@ All notable changes to `ragrefine` are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-31
+
 ### Added
 
 - Optional LangChain integration (`ragrefine[langchain]`, requires
@@ -22,6 +24,8 @@ All notable changes to `ragrefine` are documented here. The format follows
   test-only `langchain-test` group (`langchain-classic`, for the
   `ContextualCompressionRetriever` test); the `ragas` extra is exercised in the
   `haystack` job.
+- CI installs the built wheel with the `langchain` extra in a clean environment and
+  runs a compressor smoke check.
 
 ## [0.2.1] - 2026-09-12
 

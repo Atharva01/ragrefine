@@ -105,6 +105,39 @@ def test_top_k_is_respected(top_k: int) -> None:
     assert len(out) == min(top_k, 3)
 
 
+class _WordCounter:
+    def count(self, text: str) -> int:
+        return len(text.split())
+
+
+@pytest.mark.parametrize(
+    ("max_tokens", "expected"),
+    [(9, ["right"]), (13, ["right", "noise"]), (0, [])],
+)
+def test_max_tokens_budget_skips_what_does_not_fit(
+    max_tokens: int, expected: list[str]
+) -> None:
+    # Word counts: right=8, wrong=8, noise=5. A document that overflows the
+    # budget is skipped, but a later smaller one may still fit.
+    refiner = Refiner(
+        lexical_ranker=LexicalRanker(),
+        token_counter=_WordCounter(),
+        config=RefinerConfig(
+            original=ChannelConfig(enabled=False),
+            lexical=ChannelConfig(enabled=True),
+        ),
+    )
+    compressor = RagRefineCompressor(refiner=refiner, top_k=3, max_tokens=max_tokens)
+    result = compressor.compress_documents(_docs(), "upgrade gateway release 2.4.1")
+    assert _ids(result) == expected
+
+
+def test_max_tokens_without_token_counter_fails_loudly() -> None:
+    compressor = RagRefineCompressor(refiner=Refiner(), top_k=3, max_tokens=10)
+    with pytest.raises(ValueError, match="TokenCounter"):
+        compressor.compress_documents(_docs(), "query")
+
+
 def test_empty_input_returns_empty_and_trace() -> None:
     compressor = RagRefineCompressor(refiner=Refiner())
     assert compressor.compress_documents([], "q") == []
