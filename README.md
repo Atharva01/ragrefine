@@ -6,6 +6,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ragrefine.svg)](https://pypi.org/project/ragrefine/)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/ragrefine?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/ragrefine)
 
 `ragrefine` improves an existing retriever's candidate set before it reaches an
 LLM. It reranks, fuses, deduplicates, and selects context while preserving the
